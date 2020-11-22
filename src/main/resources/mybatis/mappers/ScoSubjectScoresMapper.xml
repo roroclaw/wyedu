@@ -301,7 +301,7 @@
     <if test="queryparam.status!=null and queryparam.status!= '' ">
       and sco.STATUS = #{queryparam.status}
     </if>
-    order by sco.SCHOOL_YEAR,sco.term,sco.CLASS_NAME,sco.SUBJECT_ID desc
+    order by sco.SCHOOL_YEAR desc,sco.term,subject.SEQ,sco.CLASS_NAME,stu.STU_NUMBER ASC
   </select>
 
   <select id="selectExistInfo" resultType="java.util.Map"  parameterType="java.util.Map">
