@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.ExaExamRoomMapper">
+   <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ExaExamRoom">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EXAM_PLAN_ID" jdbcType="VARCHAR" property="examPlanId" />
+    <result column="CLASSROOM_ID" jdbcType="VARCHAR" property="classroomId" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="EXAM_START_TIME" jdbcType="TIMESTAMP" property="examStartTime" />
+    <result column="EXAM_END_TIME" jdbcType="TIMESTAMP" property="examEndTime" />
+    <result column="SEAT_COL_NUM" jdbcType="INTEGER" property="seatColNum" />
+    <result column="SEAT_ROW_NUM" jdbcType="INTEGER" property="seatRowNum" />
+    <result column="SEAT_AB" jdbcType="VARCHAR" property="seatAb" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, EXAM_PLAN_ID, CLASSROOM_ID, DATE, EXAM_START_TIME, EXAM_END_TIME, SEAT_COL_NUM, 
+    SEAT_ROW_NUM, SEAT_AB
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exa_exam_room
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from exa_exam_room
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ExaExamRoom">
+    insert into exa_exam_room (ID, NAME, EXAM_PLAN_ID, 
+      CLASSROOM_ID, DATE, EXAM_START_TIME, 
+      EXAM_END_TIME, SEAT_COL_NUM, SEAT_ROW_NUM, 
+      SEAT_AB)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{examPlanId,jdbcType=VARCHAR}, 
+      #{classroomId,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{examStartTime,jdbcType=TIMESTAMP}, 
+      #{examEndTime,jdbcType=TIMESTAMP}, #{seatColNum,jdbcType=INTEGER}, #{seatRowNum,jdbcType=INTEGER}, 
+      #{seatAb,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ExaExamRoom">
+    insert into exa_exam_room
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="examPlanId != null">
+        EXAM_PLAN_ID,
+      </if>
+      <if test="classroomId != null">
+        CLASSROOM_ID,
+      </if>
+      <if test="date != null">
+        DATE,
+      </if>
+      <if test="examStartTime != null">
+        EXAM_START_TIME,
+      </if>
+      <if test="examEndTime != null">
+        EXAM_END_TIME,
+      </if>
+      <if test="seatColNum != null">
+        SEAT_COL_NUM,
+      </if>
+      <if test="seatRowNum != null">
+        SEAT_ROW_NUM,
+      </if>
+      <if test="seatAb != null">
+        SEAT_AB,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="examPlanId != null">
+        #{examPlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null">
+        #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="examStartTime != null">
+        #{examStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examEndTime != null">
+        #{examEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seatColNum != null">
+        #{seatColNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatRowNum != null">
+        #{seatRowNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatAb != null">
+        #{seatAb,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ExaExamRoom">
+    update exa_exam_room
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="examPlanId != null">
+        EXAM_PLAN_ID = #{examPlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null">
+        CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        DATE = #{date,jdbcType=DATE},
+      </if>
+      <if test="examStartTime != null">
+        EXAM_START_TIME = #{examStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examEndTime != null">
+        EXAM_END_TIME = #{examEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seatColNum != null">
+        SEAT_COL_NUM = #{seatColNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatRowNum != null">
+        SEAT_ROW_NUM = #{seatRowNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatAb != null">
+        SEAT_AB = #{seatAb,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ExaExamRoom">
+    update exa_exam_room
+    set NAME = #{name,jdbcType=VARCHAR},
+      EXAM_PLAN_ID = #{examPlanId,jdbcType=VARCHAR},
+      CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      DATE = #{date,jdbcType=DATE},
+      EXAM_START_TIME = #{examStartTime,jdbcType=TIMESTAMP},
+      EXAM_END_TIME = #{examEndTime,jdbcType=TIMESTAMP},
+      SEAT_COL_NUM = #{seatColNum,jdbcType=INTEGER},
+      SEAT_ROW_NUM = #{seatRowNum,jdbcType=INTEGER},
+      SEAT_AB = #{seatAb,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 自定义 -->
+  <resultMap id="ExamRoomResultMap" type="com.cloud9.biz.models.ExaExamRoom">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EXAM_PLAN_ID" jdbcType="VARCHAR" property="examPlanId" />
+    <result column="CLASSROOM_ID" jdbcType="VARCHAR" property="classroomId" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="EXAM_START_TIME" jdbcType="TIMESTAMP" property="examStartTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="SEAT_COL_NUM" jdbcType="INTEGER" property="seatColNum" />
+    <result column="SEAT_ROW_NUM" jdbcType="INTEGER" property="seatRowNum" />
+    <result column="SEAT_AB" jdbcType="VARCHAR" property="seatAb" />
+    <result column="examPlanText" jdbcType="VARCHAR" property="examPlanText" />
+    <result column="classroomText" jdbcType="VARCHAR" property="classroomText" />
+    <result column="buildingNoText" jdbcType="VARCHAR" property="buildingNoText" />
+    <result column="schoolYear" jdbcType="VARCHAR" property="schoolYear" />
+    <result column="term" jdbcType="VARCHAR" property="term" />
+  </resultMap>
+
+  <!-- 分页查询 -->
+  <select id="selectExamRoomInfoPageData" parameterType="pageBean" resultMap="ExamRoomResultMap">
+    select
+    a.ID, a.NAME, a.EXAM_PLAN_ID, a.CLASSROOM_ID, a.DATE, a.EXAM_START_TIME, a.EXAM_END_TIME,a.SEAT_COL_NUM,a.SEAT_ROW_NUM,a.SEAT_AB
+    ,(select NAME from exa_exam_plan where ID = a.EXAM_PLAN_ID) as examPlanText
+    ,(select CREATE_TIME from exa_exam_plan where ID = a.EXAM_PLAN_ID) as createTime
+    ,b.NAME as classroomText
+    from exa_exam_room a,sys_classroom b where 1=1 and a.CLASSROOM_ID=b.ID
+    <if test="queryparam.buildingNo!=null and queryparam.buildingNo!='' ">
+      and b.BUILDING_NO = #{queryparam.buildingNo,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.examPlanId!=null and queryparam.examPlanId!='' ">
+      and a.EXAM_PLAN_ID = #{queryparam.examPlanId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.id!=null and queryparam.id!='' ">
+      and a.ID = #{queryparam.id,jdbcType=VARCHAR}
+    </if>
+    order by createTime DESC,a.NAME
+  </select>
+  <select id="selectExamRoomListByParam" parameterType="com.cloud9.biz.models.ExaExamRoom" resultMap="ExamRoomResultMap">
+    select
+    a.ID, a.NAME, a.EXAM_PLAN_ID, a.CLASSROOM_ID, a.DATE, a.EXAM_START_TIME, a.EXAM_END_TIME,a.SEAT_COL_NUM,a.SEAT_ROW_NUM,a.SEAT_AB
+    ,(select NAME from exa_exam_plan where ID = a.EXAM_PLAN_ID) as examPlanText
+    ,b.NAME as classroomText
+    from exa_exam_room a,sys_classroom b where 1=1 and a.CLASSROOM_ID=b.ID
+    <if test="examPlanId!=null and examPlanId!='' ">
+      and a.EXAM_PLAN_ID = #{examPlanId,jdbcType=VARCHAR}
+    </if>
+    order by a.NAME
+  </select>
+
+  <select id="selectExamRoomByPrimaryKey" parameterType="java.lang.String" resultMap="ExamRoomResultMap">
+    select
+    a.ID, a.NAME, a.EXAM_PLAN_ID, a.CLASSROOM_ID, a.DATE, a.EXAM_START_TIME, a.EXAM_END_TIME,a.SEAT_COL_NUM,a.SEAT_ROW_NUM,a.SEAT_AB
+    ,(select NAME from exa_exam_plan where ID = a.EXAM_PLAN_ID) as examPlanText
+      ,(select TEXT from sys_dict_item where DICT_TYPE = 'BUILDING_NO' and CODE = b.BUILDING_NO) as buildingNoText
+    ,b.NAME as classroomText
+    from exa_exam_room a,sys_classroom b where 1=1 and a.CLASSROOM_ID=b.ID and  a.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectExamRoomByParam" resultMap="ExamRoomResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.NAME, a.EXAM_PLAN_ID, a.CLASSROOM_ID, a.DATE, a.EXAM_START_TIME, a.EXAM_END_TIME,a.SEAT_COL_NUM,a.SEAT_ROW_NUM,a.SEAT_AB
+    ,(select NAME from exa_exam_plan where ID = a.EXAM_PLAN_ID) as examPlanText
+    ,b.NAME as classroomText
+    from exa_exam_room a,sys_classroom b
+    where 1=1 and a.CLASSROOM_ID=b.ID and a.CLASSROOM_ID=b.ID
+    <if test="buildingNo != null and buildingNo != ''">
+      and b.BUILDING_NO = #{buildingNo,jdbcType=VARCHAR}
+    </if>
+    <if test="examPlanId != null and examPlanId != ''">
+      and a.EXAM_PLAN_ID = #{examPlanId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectExamRoomForUsedCount" parameterType="com.cloud9.biz.models.ExaExamRoom" resultType="java.lang.Integer">
+    select
+    count(1)
+    from exa_stu_exam_info a,exa_exam_info b  where a.EXAM_ID=b.ID
+    and b.EXAM_PLAN_ID=#{examPlanId,jdbcType=VARCHAR}
+    and a.EXAM_ROOM_ID = #{id,jdbcType=VARCHAR}
+    and ISNULL(SEAT_NUM)=0 and ISNULL(SEAT_AB)=0
+  </select>
+</mapper>

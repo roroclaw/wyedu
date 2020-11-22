@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchCourseMapper">
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchCourse">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="SUBJECT_ID" jdbcType="VARCHAR" property="subjectId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NAME_EN" jdbcType="VARCHAR" property="nameEn" />
+    <result column="TEACHER_ID" jdbcType="VARCHAR" property="teacherId" />
+    <result column="COURSE_TIMES" jdbcType="DECIMAL" property="courseTimes" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="TEACH_TYPE" jdbcType="VARCHAR" property="teachType" />
+    <result column="CLASSROOM_TYPE" jdbcType="VARCHAR" property="classroomType" />
+    <result column="SEQ" jdbcType="VARCHAR" property="seq" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cloud9.biz.models.TchCourseWithBLOBs">
+    <result column="INTRODUCTION" jdbcType="LONGVARCHAR" property="introduction" />
+    <result column="REMARK" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, SUBJECT_ID, NAME, NAME_EN, TEACHER_ID, COURSE_TIMES, TYPE, TEACH_TYPE, 
+    CLASSROOM_TYPE, SEQ, STATUS
+  </sql>
+  <sql id="Blob_Column_List">
+    INTRODUCTION, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select NAME from sys_teacher_info where ID =  TEACHER_ID) as teacherName
+    ,(select NAME from sys_subject_info where ID =  SUBJECT_ID) as subjectName
+    from tch_course
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tch_course
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchCourseWithBLOBs">
+    insert into tch_course (ID, CODE, SUBJECT_ID, 
+      NAME, NAME_EN, TEACHER_ID, 
+      COURSE_TIMES, TYPE, TEACH_TYPE, 
+      CLASSROOM_TYPE, SEQ, STATUS, 
+      INTRODUCTION, REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{subjectId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, 
+      #{courseTimes,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, #{teachType,jdbcType=VARCHAR}, 
+      #{classroomType,jdbcType=VARCHAR}, #{seq,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchCourseWithBLOBs">
+    insert into tch_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="nameEn != null">
+        NAME_EN,
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID,
+      </if>
+      <if test="courseTimes != null">
+        COURSE_TIMES,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="teachType != null">
+        TEACH_TYPE,
+      </if>
+      <if test="classroomType != null">
+        CLASSROOM_TYPE,
+      </if>
+      <if test="seq != null">
+        SEQ,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null">
+        #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTimes != null">
+        #{courseTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="teachType != null">
+        #{teachType,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomType != null">
+        #{classroomType,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchCourseWithBLOBs">
+    update tch_course
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null">
+        NAME_EN = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTimes != null">
+        COURSE_TIMES = #{courseTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="teachType != null">
+        TEACH_TYPE = #{teachType,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomType != null">
+        CLASSROOM_TYPE = #{classroomType,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        SEQ = #{seq,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cloud9.biz.models.TchCourseWithBLOBs">
+    update tch_course
+    set CODE = #{code,jdbcType=VARCHAR},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      NAME_EN = #{nameEn,jdbcType=VARCHAR},
+      TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      COURSE_TIMES = #{courseTimes,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=VARCHAR},
+      TEACH_TYPE = #{teachType,jdbcType=VARCHAR},
+      CLASSROOM_TYPE = #{classroomType,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      INTRODUCTION = #{introduction,jdbcType=LONGVARCHAR},
+      REMARK = #{remark,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchCourse">
+    update tch_course
+    set CODE = #{code,jdbcType=VARCHAR},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      NAME_EN = #{nameEn,jdbcType=VARCHAR},
+      TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      COURSE_TIMES = #{courseTimes,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=VARCHAR},
+      TEACH_TYPE = #{teachType,jdbcType=VARCHAR},
+      CLASSROOM_TYPE = #{classroomType,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 自定义 sql-->
+    <resultMap id="CourseResultMap" type="com.cloud9.biz.models.TchCourse">
+      <id column="ID" jdbcType="VARCHAR" property="id" />
+      <result column="CODE" jdbcType="VARCHAR" property="code" />
+      <result column="SUBJECT_ID" jdbcType="VARCHAR" property="subjectId" />
+      <result column="NAME" jdbcType="VARCHAR" property="name" />
+      <result column="NAME_EN" jdbcType="VARCHAR" property="nameEn" />
+      <result column="TEACHER_ID" jdbcType="VARCHAR" property="teacherId" />
+      <result column="COURSE_TIMES" jdbcType="DECIMAL" property="courseTimes" />
+      <result column="TYPE" jdbcType="VARCHAR" property="type" />
+      <result column="TEACH_TYPE" jdbcType="VARCHAR" property="teachType" />
+      <result column="CLASSROOM_TYPE" jdbcType="VARCHAR" property="classroomType" />
+      <result column="SEQ" jdbcType="VARCHAR" property="seq" />
+      <result column="STATUS" jdbcType="VARCHAR" property="status" />
+        <!-- 自定义 -->
+      <result column="statusText" jdbcType="VARCHAR" property="statusText" />
+      <result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+      <result column="subjectName" jdbcType="VARCHAR" property="subjectName" />
+      <result column="teachTypeText" jdbcType="VARCHAR" property="teachTypeText" />
+      <result column="classroomTypeText" jdbcType="VARCHAR" property="classroomTypeText" />
+      <result column="periodText" jdbcType="VARCHAR" property="periodText" />
+    </resultMap>
+
+
+    <!-- 分页查询 -->
+    <select id="selectCoursesPageData" parameterType="pageBean" resultMap="CourseResultMap">
+        select
+        ID,STATUS,CODE,NAME,TYPE,NAME_EN,REMARK
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'TEACH_TYPE' and CODE = a.TEACH_TYPE) as teachTypeText
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'CLASSROOM_TYPE' and CODE = a.CLASSROOM_TYPE) as classroomTypeText
+        ,(select NAME from sys_teacher_info where ID =  a.TEACHER_ID) as teacherName
+        ,concat((select TEXT from sys_dict_item,sys_subject_info where sys_subject_info.ID =  a.SUBJECT_ID and sys_subject_info.PERIOD=sys_dict_item.CODE and DICT_TYPE = 'PERIOD'),
+      "|",(select NAME from sys_subject_info where ID =  a.SUBJECT_ID)) as subjectName
+        from tch_course a where 1=1
+        <if test="queryparam.status!=null and queryparam.status!='' ">
+            and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+        </if>
+        <if test="queryparam.subjectId!=null and queryparam.subjectId!='' ">
+          and SUBJECT_ID = #{queryparam.subjectId,jdbcType=VARCHAR}
+        </if>
+        <if test="queryparam.name!=null and queryparam.name!='' ">
+        and NAME like '%${queryparam.name}%'
+        </if>
+
+    </select>
+
+    <!-- 分页查询 -->
+
+
+    <select id="selectCoursesList" parameterType="com.cloud9.biz.models.TchCourse" resultMap="CourseResultMap">
+        select
+        ID,STATUS,CODE,NAME,TYPE,REMARK
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,(select NAME from sys_teacher_info where ID = a.TEACHER_ID) as teacherName
+        from tch_course a where 1=1
+        <if test="subjectId!=null and subjectId!='' ">
+           and SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null and status!='' ">
+            and STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

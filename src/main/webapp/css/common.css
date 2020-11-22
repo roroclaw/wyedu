@@ -1,0 +1,126 @@
+@charset "utf-8";
+/* Created by TJ*/
+body{background: #eee url(../images/body-bg-l.png) repeat-y left top;}/* edit by zl*/
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {margin: 0; padding: 0;}
+
+/** 设置默认字体 **/
+body,button, input, select, textarea {font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif ; font-family:"微软雅黑";}/* for ie */
+h1, h2, h3, h4, h5, h6 {font-size: 100%; }
+address, cite, dfn, em, var {font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp {font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol { list-style: none;}
+
+/** 重置文本格式元素 **/
+a { text-decoration: none;}
+a:hover { text-decoration: underline;}
+
+
+/** 重置表单元素 **/
+legend {color: #000;} /* for ie6 */
+fieldset, img {border: 0;} /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea {font-size: 100%; outline:none;} /* 使得表单元素在 ie 下能继承字体大小 */
+
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0;}
+
+/* 清除浮动 */
+.ks-clear:after, .clear:after { content: '\20';display: block;height: 0;clear: both;}
+.ks-clear, .clear {*zoom: 1; }
+
+/* 字体图标 */
+@font-face {
+	font-family: "iconfont";
+	src: url('../fonts/iconfont.eot?t=1548658167873'); /* IE9*/
+	src: url('../fonts/iconfont.eot?t=1548658167873#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('../fonts/iconfont.woff?t=1548658167873') format('woff'), /* chrome, firefox */
+	url('../fonts/iconfont.ttf?t=1548658167873') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+	url('../fonts/iconfont.svg?t=1548658167873#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+
+.iconfont{
+	font-family:"iconfont" !important;
+	font-size:16px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shanchu:before { content: "\e600"; }
+
+.icon-shangchengxitongtubiaozitihuayuanwenjian44:before { content: "\e716"; }
+
+.icon-xinxi:before { content: "\e625"; }
+
+.icon-category:before { content: "\e699"; }
+
+.icon-form:before { content: "\e6a2"; }
+
+.icon-pic:before { content: "\e6a8"; }
+
+.icon-viewlist:before { content: "\e6b5"; }
+
+.icon-8:before { content: "\e608"; }
+
+.icon-icon07:before { content: "\e607"; }
+
+.icon-yonghu:before { content: "\e604"; }
+
+.icon-tuichu:before { content: "\e622"; }
+
+.icon-112:before { content: "\e670"; }
+
+.icon-sousuoleimufill:before { content: "\e753"; }
+
+.icon-wxbzhanghu:before { content: "\e61e"; }
+
+.icon-wxbsousuotuiguang:before { content: "\e620"; }
+
+.icon-icon1460189584239:before { content: "\e632"; }
+
+.icon-baocun:before { content: "\e60f"; }
+
+.icon-survey:before { content: "\e74e"; }
+
+.icon-youjiantou:before { content: "\e610"; }
+
+.icon-xiangshang:before { content: "\e65c"; }
+
+.icon-xiangxia:before { content: "\e614"; }
+
+.icon-caiwu:before { content: "\e642"; }
+
+.icon-search:before { content: "\e6a4"; }
+
+.icon-play:before { content: "\e6b0"; }
+
+.icon-oracleshujuku:before { content: "\e67a"; }
+
+.icon-kaiqi:before { content: "\e619"; }
+
+.icon-huiyuanfenxi:before { content: "\e648"; }
+
+.icon-shibai:before { content: "\e8a9"; }
+
+.icon-zhengque:before { content: "\e8ad"; }
+
+.icon-shujukujiqun:before { content: "\e8e1"; }
+
+.icon-arrows-1-7:before { content: "\e601"; }
+
+.icon-zuo:before { content: "\e602"; }
+
+.icon-plus-circle:before {	content: "\e781";}
+
+.icon-minus-circle:before {	content: "\e780";}
+

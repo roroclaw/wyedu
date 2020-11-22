@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchCourseOpenMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchCourseOpen" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="TEACH_BOOK" property="teachBook" jdbcType="VARCHAR" />
+    <result column="OTHER_BOOKS" property="otherBooks" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
+    <result column="subjectName" property="subjectName" jdbcType="VARCHAR" />
+    <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COURSE_ID, CLASSROOM_ID, SCHOOL_YEAR, TERM, CLASS_ID, TEACH_BOOK, OTHER_BOOKS,GRADE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tch_course_open
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_course_open
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchCourseOpen" >
+    insert into tch_course_open (ID, COURSE_ID, CLASSROOM_ID, 
+      SCHOOL_YEAR, TERM, CLASS_ID, 
+      TEACH_BOOK, OTHER_BOOKS,GRADE)
+    values (#{id,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, #{classroomId,jdbcType=VARCHAR}, 
+      #{schoolYear,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, 
+      #{teachBook,jdbcType=VARCHAR}, #{otherBooks,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchCourseOpen" >
+    insert into tch_course_open
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID,
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID,
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR,
+      </if>
+      <if test="term != null" >
+        TERM,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="teachBook != null" >
+        TEACH_BOOK,
+      </if>
+      <if test="otherBooks != null" >
+        OTHER_BOOKS,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null" >
+        #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachBook != null" >
+        #{teachBook,jdbcType=VARCHAR},
+      </if>
+      <if test="otherBooks != null" >
+        #{otherBooks,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchCourseOpen" >
+    update tch_course_open
+    <set >
+      <if test="courseId != null" >
+        COURSE_ID = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachBook != null" >
+        TEACH_BOOK = #{teachBook,jdbcType=VARCHAR},
+      </if>
+      <if test="otherBooks != null" >
+        OTHER_BOOKS = #{otherBooks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchCourseOpen" >
+    update tch_course_open
+    set COURSE_ID = #{courseId,jdbcType=VARCHAR},
+      CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      TERM = #{term,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=VARCHAR},
+      TEACH_BOOK = #{teachBook,jdbcType=VARCHAR},
+      OTHER_BOOKS = #{otherBooks,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="CourseOpenResultMap" type="com.cloud9.biz.models.TchCourseOpen" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="TEACH_BOOK" property="teachBook" jdbcType="VARCHAR" />
+    <result column="OTHER_BOOKS" property="otherBooks" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="subjectName" property="subjectName" jdbcType="VARCHAR" />
+    <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
+    <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
+    <result column="stuNumCount" property="stuNumCount" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 分页查询 -->
+  <select id="selectCourseOpensPageData" parameterType="pageBean" resultMap="CourseOpenResultMap">
+    select
+    a.ID, a.COURSE_ID, a.CLASSROOM_ID, a.SCHOOL_YEAR, a.TERM, a.CLASS_ID, a.TEACH_BOOK, a.OTHER_BOOKS,b.NAME as courseName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    ,c.NAME as className
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    ,(select NAME from sys_subject_info where ID  = b.SUBJECT_ID) as subjectName
+    ,(select NAME from sys_teacher_info where ID  = b.TEACHER_ID) as teacherName
+    ,(select count(STU_ID) from tch_stu_course_open_rel where COURSE_OPEN_ID  = a.ID) as stuNumCount
+    from tch_course_open a,tch_course b,tch_class_info c where 1=1 and a.COURSE_ID=b.ID and a.CLASS_ID=c.ID
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.classId!=null and queryparam.classId!='' ">
+      and CLASS_ID = #{queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.grade!=null and queryparam.grade!='' ">
+      and c.GRADE = #{queryparam.grade,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.courseId!=null and queryparam.courseId!='' ">
+      and COURSE_ID = #{queryparam.courseId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.term!=null and queryparam.term!='' ">
+      and TERM = #{queryparam.term,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.teacherId!=null and queryparam.teacherId!='' ">
+      and b.TEACHER_ID = #{queryparam.teacherId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.subjectId!=null and queryparam.subjectId!='' ">
+      and b.SUBJECT_ID = #{queryparam.subjectId,jdbcType=VARCHAR}
+    </if>
+    order by a.SCHOOL_YEAR DESC,a.TERM DESC,className
+  </select>
+
+  <select id="selectCourseOpensById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.COURSE_ID, a.CLASSROOM_ID, a.SCHOOL_YEAR, a.TERM, a.CLASS_ID, a.TEACH_BOOK, a.OTHER_BOOKS,b.NAME as courseName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    ,(select NAME from tch_class_info where ID  = a.CLASS_ID) as className
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+       from tch_course_open a,tch_course b where 1=1 and a.COURSE_ID=b.ID
+     and a.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectCourseOpenList" resultMap="BaseResultMap" parameterType="com.cloud9.biz.models.TchCourseOpen" >
+    select
+    a.ID, a.COURSE_ID, a.CLASSROOM_ID, a.SCHOOL_YEAR, a.TERM, a.CLASS_ID, a.TEACH_BOOK, a.OTHER_BOOKS,b.NAME as courseName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    ,(select NAME from tch_class_info where ID  = a.CLASS_ID) as className
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    ,(select NAME from sys_teacher_info where ID = b.TEACHER_ID) as teacherName
+    from tch_course_open a,tch_course b,tch_class_info c where 1=1 and a.COURSE_ID=b.ID and a.CLASS_ID=c.ID
+    <if test="schoolYear!=null and schoolYear!='' ">
+      and a.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="grade!=null and grade!='' ">
+      and a.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="term!=null and term!='' ">
+      and a.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    order by  className
+  </select>
+  <resultMap id="VRecordConfig" type="com.cloud9.biz.models.vo.VRecordConfig" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="schoolYear" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="teacherText" property="teacherText" jdbcType="VARCHAR" />
+    <result column="subjectText" property="subjectText" jdbcType="VARCHAR" />
+    <result column="recordTeacherText" property="recordTeacherText" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="scoresType" property="scoresType" jdbcType="VARCHAR" />
+    <result column="scoresTypeText" property="scoresTypeText" jdbcType="VARCHAR" />
+    <result column="classText" property="classText" jdbcType="VARCHAR" />
+    <result column="classId" property="classId" jdbcType="VARCHAR" />
+    <result column="period" property="period" jdbcType="VARCHAR" />
+    <result column="graduateYear" property="graduateYear" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectRecordConfigPageData" resultMap="VRecordConfig" parameterType="pageBean" >
+    select * from ( select co.id,c.CODE,c.name,cal.GRADE,cal.SEQ
+    ,(select NAME from sys_subject_info subj where subj.id = c.subject_id) as subjectText,
+    co.SCHOOL_YEAR as schoolYear
+    ,co.TERM as term
+    ,(select text from sys_dict_item i where i.dict_type = 'TERM' and i.code = co.TERM) as termText
+    ,(select NAME from sys_teacher_info ti where ti.id = c.TEACHER_ID) as teacherText
+    ,(select NAME from sys_teacher_info ti where ti.id = st.TEACHER_ID) as recordTeacherText
+    , st.STATUS as status
+    , '1' as scoresType
+    , '期中' as scoresTypeText
+    , st.TEACHER_ID as teacherId
+    , co.class_id as classId
+    , cal.PERIOD as period
+    , cal.GRADUATE_YEAR as graduateYear
+    , (select NAME from tch_class_info c where c.id = co.CLASS_ID) as classText
+    ,(select text from sys_dict_item i where i.dict_type = 'RECORD_CONFIG_STATUS' and i.code = st.STATUS ) as statusText
+    from tch_class_info cal,tch_course_open co left join tch_scores_config st on st.COURSE_OPEN_ID = co.ID  and st.SCORES_TYPE='1',TCH_COURSE c where co.COURSE_ID = c.ID
+    and cal.id = co.class_id
+    UNION
+    select co.id,c.CODE,c.name,cal.GRADE,cal.SEQ
+    ,(select NAME from sys_subject_info subj where subj.id = c.subject_id) as subjectText,
+    co.SCHOOL_YEAR as schoolYear
+    ,co.TERM as term
+    ,(select text from sys_dict_item i where i.dict_type = 'TERM' and i.code = co.TERM) as termText
+    ,(select NAME from sys_teacher_info ti where ti.id = c.TEACHER_ID) as teacherText
+    ,(select NAME from sys_teacher_info ti where ti.id = st.TEACHER_ID) as recordTeacherText
+    , st.STATUS as status
+    , '2' as scoresType
+    , '期末' as scoresTypeText
+    , st.TEACHER_ID as teacherId
+    , co.class_id as classId
+    , cal.PERIOD as period
+    , cal.GRADUATE_YEAR as graduateYear
+    , (select NAME from tch_class_info c where c.id = co.CLASS_ID) as classText
+    ,(select text from sys_dict_item i where i.dict_type = 'RECORD_CONFIG_STATUS' and i.code = st.STATUS ) as statusText
+    from tch_class_info cal,tch_course_open co left join tch_scores_config st on st.COURSE_OPEN_ID = co.ID and st.SCORES_TYPE='2',TCH_COURSE c where co.COURSE_ID = c.ID
+    and cal.id = co.class_id
+    UNION
+    select co.id,c.CODE,c.name,cal.GRADE,cal.SEQ
+    ,(select NAME from sys_subject_info subj where subj.id = c.subject_id) as subjectText,
+    co.SCHOOL_YEAR as schoolYear
+    ,co.TERM as term
+    ,(select text from sys_dict_item i where i.dict_type = 'TERM' and i.code = co.TERM) as termText
+    ,(select NAME from sys_teacher_info ti where ti.id = c.TEACHER_ID) as teacherText
+    ,(select NAME from sys_teacher_info ti where ti.id = st.TEACHER_ID) as recordTeacherText
+    , st.STATUS as status
+    , '3' as scoresType
+    , '平时' as scoresTypeText
+    , st.TEACHER_ID as teacherId
+    , co.class_id as classId
+    , cal.PERIOD as period
+    , cal.GRADUATE_YEAR as graduateYear
+    , (select NAME from tch_class_info c where c.id = co.CLASS_ID) as classText
+    ,(select text from sys_dict_item i where i.dict_type = 'RECORD_CONFIG_STATUS' and i.code = st.STATUS ) as statusText
+    from tch_class_info cal,tch_course_open co left join tch_scores_config st on st.COURSE_OPEN_ID = co.ID and st.SCORES_TYPE='3',TCH_COURSE c where co.COURSE_ID = c.ID
+    and cal.id = co.class_id
+    ) sub
+    where  1=1
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and sub.schoolYear = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.term!=null and queryparam.term!='' ">
+      and sub.term = #{queryparam.term,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.courseName!=null and queryparam.courseName!='' ">
+      and sub.name like '%${queryparam.courseName}%'
+    </if>
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and sub.status = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.isRecord != null and queryparam.isRecord !='' ">
+      and sub.status in ('3','5')
+    </if>
+
+    <if test="queryparam.scoresType!=null and queryparam.scoresType!='' ">
+      and sub.scoresType = #{queryparam.scoresType,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.teacherId!=null and queryparam.teacherId!='' ">
+      and sub.teacherId = #{queryparam.teacherId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.classId!=null and queryparam.classId!='' ">
+      and sub.classId = #{queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.configStatus != null and queryparam.configStatus != '' and queryparam.configStatus != '0'.toString() ">
+      and sub.status = #{queryparam.configStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.configStatus == '0'.toString() ">
+      and sub.status is null
+    </if>
+    order by sub.GRADE,sub.SEQ
+  </select>
+
+</mapper>

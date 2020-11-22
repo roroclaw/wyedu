@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchTchplanSubjectRelMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="SUBJECT_ID" property="subjectId" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="CREDITS" property="credits" jdbcType="DECIMAL" />
+    <result column="CLASS_HOUR" property="classHour" jdbcType="INTEGER" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="EXAM_TYPE" property="examType" jdbcType="VARCHAR" />
+    <result column="PASS_SCORE" property="passScore" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="tchPlanSubjectListResultMap" type="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="SUBJECT_ID" property="subjectId" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="CREDITS" property="credits" jdbcType="DECIMAL" />
+    <result column="CLASS_HOUR" property="classHour" jdbcType="INTEGER" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="EXAM_TYPE" property="examType" jdbcType="VARCHAR" />
+    <result column="PASS_SCORE" property="passScore" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="VARCHAR" />
+    <result column="planName" property="planName" jdbcType="VARCHAR" />
+    <result column="enrolYear" property="enrolYear" jdbcType="VARCHAR" />
+    <result column="gradeText" property="gradeText" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="typeText" property="typeText" jdbcType="VARCHAR" />
+    <result column="subjectType" property="subjectType" jdbcType="VARCHAR" />
+    <result column="subjectName" property="subjectName" jdbcType="VARCHAR" />
+    <result column="subjectNameEn" property="subjectNameEn" jdbcType="VARCHAR" />
+    <result column="periodText" property="periodText" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PLAN_ID, SUBJECT_ID, GRADE, CREDITS, CLASS_HOUR, TERM, EXAM_TYPE, PASS_SCORE, 
+    SEQ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tch_tchplan_subject_rel
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_tchplan_subject_rel
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    insert into tch_tchplan_subject_rel (ID, PLAN_ID, SUBJECT_ID, 
+      GRADE, CREDITS, CLASS_HOUR, 
+      TERM, EXAM_TYPE, PASS_SCORE, 
+      SEQ)
+    values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{subjectId,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{credits,jdbcType=DECIMAL}, #{classHour,jdbcType=INTEGER}, 
+      #{term,jdbcType=VARCHAR}, #{examType,jdbcType=VARCHAR}, #{passScore,jdbcType=DECIMAL}, 
+      #{seq,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    insert into tch_tchplan_subject_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="subjectId != null" >
+        SUBJECT_ID,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="credits != null" >
+        CREDITS,
+      </if>
+      <if test="classHour != null" >
+        CLASS_HOUR,
+      </if>
+      <if test="term != null" >
+        TERM,
+      </if>
+      <if test="examType != null" >
+        EXAM_TYPE,
+      </if>
+      <if test="passScore != null" >
+        PASS_SCORE,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="credits != null" >
+        #{credits,jdbcType=DECIMAL},
+      </if>
+      <if test="classHour != null" >
+        #{classHour,jdbcType=INTEGER},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null" >
+        #{examType,jdbcType=VARCHAR},
+      </if>
+      <if test="passScore != null" >
+        #{passScore,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    update tch_tchplan_subject_rel
+    <set >
+      <if test="planId != null" >
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null" >
+        SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="credits != null" >
+        CREDITS = #{credits,jdbcType=DECIMAL},
+      </if>
+      <if test="classHour != null" >
+        CLASS_HOUR = #{classHour,jdbcType=INTEGER},
+      </if>
+      <if test="term != null" >
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null" >
+        EXAM_TYPE = #{examType,jdbcType=VARCHAR},
+      </if>
+      <if test="passScore != null" >
+        PASS_SCORE = #{passScore,jdbcType=DECIMAL},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    update tch_tchplan_subject_rel
+    set PLAN_ID = #{planId,jdbcType=VARCHAR},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      CREDITS = #{credits,jdbcType=DECIMAL},
+      CLASS_HOUR = #{classHour,jdbcType=INTEGER},
+      TERM = #{term,jdbcType=VARCHAR},
+      EXAM_TYPE = #{examType,jdbcType=VARCHAR},
+      PASS_SCORE = #{passScore,jdbcType=DECIMAL},
+      SEQ = #{seq,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--自定义-->
+  <resultMap id="tchPlanOpenCouresListResultMap" type="com.cloud9.biz.models.TchPlanOpenCourseRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="INTEGER" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="ENROL_DATE" property="enrolDate" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="SUBJECT_ID" property="subjectId" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="planName" property="planName" jdbcType="VARCHAR" />
+    <result column="enrolYear" property="enrolYear" jdbcType="VARCHAR" />
+    <result column="ENROL_DATE" property="enrolDate" jdbcType="VARCHAR" />
+    <result column="subjectName" property="subjectName" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="periodText" property="periodText" jdbcType="VARCHAR" />
+    <result column="gradeName" property="gradeName" jdbcType="VARCHAR" />
+    <result column="majorName" property="majorName" jdbcType="VARCHAR" />
+    <result column="EDU_TYPE" property="eduType" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectTchPlanSubjectPageData" resultMap="tchPlanSubjectListResultMap" parameterType="pageBean">
+    select   a.ID, a.PLAN_ID, a.SUBJECT_ID, a.GRADE, a.CREDITS, a.CLASS_HOUR, a.TERM, a.EXAM_TYPE, a.PASS_SCORE,a.SEQ,b.NAME as planName,b.ENROL_YEAR as enrolYear,c.TYPE as subjectType,c.NAME as subjectName
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = c.PERIOD) as periodText
+    ,(select NAME from sys_grades where CODE =  a.GRADE) as gradeText
+    ,(select TEXT from sys_dict_item where dict_type = 'TERM' and CODE = a.TERM) as termText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = c.Type) as typeText
+    from tch_tchplan_subject_rel a,tch_teaching_plan b,sys_subject_info c
+    where  a.PLAN_ID=b.ID and a.SUBJECT_ID=c.ID
+    <if test="queryparam.planId!=null and queryparam.planId!='' ">
+      and PLAN_ID = #{queryparam.planId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.period!=null and queryparam.period!='' ">
+      and c.PERIOD = #{queryparam.period,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.subjectName!=null and queryparam.subjectName!='' ">
+      and c.NAME LIKE '%${queryparam.subjectName}%'
+    </if>
+    ORDER  BY c.TYPE,GRADE,TERM
+  </select>
+
+  <select id="selectTchPlanRelListByTchPlanId" resultMap="tchPlanSubjectListResultMap" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    select         a.ID, a.PLAN_ID, a.SUBJECT_ID, a.GRADE, a.CREDITS, a.CLASS_HOUR, a.TERM, a.EXAM_TYPE, a.PASS_SCORE,a.SEQ,b.NAME as planName,b.ENROL_YEAR as enrolYear,c.TYPE as subjectType,c.NAME as subjectName
+    ,(select NAME from sys_grades where CODE =  a.GRADE) as gradeText
+    ,(select TEXT from sys_dict_item where dict_type = 'TERM' and CODE = a.TERM) as termText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = c.Type) as typeText
+    from tch_tchplan_subject_rel a,tch_teaching_plan b,sys_subject_info c
+    where  a.PLAN_ID=b.ID and a.SUBJECT_ID=c.ID
+    <if test="planId != null" >
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+    </if>
+    ORDER  BY c.TYPE,SUBJECT_ID,GRADE,TERM,SEQ
+  </select>
+  <select id="selectTchPlanRelListByParam" resultMap="tchPlanSubjectListResultMap" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    select         a.ID, a.PLAN_ID, a.SUBJECT_ID, a.GRADE, a.CREDITS, a.CLASS_HOUR, a.TERM, a.EXAM_TYPE, a.PASS_SCORE,a.SEQ,b.NAME as planName,b.ENROL_YEAR as enrolYear,c.TYPE as subjectType,c.NAME as subjectName
+    ,(select NAME from sys_grades where CODE =  a.GRADE) as gradeText
+    ,(select TEXT from sys_dict_item where dict_type = 'TERM' and CODE = a.TERM) as termText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = c.Type) as typeText
+    from tch_tchplan_subject_rel a,tch_teaching_plan b,sys_subject_info c
+    where  a.PLAN_ID=b.ID and a.SUBJECT_ID=c.ID
+    <if test="planId != null" >
+      and a.PLAN_ID = #{planId,jdbcType=VARCHAR}
+    </if>
+    <if test="grade != null" >
+      and a.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="subjectId != null" >
+      and  a.SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    </if>
+    ORDER  BY a.PLAN_ID
+  </select>
+  <select id="selectTchPlanRelSubjectsListByTchPlanId" resultMap="tchPlanSubjectListResultMap" parameterType="com.cloud9.biz.models.TchTchplanSubjectRel" >
+    select         a.ID, a.PLAN_ID, a.SUBJECT_ID, a.GRADE, a.CREDITS, a.CLASS_HOUR, a.TERM, a.EXAM_TYPE, a.PASS_SCORE,a.SEQ,b.NAME as planName,b.ENROL_YEAR as enrolYear
+    ,c.TYPE as subjectType,c.NAME as subjectName,c.NAME_EN as subjectNameEn
+    ,(select NAME from sys_grades where CODE =  a.GRADE) as gradeText
+    ,(select TEXT from sys_dict_item where dict_type = 'TERM' and CODE = a.TERM) as termText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = c.Type) as typeText
+    from tch_tchplan_subject_rel a,tch_teaching_plan b,sys_subject_info c
+    where  a.PLAN_ID=b.ID and a.SUBJECT_ID=c.ID
+    <if test="planId != null" >
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+    </if>
+    group by SUBJECT_ID
+    ORDER  BY SEQ
+  </select>
+
+  <!--查询数量信息-->
+  <select id="selectTchPlanSubjectRelCountByParam" resultType="java.lang.Integer"  parameterType="com.cloud9.biz.models.TchTchplanSubjectRel">
+    select count(1)
+    from tch_tchplan_subject_rel
+    where  1=1
+    <if test="planId != null" >
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+    </if>
+    <if test="subjectId != null" >
+      and SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    </if>
+    <if test="grade != null" >
+      and GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="term != null" >
+      and TERM = #{term,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectTchPlanCourseOpenCheckList" resultMap="tchPlanOpenCouresListResultMap" parameterType="com.cloud9.biz.models.TchPlanOpenCourseRel" >
+    select  d.STU_ID, a.GRADE,e.ENROL_DATE,a.TERM,a.SUBJECT_ID,      a.ID, a.PLAN_ID,   a.CREDITS, a.CLASS_HOUR,  a.EXAM_TYPE, a.PASS_SCORE,a.SEQ
+    ,b.NAME as planName ,b.ENROL_YEAR as enrolYear,b.EDU_TYPE,b.PERIOD
+    ,c.TYPE as subjectType,c.NAME as subjectName,c.PERIOD,e.STU_NUMBER,e.REAL_NAME
+    ,(select NAME from sys_grades where CODE = a.GRADE) as gradeName
+    ,(select NAME from sys_major where ID = e.MAJOR_ID) as majorName
+    from tch_tchplan_subject_rel a,tch_teaching_plan b,sys_subject_info c,arc_student_plan_rel d,arc_student_info e
+    where  a.PLAN_ID=b.ID  and a.SUBJECT_ID=c.ID and d.PLAN_ID=a.PLAN_ID and d.STU_ID=e.ID and d.STU_ID='2020074cd96b9f74b13984d0101a0e35692' and a.SUBJECT_ID='2043ddf54d5b45f46aca0a50b0a42c433db'
+    <if test="grade != null" >
+      and a.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    order by d.STU_ID,b.ENROL_YEAR,a.TERM,a.SUBJECT_ID
+  </select>
+
+</mapper>

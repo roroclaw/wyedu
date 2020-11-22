@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry location="D:\java\workspaces\lib\mysql-connector-java-5.1.26.jar"/>
+
+    <context id="context1">
+        <!-- 为了防止生成的代码中有很多注释，比较难看，加入下面的配置控制 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!-- 注释控制完毕 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/wyedu?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true"
+                        userId="root" password="cp888"/>
+        <javaModelGenerator targetPackage="com.cloud9.biz.models" targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="mybatis.mappers" targetProject="src/main/resources"/>
+        <javaClientGenerator targetPackage="com.cloud9.biz.dao.mybatis" targetProject="src/main/java" type="XMLMAPPER"/>
+        <table tableName="sys_department" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>

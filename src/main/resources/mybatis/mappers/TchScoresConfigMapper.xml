@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchScoresConfigMapper">
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchScoresConfig">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="COURSE_OPEN_ID" jdbcType="VARCHAR" property="courseOpenId" />
+    <result column="TEACHER_ID" jdbcType="VARCHAR" property="teacherId" />
+    <result column="SCORES_TYPE" jdbcType="VARCHAR" property="scoresType" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, COURSE_OPEN_ID, TEACHER_ID, SCORES_TYPE, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tch_scores_config
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tch_scores_config
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchScoresConfig">
+    insert into tch_scores_config (ID, COURSE_OPEN_ID, TEACHER_ID, 
+      SCORES_TYPE, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{courseOpenId,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, 
+      #{scoresType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchScoresConfig">
+    insert into tch_scores_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="courseOpenId != null">
+        COURSE_OPEN_ID,
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID,
+      </if>
+      <if test="scoresType != null">
+        SCORES_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOpenId != null">
+        #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoresType != null">
+        #{scoresType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchScoresConfig">
+    update tch_scores_config
+    <set>
+      <if test="courseOpenId != null">
+        COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoresType != null">
+        SCORES_TYPE = #{scoresType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchScoresConfig">
+    update tch_scores_config
+    set COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      SCORES_TYPE = #{scoresType,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--删除开课设置信息-->
+  <delete id="deleteByOpenCourseId" parameterType="java.lang.String" >
+    delete from tch_scores_config
+    where
+    COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
+    AND
+    SCORES_TYPE = #{scoresType,jdbcType=VARCHAR}
+  </delete>
+
+  <!--通过开课信息查询登分配置信息-->
+  <select id="selectConfigByOpenCourseId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    select sc.*
+    from tch_scores_config sc
+    where
+     sc.COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
+     AND
+     sc.SCORES_TYPE = #{scoresType,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateStatusByOpenCourseId" parameterType="java.lang.String" >
+    update tch_scores_config
+    set STATUS = #{status,jdbcType=VARCHAR}
+    where
+    COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
+    and
+    SCORES_TYPE = #{scoresType,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectRecordTeacherCountByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from tch_scores_config sc,sco_exam_scores es
+    where
+      sc.COURSE_OPEN_ID = es.COURSE_OPEN_ID
+    and
+      sc.TEACHER_ID = (select id from sys_teacher_info t where t.USER_ID = #{userId,jdbcType=VARCHAR})
+    and
+      es.id = #{scoreId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="validateTeacherUserIdByScore" resultType="java.lang.String">
+    select distinct t.USER_ID
+    from tch_scores_config sc,sco_exam_scores es,sys_teacher_info t
+    where
+      sc.COURSE_OPEN_ID = es.COURSE_OPEN_ID
+    and
+      sc.SCORES_TYPE = es.type
+    and
+      sc.TEACHER_ID = t.id
+    and
+      es.id IN
+    <foreach collection="scoreList" index="index" item="item" open="(" separator="," close=")">
+        #{item.id}
+    </foreach>
+  </select>
+
+</mapper>

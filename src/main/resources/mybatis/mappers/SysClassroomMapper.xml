@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysClassroomMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysClassroom" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="number" jdbcType="DECIMAL" />
+    <result column="BUILDING_NO" property="buildingNo" jdbcType="VARCHAR" />
+    <result column="FLOOR" property="floor" jdbcType="INTEGER" />
+    <result column="SITE_COL_NUM" property="siteColNum" jdbcType="INTEGER" />
+    <result column="SITE_ROW_NUM" property="siteRowNum" jdbcType="INTEGER" />
+    <result column="SITE_STR" property="siteStr" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cloud9.biz.models.SysClassroom" extends="BaseResultMap" >
+    <result column="ADDRESS" property="address" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, TYPE, NUMBER, BUILDING_NO, FLOOR, SITE_COL_NUM, SITE_ROW_NUM, SITE_STR, 
+    STATUS
+  </sql>
+  <sql id="Blob_Column_List" >
+    ADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_classroom
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_classroom
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysClassroom" >
+    insert into sys_classroom (ID, NAME, TYPE, 
+      NUMBER, BUILDING_NO, FLOOR, 
+      SITE_COL_NUM, SITE_ROW_NUM, SITE_STR, 
+      STATUS, ADDRESS)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{number,jdbcType=DECIMAL}, #{buildingNo,jdbcType=VARCHAR}, #{floor,jdbcType=INTEGER}, 
+      #{siteColNum,jdbcType=INTEGER}, #{siteRowNum,jdbcType=INTEGER}, #{siteStr,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{address,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysClassroom" >
+    insert into sys_classroom
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="number != null" >
+        NUMBER,
+      </if>
+      <if test="buildingNo != null" >
+        BUILDING_NO,
+      </if>
+      <if test="floor != null" >
+        FLOOR,
+      </if>
+      <if test="siteColNum != null" >
+        SITE_COL_NUM,
+      </if>
+      <if test="siteRowNum != null" >
+        SITE_ROW_NUM,
+      </if>
+      <if test="siteStr != null" >
+        SITE_STR,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=DECIMAL},
+      </if>
+      <if test="buildingNo != null" >
+        #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="siteColNum != null" >
+        #{siteColNum,jdbcType=INTEGER},
+      </if>
+      <if test="siteRowNum != null" >
+        #{siteRowNum,jdbcType=INTEGER},
+      </if>
+      <if test="siteStr != null" >
+        #{siteStr,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysClassroom" >
+    update sys_classroom
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        NUMBER = #{number,jdbcType=DECIMAL},
+      </if>
+      <if test="buildingNo != null" >
+        BUILDING_NO = #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        FLOOR = #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="siteColNum != null" >
+        SITE_COL_NUM = #{siteColNum,jdbcType=INTEGER},
+      </if>
+      <if test="siteRowNum != null" >
+        SITE_ROW_NUM = #{siteRowNum,jdbcType=INTEGER},
+      </if>
+      <if test="siteStr != null" >
+        SITE_STR = #{siteStr,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cloud9.biz.models.SysClassroom" >
+    update sys_classroom
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=DECIMAL},
+      BUILDING_NO = #{buildingNo,jdbcType=VARCHAR},
+      FLOOR = #{floor,jdbcType=INTEGER},
+      SITE_COL_NUM = #{siteColNum,jdbcType=INTEGER},
+      SITE_ROW_NUM = #{siteRowNum,jdbcType=INTEGER},
+      SITE_STR = #{siteStr,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysClassroom" >
+    update sys_classroom
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=DECIMAL},
+      BUILDING_NO = #{buildingNo,jdbcType=VARCHAR},
+      FLOOR = #{floor,jdbcType=INTEGER},
+      SITE_COL_NUM = #{siteColNum,jdbcType=INTEGER},
+      SITE_ROW_NUM = #{siteRowNum,jdbcType=INTEGER},
+      SITE_STR = #{siteStr,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectClassRoomByKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_classroom
+    where 1=1
+    <if test="NAME != null and NAME != ''">
+      NAME like '%${key}%'
+    </if>
+  </select>
+
+  <!-- 自定义 sql-->
+  <resultMap id="ClassroomResultMap" type="com.cloud9.biz.models.SysClassroom" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="number" jdbcType="DECIMAL" />
+    <result column="BUILDING_NO" property="buildingNo" jdbcType="VARCHAR" />
+    <result column="FLOOR" property="floor" jdbcType="INTEGER" />
+    <result column="SITE_COL_NUM" property="siteColNum" jdbcType="INTEGER" />
+    <result column="SITE_ROW_NUM" property="siteRowNum" jdbcType="INTEGER" />
+    <result column="SITE_STR" property="siteStr" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="LONGVARCHAR" />
+    <!-- 自定义 -->
+    <result column="statusText" jdbcType="VARCHAR" property="statusText" />
+    <result column="classroomTypeText" jdbcType="VARCHAR" property="classroomTypeText" />
+    <result column="buildingNoText" jdbcType="VARCHAR" property="buildingNoText" />
+  </resultMap>
+
+  <select id="selectClassroomByPrimaryKey" resultMap="ClassroomResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.NAME, a.TYPE, a.NUMBER, a.BUILDING_NO, a.FLOOR, a.SITE_COL_NUM,a.SITE_ROW_NUM, a.SITE_STR,a.STATUS,a.ADDRESS
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'CLASSROOM_TYPE' and CODE = a.TYPE) as classroomTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'BUILDING_NO' and CODE = a.BUILDING_NO) as buildingNoText
+    from sys_classroom a
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectClassroomPageData" parameterType="pageBean" resultMap="ClassroomResultMap">
+    select
+    a.ID, a.NAME, a.TYPE, a.NUMBER, a.BUILDING_NO, a.FLOOR, a.SITE_COL_NUM,a.SITE_ROW_NUM, a.SITE_STR,a.STATUS,a.ADDRESS
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'CLASSROOM_TYPE' and CODE = a.TYPE) as classroomTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'BUILDING_NO' and CODE = a.BUILDING_NO) as buildingNoText
+    from sys_classroom a where 1=1
+    <if test="queryparam.buildingNo!=null and queryparam.buildingNo!='' ">
+      and BUILDING_NO = #{queryparam.buildingNo,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.name!=null and queryparam.name!='' ">
+      and NAME like '%${queryparam.name}%'
+    </if>
+    order by buildingNoText,a.NAME
+  </select>
+  <select id="selectClassRoomByParam" resultMap="ClassroomResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.NAME, a.TYPE, a.NUMBER, a.BUILDING_NO, a.FLOOR, a.SITE_COL_NUM,a.SITE_ROW_NUM, a.SITE_STR,a.STATUS,a.ADDRESS
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'CLASSROOM_TYPE' and CODE = a.TYPE) as classroomTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'BUILDING_NO' and CODE = a.BUILDING_NO) as buildingNoText
+    from sys_classroom a
+    where 1=1
+    <if test="buildingNo != null and buildingNo != ''">
+      and BUILDING_NO = #{buildingNo,jdbcType=VARCHAR}
+    </if>
+
+      and a.STATUS = '1'
+    order by a.NAME
+  </select>
+
+
+</mapper>

@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.ExaStuExamInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ExaStuExamInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="EXAM_NUM" property="examNum" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="EXAM_ID" property="examId" jdbcType="VARCHAR" />
+    <result column="EXAM_ROOM_ID" property="examRoomId" jdbcType="VARCHAR" />
+    <result column="SEAT_NUM" property="seatNum" jdbcType="INTEGER" />
+    <result column="SEAT_AB" property="seatAb" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="subjectId" property="subjectId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, EXAM_NUM, STU_ID, EXAM_ID, EXAM_ROOM_ID, SEAT_NUM, SEAT_AB, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from exa_stu_exam_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from exa_stu_exam_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    insert into exa_stu_exam_info (ID, EXAM_NUM, STU_ID,
+      EXAM_ID, EXAM_ROOM_ID, SEAT_NUM,
+      SEAT_AB, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{examNum,jdbcType=VARCHAR}, #{stuId,jdbcType=VARCHAR},
+      #{examId,jdbcType=VARCHAR}, #{examRoomId,jdbcType=VARCHAR}, #{seatNum,jdbcType=INTEGER},
+      #{seatAb,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    insert into exa_stu_exam_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="examNum != null" >
+        EXAM_NUM,
+      </if>
+      <if test="stuId != null" >
+        STU_ID,
+      </if>
+      <if test="examId != null" >
+        EXAM_ID,
+      </if>
+      <if test="examRoomId != null" >
+        EXAM_ROOM_ID,
+      </if>
+      <if test="seatNum != null" >
+        SEAT_NUM,
+      </if>
+      <if test="seatAb != null" >
+        SEAT_AB,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="examNum != null" >
+        #{examNum,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="examId != null" >
+        #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="examRoomId != null" >
+        #{examRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="seatNum != null" >
+        #{seatNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatAb != null" >
+        #{seatAb,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    update exa_stu_exam_info
+    <set >
+      <if test="examNum != null" >
+        EXAM_NUM = #{examNum,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        STU_ID = #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="examId != null" >
+        EXAM_ID = #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="examRoomId != null" >
+        EXAM_ROOM_ID = #{examRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="seatNum != null" >
+        SEAT_NUM = #{seatNum,jdbcType=INTEGER},
+      </if>
+      <if test="seatAb != null" >
+        SEAT_AB = #{seatAb,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    update exa_stu_exam_info
+    set EXAM_NUM = #{examNum,jdbcType=VARCHAR},
+      STU_ID = #{stuId,jdbcType=VARCHAR},
+      EXAM_ID = #{examId,jdbcType=VARCHAR},
+      EXAM_ROOM_ID = #{examRoomId,jdbcType=VARCHAR},
+      SEAT_NUM = #{seatNum,jdbcType=INTEGER},
+      SEAT_AB = #{seatAb,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 自定义 -->
+  <resultMap id="ExaStuExamResultMap" type="com.cloud9.biz.models.ExaStuExamInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="EXAM_NUM" property="examNum" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="EXAM_ID" property="examId" jdbcType="VARCHAR" />
+    <result column="EXAM_PLAN_ID" property="examPlanId" jdbcType="VARCHAR" />
+    <result column="EXAM_ROOM_ID" property="examRoomId" jdbcType="VARCHAR" />
+    <result column="SEAT_NUM" property="seatNum" jdbcType="INTEGER" />
+    <result column="SEAT_AB" property="seatAb" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="gradeName" property="gradeName" jdbcType="VARCHAR" />
+    <result column="examRoomName" property="examRoomName" jdbcType="VARCHAR" />
+    <result column="stuNum" property="stuNum" jdbcType="INTEGER" />
+    <result column="examStatus" property="examStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ExaStuExamRoomResultMap" type="com.cloud9.biz.models.ExaExamRoomStudent" >
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EXAM_PLAN_ID" jdbcType="VARCHAR" property="examPlanId" />
+    <result column="EXAM_ROOM_ID" jdbcType="VARCHAR" property="examRoomId" />
+    <result column="CLASSROOM_ID" jdbcType="VARCHAR" property="classroomId" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="EXAM_START_TIME" jdbcType="TIMESTAMP" property="examStartTime" />
+    <result column="SEAT_COL_NUM" jdbcType="INTEGER" property="seatColNum" />
+    <result column="SEAT_ROW_NUM" jdbcType="INTEGER" property="seatRowNum" />
+    <result column="SEAT_AB" jdbcType="VARCHAR" property="seatAb" />
+    <result column="examPlanText" jdbcType="VARCHAR" property="examPlanText" />
+    <result column="classroomText" jdbcType="VARCHAR" property="classroomText" />
+    <result column="stuExamId" jdbcType="VARCHAR" property="stuExamId" />
+    <result column="EXAM_NUM" property="examNum" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="EXAM_ID" property="examId" jdbcType="VARCHAR" />
+    <result column="SEAT_NUM" property="seatNum" jdbcType="INTEGER" />
+    <result column="stuSeatAb" property="stuSeatAb" jdbcType="VARCHAR" />
+    <result column="STATUS" property="stuStatus" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="gradeName" property="gradeName" jdbcType="VARCHAR" />
+    <result column="examRoomName" property="examRoomName" jdbcType="VARCHAR" />
+    <result column="stuNum" property="stuNum" jdbcType="INTEGER" />
+    <result column="examStatus" property="examStatus" jdbcType="VARCHAR" />
+    <result column="majorName" property="majorName" jdbcType="VARCHAR" />
+    <result column="buildingNoText" property="buildingNoText" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <!-- 分页查询 -->
+  <select id="selectExamStudentsPageData" parameterType="pageBean" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.STU_ID,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE as grade,d.STATUS as examStatus
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c,exa_exam_info d where a.STU_ID=b.ID and b.CLASS_ID=c.ID and a.EXAM_ID=d.ID
+    <if test="queryparam.examId!=null and queryparam.examId!='' ">
+      and a.EXAM_ID = #{queryparam.examId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.grade!=null and queryparam.grade!='' ">
+      and c.GRADE = #{queryparam.grade,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.classId!=null and queryparam.classId!='' ">
+      and c.ID = #{queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.stuId!=null and queryparam.stuId!='' ">
+      and b.STU_NUMBER like '%${queryparam.stuId}%'
+    </if>
+    <if test="queryparam.realName!=null and queryparam.realName!='' ">
+      and b.REAL_NAME like '%${queryparam.realName}%'
+    </if>
+    order by b.STU_NUMBER
+  </select>
+
+  <select id="selectExamStudentsListByParam" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.STU_ID,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c where a.STU_ID=b.ID and b.CLASS_ID=c.ID
+    <if test="examId!=null and examId!='' ">
+      and a.EXAM_ID = #{examId,jdbcType=VARCHAR}
+    </if>
+    <if test="examRoomId!=null and examRoomId!='' ">
+      and a.EXAM_ROOM_ID = #{examRoomId,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null and status!='' ">
+      and a.STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
+  <select id="selectExamStudentsListByGrade" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    ,count(*) as stuNum
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c where a.STU_ID=b.ID and b.CLASS_ID=c.ID
+    <if test="examId!=null and examId!='' ">
+      and a.EXAM_ID = #{examId,jdbcType=VARCHAR}
+    </if>
+    <if test="examRoomId!=null and examRoomId!='' ">
+      and a.EXAM_ROOM_ID = #{examRoomId,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null and status!='' ">
+      and  a.STATUS= #{status,jdbcType=VARCHAR}
+    </if>
+    group  by c.GRADE
+  </select>
+  <select id="selectExamRoomStudentsListByParam" parameterType="com.cloud9.biz.models.ExaExamRoomStudent" resultMap="ExaStuExamRoomResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB as stuSeatAb,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE,d.SEAT_AB
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from sys_subject_info where ID = e.SUBJECT_ID) as subjectText
+    ,d.NAME as examRoomName
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c,exa_exam_room d,exa_exam_info e where a.STU_ID=b.ID and b.CLASS_ID=c.ID and  a.EXAM_ROOM_ID=d.ID and a.EXAM_ID=e.ID
+    <if test="examId!=null and examId!='' ">
+      and a.EXAM_ID = #{examId,jdbcType=VARCHAR}
+    </if>
+    <if test="id!=null and id!='' ">
+      and a.EXAM_ROOM_ID = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="stuStatus!=null and stuStatus!='' ">
+      and  a.STATUS= #{stuStatus,jdbcType=VARCHAR}
+    </if>
+   order by examRoomName,a.EXAM_ROOM_ID,a.SEAT_NUM
+  </select>
+  <select id="selectExamStudentsDetailList" parameterType="com.cloud9.biz.models.ExaExamRoomStudent" resultMap="ExaStuExamRoomResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB as stuSeatAb,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE
+    ,(select NAME from exa_exam_plan where ID = e.EXAM_PLAN_ID) as examPlanText
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from sys_subject_info where ID = e.SUBJECT_ID) as subjectText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'BUILDING_NO' and CODE = f.BUILDING_NO) as buildingNoText
+    ,(select NAME from sys_major where ID =  b.MAJOR_ID) as majorName
+    ,d.NAME as examRoomName,f.NAME as classroomText
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c,exa_exam_room d,exa_exam_info e,sys_classroom f
+    where a.STU_ID=b.ID and b.CLASS_ID=c.ID and  a.EXAM_ROOM_ID=d.ID and a.EXAM_ID=e.ID and d.CLASSROOM_ID=f.ID
+    <if test="examPlanId!=null and examPlanId!='' ">
+      and e.EXAM_PLAN_ID = #{examPlanId,jdbcType=VARCHAR}
+    </if>
+    <if test="grade!=null and grade!='' ">
+      and c.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="subjectId!=null and subjectId!='' ">
+      and e.SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    </if>
+    <if test="stuStatus!=null and stuStatus!='' ">
+      and  a.STATUS= #{stuStatus,jdbcType=VARCHAR}
+    </if>
+    order by b.GRADE,b.MAJOR_ID,a.EXAM_ROOM_ID,a.SEAT_NUM
+  </select>
+  <select id="selectExamStudentsCountByExamId" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    ,count(*) as stuNum
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c where a.EXAM_ROOM_ID is not null and a.EXAM_ROOM_ID != ''and a.SEAT_NUM is not null and a.SEAT_NUM != '' and a.SEAT_AB is not null and a.SEAT_AB != ''
+    and a.STU_ID=b.ID and b.CLASS_ID=c.ID and a.EXAM_STU_STATUS = '1'
+    <if test="examId!=null and examId!='' ">
+      and a.EXAM_ID = #{examId,jdbcType=VARCHAR}
+    </if>
+    <if test="grade!=null and grade!='' ">
+      and c.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="seatAb!=null and seatAb!='' ">
+    and a.SEAT_AB = #{seatAb,jdbcType=VARCHAR}
+    </if>
+    group  by a.EXAM_ROOM_ID,c.GRADE,a.SEAT_AB
+  </select>
+  <select id="selectByParam" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.STU_ID,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME  as className,c.GRADE
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c where a.STU_ID=b.ID and b.CLASS_ID=c.ID
+    <if test="stuId!=null and stuId!='' ">
+      and  a.STU_ID= #{stuId,jdbcType=VARCHAR}
+    </if>
+    <if test="examId!=null and examId!='' ">
+      and  a.EXAM_ID= #{examId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <update id="cleanExamRoomSettingInfoByExamPlanID" parameterType="java.lang.String" >
+    update exa_stu_exam_info a,exa_exam_info b,exa_exam_plan c
+    <set >
+
+      a.EXAM_ROOM_ID = NULL,
+
+      a.SEAT_NUM =NULL,
+
+      a.SEAT_AB = NULL,
+
+    </set>
+    where c.ID =b.EXAM_PLAN_ID and b.ID=a.EXAM_ID and c.ID = #{examPlanId,jdbcType=VARCHAR}
+  </update>
+  <update id="cleanExamRoomSettingInfo" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    update exa_stu_exam_info
+    <set >
+
+        EXAM_ROOM_ID = NULL,
+
+        SEAT_NUM =NULL,
+
+        SEAT_AB = NULL,
+
+    </set>
+    where EXAM_ID = #{examId,jdbcType=VARCHAR}
+  </update>
+  <update id="cleanExamRoomSettingInfoByExamRoomId" parameterType="com.cloud9.biz.models.ExaExamRoom" >
+    update exa_stu_exam_info
+    <set >
+
+      EXAM_ROOM_ID = NULL,
+
+      SEAT_NUM =NULL,
+
+      SEAT_AB = NULL,
+
+    </set>
+    where EXAM_ROOM_ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="cleanExamStuInfoForStu" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    update exa_stu_exam_info
+    <set >
+
+      EXAM_ROOM_ID = NULL,
+
+      SEAT_NUM =NULL,
+
+      SEAT_AB = NULL,
+
+    </set>
+    where  ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectExamStudentsBlankList" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultMap="ExaStuExamResultMap">
+    select
+    a.ID,  a.EXAM_NUM,  a.STU_ID,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c where a.STU_ID=b.ID and b.CLASS_ID=c.ID
+      and a.STATUS = #{status,jdbcType=VARCHAR}
+      and a.EXAM_ID = #{examId,jdbcType=VARCHAR}
+      and c.GRADE = #{grade,jdbcType=VARCHAR}
+      and ISNULL(a.EXAM_ROOM_ID)=1 and ISNULL(a.SEAT_NUM)=1 and ISNULL(a.SEAT_AB)=1
+      ORDER BY rand()
+  </select>
+  <select id="selectExamStudentsSettedCount" parameterType="com.cloud9.biz.models.ExaStuExamInfo" resultType="java.lang.Integer">
+    select
+    count(1)
+    from exa_stu_exam_info  where
+    EXAM_ID = #{examId,jdbcType=VARCHAR}
+    and EXAM_ROOM_ID = #{examRoomId,jdbcType=VARCHAR}
+    and ISNULL(SEAT_NUM)=0 and ISNULL(SEAT_AB)=0
+    <if test="status!=null and status!='' ">
+      and  STATUS= #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectExamStuUnsettingCount" parameterType="com.cloud9.biz.models.ExaExamInfo" resultType="java.lang.Integer">
+    select
+    count(1)
+    from exa_stu_exam_info  where
+    EXAM_ID = #{id,jdbcType=VARCHAR}
+    and ISNULL(SEAT_NUM)=1 and ISNULL(SEAT_AB)=1
+    <if test="status!=null and status!='' ">
+      and  STATUS= #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteStuExamInfoByParam" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    delete from exa_stu_exam_info
+    where EXAM_ID = #{examId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteStuExamInfoByExamPlanId" parameterType="java.lang.String" >
+    delete a from exa_stu_exam_info a,exa_exam_info b,exa_exam_plan c
+    where c.ID =b.EXAM_PLAN_ID and b.ID=a.EXAM_ID and c.ID = #{examPlanId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectStusByExamId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    se.ID, se.EXAM_NUM, se.STU_ID, se.EXAM_ID, se.EXAM_ROOM_ID, se.SEAT_NUM, se.SEAT_AB, se.STATUS
+    ,ex.SUBJECT_ID as subjectId
+    from exa_stu_exam_info se ,exa_exam_info ex
+    where
+    se.EXAM_ID = #{examId,jdbcType=VARCHAR}
+    AND
+    ex.id = se.EXAM_ID
+  </select>
+  <select id="selectExamStudentsPageDataByExamPlan" parameterType="pageBean" resultMap="ExaStuExamResultMap">
+    select
+    distinct a.STU_ID,a.STATUS,a.ID,a.EXAM_NUM,a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,b.STU_NUMBER ,b.REAL_NAME,b.IDENTITY_CARD,c.NAME as className,c.GRADE as grade,d.STATUS as examStatus,d.EXAM_PLAN_ID
+    ,(select NAME from sys_grades where CODE = c.GRADE) as gradeName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+
+    from exa_stu_exam_info a,arc_student_info b,tch_class_info c,exa_exam_info d where a.STU_ID=b.ID and b.CLASS_ID=c.ID and a.EXAM_ID=d.ID
+    <if test="queryparam.examStatus!=null and queryparam.examStatus!='' ">
+      and d.STATUS in(#{queryparam.examStatus,jdbcType=VARCHAR})
+    </if>
+    <if test="queryparam.examPlanId!=null and queryparam.examPlanId!='' ">
+      and d.EXAM_PLAN_ID = #{queryparam.examPlanId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.examId!=null and queryparam.examId!='' ">
+      and a.EXAM_ID = #{queryparam.examId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.grade!=null and queryparam.grade!='' ">
+      and c.GRADE = #{queryparam.grade,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.classId!=null and queryparam.classId!='' ">
+      and c.ID = #{queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.stuId!=null and queryparam.stuId!='' ">
+      and b.STU_NUMBER like '%${queryparam.stuId}%'
+    </if>
+    <if test="queryparam.realName!=null and queryparam.realName!='' ">
+      and b.REAL_NAME like '%${queryparam.realName}%'
+    </if>
+    order by b.STU_NUMBER
+  </select>
+  <update id="updateAllExamStudentsStatusInExamPlan" parameterType="com.cloud9.biz.models.ExaStuExamInfo" >
+    update exa_stu_exam_info a,exa_exam_info b
+    <set >
+      <if test="status != null" >
+        a.STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where STU_ID = #{stuId,jdbcType=VARCHAR} and b.EXAM_PLAN_ID=#{examPlanId,jdbcType=VARCHAR}
+  </update>
+</mapper>

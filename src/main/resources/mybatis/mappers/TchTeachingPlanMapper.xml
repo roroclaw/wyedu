@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchTeachingPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchTeachingPlan" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MAJOR_ID" property="majorId" jdbcType="VARCHAR" />
+    <result column="ENROL_YEAR" property="enrolYear" jdbcType="VARCHAR" />
+    <result column="EDU_TYPE" property="eduType" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, MAJOR_ID, ENROL_YEAR, EDU_TYPE, STATUS, PERIOD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,(select NAME from sys_major where ID = a.MAJOR_ID) as majorText
+    from tch_teaching_plan a
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_teaching_plan
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchTeachingPlan" >
+    insert into tch_teaching_plan (ID, NAME, MAJOR_ID, 
+      ENROL_YEAR, EDU_TYPE, STATUS, 
+      PERIOD)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{majorId,jdbcType=VARCHAR}, 
+      #{enrolYear,jdbcType=VARCHAR}, #{eduType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{period,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchTeachingPlan" >
+    insert into tch_teaching_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="majorId != null" >
+        MAJOR_ID,
+      </if>
+      <if test="enrolYear != null" >
+        ENROL_YEAR,
+      </if>
+      <if test="eduType != null" >
+        EDU_TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="enrolYear != null" >
+        #{enrolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="eduType != null" >
+        #{eduType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchTeachingPlan" >
+    update tch_teaching_plan
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        MAJOR_ID = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="enrolYear != null" >
+        ENROL_YEAR = #{enrolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="eduType != null" >
+        EDU_TYPE = #{eduType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchTeachingPlan" >
+    update tch_teaching_plan
+    set NAME = #{name,jdbcType=VARCHAR},
+      MAJOR_ID = #{majorId,jdbcType=VARCHAR},
+      ENROL_YEAR = #{enrolYear,jdbcType=VARCHAR},
+      EDU_TYPE = #{eduType,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PERIOD = #{period,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--自定义-->
+  <resultMap id="TeachingPlanResultMap" type="com.cloud9.biz.models.TchTeachingPlan" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENROL_YEAR" property="enrolYear" jdbcType="VARCHAR" />
+    <result column="EDU_TYPE" property="eduType" jdbcType="VARCHAR" />
+    <result column="MAJOR_ID" property="majorId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="periodText" property="periodText" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="eduTypeText" property="eduTypeText" jdbcType="VARCHAR" />
+    <result column="majorText" property="majorText" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectTeachingPlanPageData" resultMap="TeachingPlanResultMap" parameterType="pageBean">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'EDU_TYPE' and CODE = EDU_TYPE) as eduTypeText
+    ,(select NAME from sys_major where ID = a.MAJOR_ID) as majorText
+    from tch_teaching_plan a
+    where 1=1
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.name!=null and queryparam.name!='' ">
+      and NAME like '%${queryparam.name}%'
+    </if>
+  </select>
+  <select id="selectTchPlanByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'EDU_TYPE' and CODE = EDU_TYPE) as eduTypeText
+    ,(select NAME from sys_major where ID = a.MAJOR_ID) as majorText
+    from tch_teaching_plan a
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkTeachPlanAcco" resultMap="BaseResultMap" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    select a.ID,a.PLAN_ID,a.STU_ID
+    from arc_student_plan_rel a,arc_student_info b,tch_tchplan_subject_rel c,tch_course_open d,tch_course e
+    where  b.ID= #{stuId,jdbcType=VARCHAR} and b.GRADE=c.GRADE and d.ID=#{courseOpenId,jdbcType=VARCHAR} and d.COURSE_ID=e.ID and d.TERM=c.TERM and e.SUBJECT_ID=c.SUBJECT_ID and c.PLAN_ID=a.PLAN_ID
+    and a.STU_ID=#{stuId,jdbcType=VARCHAR}
+  </select>
+
+  <!--获取学级方向教学计划数-->
+  <select id="selectCountPlanByYearSubMajorId" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    select count(1)
+    FROM
+    tch_teaching_plan p
+    WHERE
+    ENROL_YEAR =  #{enrolYear,jdbcType=VARCHAR}
+    and
+    MAJOR_ID = (select p_id from sys_major where id = #{subMajorId,jdbcType=VARCHAR})
+  </select>
+
+  <!--获取教学计划-->
+  <select id="selectTchTeachingPlan" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select *
+    FROM
+    tch_teaching_plan p
+    WHERE
+    ENROL_YEAR =  #{year,jdbcType=VARCHAR}
+    and
+    MAJOR_ID = (select p_id from sys_major where id = #{subMajorId,jdbcType=VARCHAR})
+    and
+    PERIOD = #{period,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectTeachingPlanItemsByParams" resultType="com.cloud9.biz.models.vo.VTeachPlan"  parameterType="java.lang.String">
+    select p.NAME as text,p.ID as code,p.ENROL_YEAR as year
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = p.PERIOD) as periodText
+    FROM
+    tch_teaching_plan p
+    WHERE
+    1=1
+    <if test="subMajorId !=null and subMajorId !='' ">
+      AND  MAJOR_ID = (select p_id from sys_major where id = #{subMajorId,jdbcType=VARCHAR})
+    </if>
+    <if test="period !=null and period != '' ">
+      AND PERIOD = #{period,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+</mapper>

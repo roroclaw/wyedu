@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchScheduleCourseOpenMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="COURSE_OPEN_ID" property="courseOpenId" jdbcType="VARCHAR" />
+    <result column="PERIOD_SEQ" property="periodSeq" jdbcType="INTEGER" />
+    <result column="WEEK_SEQ" property="weekSeq" jdbcType="INTEGER" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SCHEDULE_ID, COURSE_OPEN_ID, PERIOD_SEQ, WEEK_SEQ, CLASSROOM_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tch_schedule_course_open
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_schedule_course_open
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    insert into tch_schedule_course_open (ID, SCHEDULE_ID, COURSE_OPEN_ID, 
+      PERIOD_SEQ, WEEK_SEQ, CLASSROOM_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, #{courseOpenId,jdbcType=VARCHAR}, 
+      #{periodSeq,jdbcType=INTEGER}, #{weekSeq,jdbcType=INTEGER}, #{classroomId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    insert into tch_schedule_course_open
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scheduleId != null" >
+        SCHEDULE_ID,
+      </if>
+      <if test="courseOpenId != null" >
+        COURSE_OPEN_ID,
+      </if>
+      <if test="periodSeq != null" >
+        PERIOD_SEQ,
+      </if>
+      <if test="weekSeq != null" >
+        WEEK_SEQ,
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOpenId != null" >
+        #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="periodSeq != null" >
+        #{periodSeq,jdbcType=INTEGER},
+      </if>
+      <if test="weekSeq != null" >
+        #{weekSeq,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        #{classroomId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    update tch_schedule_course_open
+    <set >
+      <if test="scheduleId != null" >
+        SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOpenId != null" >
+        COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="periodSeq != null" >
+        PERIOD_SEQ = #{periodSeq,jdbcType=INTEGER},
+      </if>
+      <if test="weekSeq != null" >
+        WEEK_SEQ = #{weekSeq,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    update tch_schedule_course_open
+    set SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},
+      COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      PERIOD_SEQ = #{periodSeq,jdbcType=INTEGER},
+      WEEK_SEQ = #{weekSeq,jdbcType=INTEGER},
+      CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+<!--自定义-->
+  <resultMap id="ScheduleCourseOpenResultMap" type="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="COURSE_OPEN_ID" property="courseOpenId" jdbcType="VARCHAR" />
+    <result column="PERIOD_SEQ" property="periodSeq" jdbcType="INTEGER" />
+    <result column="WEEK_SEQ" property="weekSeq" jdbcType="INTEGER" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="teacherId" property="teacherId" jdbcType="VARCHAR" />
+    <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
+    <result column="stuId" property="stuId" jdbcType="VARCHAR" />
+    <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectScheduleCourseOpenRelList" resultMap="ScheduleCourseOpenResultMap" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    from tch_schedule_course_open a,tch_course_open b where 1=1 and a.COURSE_OPEN_ID=b.ID
+    <if test="scheduleId!=null and scheduleId!='' ">
+      and a.SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR}
+    </if>
+    <if test="weekSeq!=null and weekSeq!='' ">
+      and a.WEEK_SEQ = #{weekSeq,jdbcType=INTEGER}
+    </if>
+    <if test="periodSeq!=null and periodSeq!='' ">
+      and a.PERIOD_SEQ = #{periodSeq,jdbcType=INTEGER}
+    </if>
+    <if test="classroomId!=null and classroomId!='' ">
+      and a.CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR}
+    </if>
+    <if test="courseOpenId!=null and courseOpenId!='' ">
+      and a.COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR}
+    </if>
+    order by  a.WEEK_SEQ,a.PERIOD_SEQ,b.CLASS_ID
+  </select>
+
+  <select id="checkScheduleCourseOpenRelForTeacher" resultMap="ScheduleCourseOpenResultMap" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_teacher_info where ID  = c.TEACHER_ID) as teacherName
+    from tch_schedule_course_open a,tch_course_open b,tch_course c,tch_schedule d where 1=1 and a.COURSE_OPEN_ID=b.ID and c.ID=b.COURSE_ID and d.ID=a.SCHEDULE_ID
+
+      and d.PERIOD = #{period,jdbcType=INTEGER}
+
+      and b.SCHOOL_YEAR=(select SCHOOL_YEAR from tch_schedule where ID  =  #{scheduleId,jdbcType=VARCHAR})
+
+      and a.WEEK_SEQ = #{weekSeq,jdbcType=INTEGER}
+
+      and a.PERIOD_SEQ = #{periodSeq,jdbcType=INTEGER}
+
+      and a.CLASSROOM_ID != #{classroomId,jdbcType=INTEGER}
+
+      and c.TEACHER_ID=(select TEACHER_ID from tch_course where ID  = b.COURSE_ID)
+
+    order by  a.WEEK_SEQ,a.PERIOD_SEQ,b.CLASS_ID
+  </select>
+
+  <delete id="cleanScheduleCourseOpenRelInfo" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    delete from tch_schedule_course_open
+    where SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR} and PERIOD_SEQ = #{periodSeq,jdbcType=VARCHAR} and WEEK_SEQ = #{weekSeq,jdbcType=VARCHAR} and CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR}
+  </delete>
+
+
+  <resultMap id="StuCourseOpenScheduleResultMap" type="com.cloud9.biz.models.TchStuCourseOpenScheduleRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="COURSE_OPEN_ID" property="courseOpenId" jdbcType="VARCHAR" />
+    <result column="PERIOD_SEQ" property="periodSeq" jdbcType="INTEGER" />
+    <result column="WEEK_SEQ" property="weekSeq" jdbcType="INTEGER" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="teacherId" property="teacherId" jdbcType="VARCHAR" />
+    <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="stuGrade" property="stuGrade" jdbcType="VARCHAR" />
+    <result column="MAJOR_ID" property="majorId" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
+    <result column="majorText" property="majorText" jdbcType="VARCHAR" />
+    <result column="stuStatus" property="stuStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="checkScheduleCourseOpenRelForStu" resultMap="StuCourseOpenScheduleResultMap" parameterType="com.cloud9.biz.models.TchScheduleCourseOpen" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_teacher_info where ID  = c.TEACHER_ID) as teacherName
+    from tch_schedule_course_open a,tch_course_open b,tch_course c,tch_stu_course_open_rel d,tch_schedule e where 1=1 and a.COURSE_OPEN_ID=b.ID
+      and c.ID=b.COURSE_ID and d.COURSE_OPEN_ID=b.ID  and e.ID=a.SCHEDULE_ID
+
+      and e.PERIOD = #{period,jdbcType=INTEGER}
+
+      and b.SCHOOL_YEAR=(select SCHOOL_YEAR from tch_schedule where ID  =  #{scheduleId,jdbcType=VARCHAR})
+
+      and a.WEEK_SEQ = #{weekSeq,jdbcType=INTEGER}
+
+      and a.PERIOD_SEQ = #{periodSeq,jdbcType=INTEGER}
+
+      and c.TEACHER_ID=(select TEACHER_ID from tch_course where ID  = b.COURSE_ID)
+
+      and a.CLASSROOM_ID!=#{classroomId,jdbcType=INTEGER}
+
+      and d.STU_ID= #{stuId,jdbcType=INTEGER}
+
+    order by  a.WEEK_SEQ,a.PERIOD_SEQ,b.CLASS_ID
+  </select>
+  <select id="selectScheduleCourseOpenRelListForShow" resultMap="StuCourseOpenScheduleResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_teacher_info where ID = c.TEACHER_ID) as teacherName
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    from tch_schedule_course_open a,tch_course_open b,tch_course c,tch_stu_course_open_rel d where 1=1 and a.COURSE_OPEN_ID=b.ID and b.COURSE_ID=c.ID and b.ID=d.COURSE_OPEN_ID
+    <if test="stuId!=null and stuId!='' ">
+      and d.STU_ID = #{stuId,jdbcType=VARCHAR}
+    </if>
+    <if test="schoolYear!=null and schoolYear!='' ">
+      and b.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="term!=null and term!='' ">
+      and b.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherId!=null and teacherId!='' ">
+      and c.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderParam!=null and orderParam!='' ">
+      order by #{orderParam,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectScheduleCourseOpenRelListForClassShow" resultMap="StuCourseOpenScheduleResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_teacher_info where ID = c.TEACHER_ID) as teacherName
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    from tch_schedule_course_open a,tch_course_open b,tch_course c,tch_stu_course_open_rel d,tch_class_info e,arc_student_info f
+    where 1=1 and a.COURSE_OPEN_ID=b.ID and b.COURSE_ID=c.ID and b.ID=d.COURSE_OPEN_ID and d.STU_ID=f.ID and f.CLASS_ID=e.ID
+    <if test="schoolYear!=null and schoolYear!='' ">
+      and b.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="term!=null and term!='' ">
+      and b.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    <if test="classId!=null and classId!='' ">
+      and e.ID = #{classId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderParam!=null and orderParam!='' ">
+      order by #{orderParam,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectScheduleCourseOpenRelListForCollecting" resultMap="StuCourseOpenScheduleResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.SCHEDULE_ID, a.COURSE_OPEN_ID,a.PERIOD_SEQ, a.WEEK_SEQ, a.CLASSROOM_ID,e.ID as classId
+    ,(select NAME from tch_course where ID  = b.COURSE_ID) as courseName
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_teacher_info where ID = c.TEACHER_ID) as teacherName
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    from tch_schedule_course_open a,tch_course_open b,tch_course c,tch_stu_course_open_rel d,tch_class_info e,arc_student_info f
+    where 1=1 and a.COURSE_OPEN_ID=b.ID and b.COURSE_ID=c.ID and b.ID=d.COURSE_OPEN_ID and d.STU_ID=f.ID and f.CLASS_ID=e.ID
+    <if test="schoolYear!=null and schoolYear!='' ">
+      and b.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="term!=null and term!='' ">
+      and b.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    order by  a.WEEK_SEQ,a.PERIOD_SEQ,e.ID
+  </select>
+  <select id="selectClassInfoForCollectingShow" resultMap="StuCourseOpenScheduleResultMap" parameterType="java.lang.String" >
+    select
+    c.NAME as className, c.ID as classId
+    from tch_class_info c
+    where 1=1
+    <if test="period!=null and period!='' ">
+      and c.PERIOD=#{period,jdbcType=VARCHAR}
+    </if>
+    <if test="graduateYears!=null and graduateYears!='' ">
+      and c.GRADUATE_YEAR in (${graduateYears})
+    </if>
+    order by cast(c.GRADE as UNSIGNED INTEGER),c.SEQ
+  </select>
+</mapper>

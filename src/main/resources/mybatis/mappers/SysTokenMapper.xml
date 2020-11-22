@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysTokenMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysToken" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="APPID" property="appid" jdbcType="VARCHAR" />
+    <result column="VIN" property="vin" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ACC_TOKEN" property="accToken" jdbcType="VARCHAR" />
+    <result column="TOKEN_TIME" property="tokenTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, APPID, VIN, ADDRESS, ACC_TOKEN, TOKEN_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_token
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_token
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysToken" >
+    insert into sys_token (ID, USER_ID, APPID, 
+      VIN, ADDRESS, ACC_TOKEN, 
+      TOKEN_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, 
+      #{vin,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{accToken,jdbcType=VARCHAR}, 
+      #{tokenTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysToken" >
+    insert into sys_token
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="appid != null" >
+        APPID,
+      </if>
+      <if test="vin != null" >
+        VIN,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="accToken != null" >
+        ACC_TOKEN,
+      </if>
+      <if test="tokenTime != null" >
+        TOKEN_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="vin != null" >
+        #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="accToken != null" >
+        #{accToken,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenTime != null" >
+        #{tokenTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysToken" >
+    update sys_token
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        APPID = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="vin != null" >
+        VIN = #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="accToken != null" >
+        ACC_TOKEN = #{accToken,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenTime != null" >
+        TOKEN_TIME = #{tokenTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysToken" >
+    update sys_token
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      APPID = #{appid,jdbcType=VARCHAR},
+      VIN = #{vin,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      ACC_TOKEN = #{accToken,jdbcType=VARCHAR},
+      TOKEN_TIME = #{tokenTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="selectByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_token
+    where ACC_TOKEN = #{accToken,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByUserApp" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_token
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+    <if test="appId != null" >
+      and APPID = #{appId,jdbcType=VARCHAR}
+    </if>
+    <if test="appId == null" >
+      and APPID is NULL
+    </if>
+  </select>
+  <update id="refreshToken" parameterType="String" >
+    update sys_token
+     set ACC_TOKEN = #{newToken,jdbcType=VARCHAR}
+    where ACC_TOKEN = #{oldToken,jdbcType=VARCHAR}
+  </update>
+
+  <update id="refreshTokenTime"  >
+    update sys_token
+    set TOKEN_TIME = #{tokenTime,jdbcType=VARCHAR}
+    where ACC_TOKEN = #{token,jdbcType=TIMESTAMP}
+  </update>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-lazy-init="false">
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="30" />
+		<property name="maxStatements" value="0" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="acquireRetryAttempts" value="3" />
+	</bean>
+
+	<!-- spring jdbc 配置 begin -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<!-- spring jdbc 配置 end -->
+
+	<!-- mybatis 配置 begin -->
+	
+	<!-- 创建SqlSessionFactory，同时指定数据源 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- mybatis 配置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!--mybatis xml 配置文件位置-->
+		<property name="mapperLocations" value="classpath*:mybatis/mappers/*.xml"></property>
+	</bean>
+	
+	<!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cloud9.biz.dao.mybatis" />
+	</bean>
+	<!-- mybatis 配置 end -->
+
+	<!--&lt;!&ndash; 事务配置 begin &ndash;&gt;-->
+	<bean id="myTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<!-- 开启事务控制的注解支持-->
+	<tx:annotation-driven transaction-manager="myTransactionManager"  proxy-target-class="true"/>
+
+	<!--<bean id="transactionInterceptor"-->
+		<!--class="org.springframework.transaction.interceptor.TransactionInterceptor">-->
+		<!--<property name="transactionManager" ref="myTransactionManager" />-->
+		<!--&lt;!&ndash; 配置事务属性 &ndash;&gt;-->
+		<!--<property name="transactionAttributes">-->
+			<!--<props>-->
+				<!--<prop key="*">PROPAGATION_REQUIRED</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<!--<bean 	class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">-->
+		<!--<property name="beanNames">-->
+			<!--<list>-->
+				<!--<value>*Service</value>-->
+			<!--</list>-->
+		<!--</property>-->
+		<!--<property name="interceptorNames">-->
+			<!--<list>-->
+				<!--<value>transactionInterceptor</value>-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
+	<!--&lt;!&ndash; 事务配置 end &ndash;&gt;-->
+	
+</beans>

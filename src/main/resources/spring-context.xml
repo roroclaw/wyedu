@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 加载系统配置文件 -->
+	<!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<bean id="propertyConfigurer"
+		class="com.roroclaw.base.handler.ReadPropertyPlaceholderConfigurer">
+		<!-- <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" 
+			/> -->
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- standard config -->
+				<value>classpath:sysconfig.properties</value>
+				<value>classpath:db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<!--<property name="webBindingInitializer">-->
+			<!--<bean class="com.roroclaw.base.handler.MyDataBinding" />-->
+		<!--</property>-->
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<property name="conversionService">
+					<bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean"></bean>
+				</property>
+			</bean>
+		</property>
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>application/json;charset=UTF-8</value>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+					<!-- 自定义转换器-->
+					<!--<property name="objectMapper" ref="customObjectMapper"></property>-->
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 注解启用 -->
+	<context:annotation-config />
+
+	<!-- springbean 配置注解加载目录 -->
+	<context:component-scan base-package="com.cloud9.biz" />
+
+	<!-- 内存初始化 -->
+	<bean id="projectCache" class="com.roroclaw.base.bean.MemoryCache">
+		<!-- <property name="interfaceLocation" value="classpath:interfaceConfig.properties" 
+			/> -->
+		<property name="sysConfigLocation" value="classpath:sysconfig.properties" />
+	</bean>
+
+	<!--<bean id="sysInit" class="com.cloud9.handler.bean.InitBean">-->
+		<!--<property name="initService" ref="initService"/>-->
+	<!--</bean>-->
+	<bean class="com.roroclaw.base.servlet.SpringStartupListener">
+		<property name="baseInitService"  ref="initService"/>
+	</bean>
+
+	<!--统一映射html-->
+	<!--<bean class="com.cloud9.biz.controllers.HtmlController" />-->
+	<bean class="com.roroclaw.base.controller.HtmlController" />
+
+	<!--统一404处理-->
+	<bean class="com.roroclaw.base.controller.ErrMappingController" />
+
+	<!-- bean aop -->
+	<bean id="pageControllerAOP" class="com.roroclaw.base.handler.aop.PageControllerAOP"></bean>
+	<!--api检查-->
+	<bean id="infcContollerAOP" class="com.roroclaw.base.handler.aop.InfcContollerAOP"></bean>
+	<!--用户信息初始化-->
+	<bean id="userContollerAOP" class="com.roroclaw.base.handler.aop.UserContollerAOP">
+		<property name="baseAuthService"  ref="userService"/>
+	</bean>
+
+	<aop:config>
+		<aop:aspect ref="pageControllerAOP">
+			<aop:around method="around"
+						pointcut="execution (* com.cloud9.biz.controllers..*(..,com.roroclaw.base.bean.PageBean,..))" />
+		</aop:aspect>
+		<aop:aspect ref="userContollerAOP">
+			<aop:around method="around"
+				pointcut="execution (* com.cloud9.biz.controllers..*(..))" />
+		</aop:aspect>
+		<!--<aop:aspect ref="commonContollerAOP">-->
+			<!--<aop:around method="around"-->
+				<!--pointcut="execution (* com.cloud9.biz.controllers..*(..))" />-->
+		<!--</aop:aspect>-->
+	</aop:config>
+
+	<aop:config>
+		<aop:aspect ref="pageControllerAOP">
+			<aop:around method="around"
+						pointcut="execution (* com.cloud9.biz.controllers..*(..,com.roroclaw.base.bean.PageBean,..))" />
+		</aop:aspect>
+		<aop:aspect ref="userContollerAOP">
+			<aop:around method="around"
+						pointcut="execution (* com.cloud9.biz.controllers..*(..))" />
+		</aop:aspect>
+		<aop:aspect ref="infcContollerAOP">
+			<aop:around method="around"
+						pointcut="execution (* com.cloud9.biz.controllers..*(..))" />
+		</aop:aspect>
+	</aop:config>
+
+	<import resource="spring-mvc.xml" />
+	<import resource="spring-datasource.xml" />
+
+</beans>

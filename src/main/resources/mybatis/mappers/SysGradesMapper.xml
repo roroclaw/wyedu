@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysGradesMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysGrades" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--item对象-->
+  <resultMap id="ItemResultMap" type="com.cloud9.biz.models.SysDictItem" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="TEXT" property="text" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, NAME, PERIOD, SEQ, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_grades
+    where CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_grades
+    where CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysGrades" >
+    insert into sys_grades (CODE, NAME, PERIOD, 
+      SEQ, STATUS)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, 
+      #{seq,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysGrades" >
+    insert into sys_grades
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysGrades" >
+    update sys_grades
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysGrades" >
+    update sys_grades
+    set NAME = #{name,jdbcType=VARCHAR},
+      PERIOD = #{period,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="getAllGradeItems" resultMap="ItemResultMap" parameterType="java.lang.String">
+    select
+     code as code,name as text
+    from sys_grades WHERE STATUS = '1' ORDER BY SEQ
+  </select>
+
+  <select id="getGradeItemsByPeriod" resultMap="ItemResultMap" parameterType="java.lang.String">
+    select
+    code as code,name as text
+    from sys_grades WHERE STATUS = '1'
+    <if test="period != null and period!='' " >
+      and PERIOD = #{period,jdbcType=VARCHAR}
+    </if>
+    ORDER BY SEQ
+  </select>
+</mapper>

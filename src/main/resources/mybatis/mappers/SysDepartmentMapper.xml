@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysDepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysDepartment" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="VARCHAR" />
+    <result column="PATH" property="path" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="P_ID" property="pId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <!-- 自定义 -->
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="FATHER_NAME" property="father_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, LEVEL, PATH, TYPE, P_ID, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_department
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysDepartment" >
+    insert into sys_department (ID, NAME, LEVEL, 
+      PATH, TYPE, P_ID, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysDepartment" >
+    insert into sys_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="level != null" >
+        LEVEL,
+      </if>
+      <if test="path != null" >
+        PATH,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="pId != null" >
+        P_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysDepartment" >
+    update sys_department
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        LEVEL = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        PATH = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        P_ID = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysDepartment" >
+    update sys_department
+    set NAME = #{name,jdbcType=VARCHAR},
+      LEVEL = #{level,jdbcType=VARCHAR},
+      PATH = #{path,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      P_ID = #{pId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="selectDepartByPrimaryKey" resultMap="BaseResultMap" parameterType="com.cloud9.biz.models.SysDepartment">
+    select
+    <include refid="Base_Column_List" />
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_department where ID =a.P_ID) as father_name
+    from sys_department a
+    where 1=1
+    and a.ID =  #{id,jdbcType=VARCHAR}
+    <if test="status != null">
+      and 	STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <!-- 分页查询 -->
+  <select id="selectDepartsPageDataByFatherId" resultMap="BaseResultMap"	parameterType="pageBean">
+    select
+    <include refid="Base_Column_List" />
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+
+    from sys_department a where 1=1
+    <if	test="queryparam.P_ID!=null and queryparam.P_ID!='' ">
+      and P_ID = #{queryparam.P_ID,jdbcType=VARCHAR}
+    </if>
+    <if	test="queryparam.type!=null and queryparam.type!='' ">
+      and a.TYPE = #{queryparam.type,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectDepartsList" resultMap="BaseResultMap"	parameterType="com.cloud9.biz.models.SysDepartment">
+    select
+    <include refid="Base_Column_List" />
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COM_STATUS' and CODE = a.STATUS) as statusText
+    from sys_department a where 1=1
+    <if	test="status!=null and status!='' ">
+      and STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    ORDER BY a.PATH
+  </select>
+</mapper>

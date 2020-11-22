@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysMajorMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysMajor" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="OFFICIAL_CODE" property="officialCode" jdbcType="VARCHAR" />
+    <result column="OFFICIAL_NAME" property="officialName" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="P_ID" property="pId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--item对象-->
+  <resultMap id="ItemResultMap" type="com.cloud9.biz.models.SysDictItem" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="TEXT" property="text" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--majorItem对象-->
+  <resultMap id="MajorItemResultMap" type="com.cloud9.biz.models.vo.MajorItem" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="TEXT" property="text" jdbcType="VARCHAR" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, CODE, NAME, OFFICIAL_CODE, OFFICIAL_NAME, IMG_URL, TYPE, P_ID, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_major
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_major
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysMajor" >
+    insert into sys_major (ID, CODE, NAME, 
+      OFFICIAL_CODE, OFFICIAL_NAME, IMG_URL, 
+      TYPE, P_ID, STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{officialCode,jdbcType=VARCHAR}, #{officialName,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysMajor" >
+    insert into sys_major
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="officialCode != null" >
+        OFFICIAL_CODE,
+      </if>
+      <if test="officialName != null" >
+        OFFICIAL_NAME,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="pId != null" >
+        P_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="officialCode != null" >
+        #{officialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="officialName != null" >
+        #{officialName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysMajor" >
+    update sys_major
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="officialCode != null" >
+        OFFICIAL_CODE = #{officialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="officialName != null" >
+        OFFICIAL_NAME = #{officialName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        P_ID = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysMajor" >
+    update sys_major
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      OFFICIAL_CODE = #{officialCode,jdbcType=VARCHAR},
+      OFFICIAL_NAME = #{officialName,jdbcType=VARCHAR},
+      IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      P_ID = #{pId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <resultMap id="MajorResultMap" type="com.cloud9.biz.models.SysMajor" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="OFFICIAL_CODE" property="officialCode" jdbcType="VARCHAR" />
+    <result column="OFFICIAL_NAME" property="officialName" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="P_ID" property="pId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="typeText" property="typeText" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="pName" property="pName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByID" resultMap="MajorResultMap" parameterType="java.lang.String" >
+    select   a.ID,  a.CODE,  a.NAME,  a.OFFICIAL_CODE,  a.OFFICIAL_NAME,  a.IMG_URL,  a.TYPE,  a.P_ID,  a.STATUS
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'MAJOR_TYPE' and CODE = a.TYPE) as typeText
+    ,(select NAME from sys_major where ID=a.P_ID) as pName
+    from sys_major a
+    where a.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMajorPageData" resultMap="MajorResultMap" parameterType="pageBean">
+    select   a.ID,  a.CODE,  a.NAME,  a.OFFICIAL_CODE,  a.OFFICIAL_NAME,  a.IMG_URL,  a.TYPE,  a.P_ID,  a.STATUS
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'MAJOR_TYPE' and CODE = a.TYPE) as typeText
+    ,(select NAME from sys_major where ID=a.P_ID) as pName
+    from sys_major a
+    where 1=1
+    <if test="queryparam.type!=null and queryparam.type!='' ">
+      and TYPE = #{queryparam.type,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.name!=null and queryparam.name!='' ">
+      and NAME like '%${queryparam.name}%'
+    </if>
+  </select>
+
+  <select id="getAllMajorItems" resultMap="ItemResultMap" parameterType="java.lang.String">
+    select
+    id as code,NAME as text
+    from sys_major  WHERE TYPE = '1' and STATUS = '1'
+  </select>
+  <select id="getAllSubMajorItems" resultMap="MajorItemResultMap" parameterType="java.lang.String">
+    select
+    id as code,NAME as text
+    ,(select pm .name from sys_major pm where pm.type = '1' and pm.id = m.p_id) as pname
+    from sys_major m WHERE  TYPE = '2' and STATUS = '1'
+  </select>
+
+  <select id="getFatherMajorItems" resultMap="ItemResultMap" parameterType="java.lang.String">
+    select
+    id as code,NAME as text
+    from sys_major WHERE STATUS = '1'
+    <if test="type != null" >
+      and TYPE = #{type,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+</mapper>

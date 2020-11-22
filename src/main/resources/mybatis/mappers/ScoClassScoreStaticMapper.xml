@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.ScoClassScoreStaticMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ScoClassScoreStatic" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="STU_COUNT" property="stuCount" jdbcType="INTEGER" />
+    <result column="SUBJECT_ID" property="subjectId" jdbcType="VARCHAR" />
+    <result column="SUBJECT_NAME" property="subjectName" jdbcType="VARCHAR" />
+    <result column="TOTAL_SCORE" property="totalScore" jdbcType="BIGINT" />
+    <result column="AVG_SCORE" property="avgScore" jdbcType="DECIMAL" />
+    <result column="MAX_SCORE" property="maxScore" jdbcType="BIGINT" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="EXCELLENT" property="excellent" jdbcType="INTEGER" />
+    <result column="PASS" property="pass" jdbcType="INTEGER" />
+    <result column="COL1" property="col1" jdbcType="INTEGER" />
+    <result column="COL2" property="col2" jdbcType="INTEGER" />
+    <result column="COL3" property="col3" jdbcType="INTEGER" />
+    <result column="COL4" property="col4" jdbcType="INTEGER" />
+    <result column="COL5" property="col5" jdbcType="INTEGER" />
+    <result column="COL6" property="col6" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CLASS_ID, CLASS_NAME, STU_COUNT, SUBJECT_ID, SUBJECT_NAME, TOTAL_SCORE, AVG_SCORE, 
+    MAX_SCORE, TERM, SCHOOL_YEAR, GRADE, TYPE, EXCELLENT, PASS, COL1, COL2, COL3, COL4, 
+    COL5, COL6
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sco_class_score_static
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sco_class_score_static
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ScoClassScoreStatic" >
+    insert into sco_class_score_static (ID, CLASS_ID, CLASS_NAME, 
+      STU_COUNT, SUBJECT_ID, SUBJECT_NAME, 
+      TOTAL_SCORE, AVG_SCORE, MAX_SCORE, 
+      TERM, SCHOOL_YEAR, GRADE, 
+      TYPE, EXCELLENT, PASS, 
+      COL1, COL2, COL3, COL4, 
+      COL5, COL6)
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{stuCount,jdbcType=INTEGER}, #{subjectId,jdbcType=VARCHAR}, #{subjectName,jdbcType=VARCHAR}, 
+      #{totalScore,jdbcType=BIGINT}, #{avgScore,jdbcType=DECIMAL}, #{maxScore,jdbcType=BIGINT}, 
+      #{term,jdbcType=VARCHAR}, #{schoolYear,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{excellent,jdbcType=INTEGER}, #{pass,jdbcType=INTEGER}, 
+      #{col1,jdbcType=INTEGER}, #{col2,jdbcType=INTEGER}, #{col3,jdbcType=INTEGER}, #{col4,jdbcType=INTEGER}, 
+      #{col5,jdbcType=INTEGER}, #{col6,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ScoClassScoreStatic" >
+    insert into sco_class_score_static
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+      <if test="stuCount != null" >
+        STU_COUNT,
+      </if>
+      <if test="subjectId != null" >
+        SUBJECT_ID,
+      </if>
+      <if test="subjectName != null" >
+        SUBJECT_NAME,
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE,
+      </if>
+      <if test="avgScore != null" >
+        AVG_SCORE,
+      </if>
+      <if test="maxScore != null" >
+        MAX_SCORE,
+      </if>
+      <if test="term != null" >
+        TERM,
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="excellent != null" >
+        EXCELLENT,
+      </if>
+      <if test="pass != null" >
+        PASS,
+      </if>
+      <if test="col1 != null" >
+        COL1,
+      </if>
+      <if test="col2 != null" >
+        COL2,
+      </if>
+      <if test="col3 != null" >
+        COL3,
+      </if>
+      <if test="col4 != null" >
+        COL4,
+      </if>
+      <if test="col5 != null" >
+        COL5,
+      </if>
+      <if test="col6 != null" >
+        COL6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCount != null" >
+        #{stuCount,jdbcType=INTEGER},
+      </if>
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null" >
+        #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="avgScore != null" >
+        #{avgScore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxScore != null" >
+        #{maxScore,jdbcType=BIGINT},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="excellent != null" >
+        #{excellent,jdbcType=INTEGER},
+      </if>
+      <if test="pass != null" >
+        #{pass,jdbcType=INTEGER},
+      </if>
+      <if test="col1 != null" >
+        #{col1,jdbcType=INTEGER},
+      </if>
+      <if test="col2 != null" >
+        #{col2,jdbcType=INTEGER},
+      </if>
+      <if test="col3 != null" >
+        #{col3,jdbcType=INTEGER},
+      </if>
+      <if test="col4 != null" >
+        #{col4,jdbcType=INTEGER},
+      </if>
+      <if test="col5 != null" >
+        #{col5,jdbcType=INTEGER},
+      </if>
+      <if test="col6 != null" >
+        #{col6,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ScoClassScoreStatic" >
+    update sco_class_score_static
+    <set >
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCount != null" >
+        STU_COUNT = #{stuCount,jdbcType=INTEGER},
+      </if>
+      <if test="subjectId != null" >
+        SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null" >
+        SUBJECT_NAME = #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="avgScore != null" >
+        AVG_SCORE = #{avgScore,jdbcType=DECIMAL},
+      </if>
+      <if test="maxScore != null" >
+        MAX_SCORE = #{maxScore,jdbcType=BIGINT},
+      </if>
+      <if test="term != null" >
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="excellent != null" >
+        EXCELLENT = #{excellent,jdbcType=INTEGER},
+      </if>
+      <if test="pass != null" >
+        PASS = #{pass,jdbcType=INTEGER},
+      </if>
+      <if test="col1 != null" >
+        COL1 = #{col1,jdbcType=INTEGER},
+      </if>
+      <if test="col2 != null" >
+        COL2 = #{col2,jdbcType=INTEGER},
+      </if>
+      <if test="col3 != null" >
+        COL3 = #{col3,jdbcType=INTEGER},
+      </if>
+      <if test="col4 != null" >
+        COL4 = #{col4,jdbcType=INTEGER},
+      </if>
+      <if test="col5 != null" >
+        COL5 = #{col5,jdbcType=INTEGER},
+      </if>
+      <if test="col6 != null" >
+        COL6 = #{col6,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ScoClassScoreStatic" >
+    update sco_class_score_static
+    set CLASS_ID = #{classId,jdbcType=VARCHAR},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      STU_COUNT = #{stuCount,jdbcType=INTEGER},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      SUBJECT_NAME = #{subjectName,jdbcType=VARCHAR},
+      TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      AVG_SCORE = #{avgScore,jdbcType=DECIMAL},
+      MAX_SCORE = #{maxScore,jdbcType=BIGINT},
+      TERM = #{term,jdbcType=VARCHAR},
+      SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      EXCELLENT = #{excellent,jdbcType=INTEGER},
+      PASS = #{pass,jdbcType=INTEGER},
+      COL1 = #{col1,jdbcType=INTEGER},
+      COL2 = #{col2,jdbcType=INTEGER},
+      COL3 = #{col3,jdbcType=INTEGER},
+      COL4 = #{col4,jdbcType=INTEGER},
+      COL5 = #{col5,jdbcType=INTEGER},
+      COL6 = #{col6,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--自定义-->
+  <update id="calDatas" >
+    insert into sco_class_score_static(CLASS_ID,GRADE,CLASS_NAME,SUBJECT_ID,SUBJECT_NAME,MAX_SCORE,TOTAL_SCORE,STU_COUNT,AVG_SCORE,TERM,SCHOOL_YEAR,TYPE,EXCELLENT,PASS,COL1,COL2,COL3,COL4,COL5,COL6)
+    select sub.class_id,sub.grade,sub.className,sub.subjectId,sub.subjectName,max(sub.SCORE),sum(sub.SCORE) as totalScore,
+    count(1) as stuCount,round(Avg(sub.SCORE),2) as avgScore,term,school_year,sub.type,
+    sum(CASE when sub.SCORE >= #{section.excellent,jdbcType=INTEGER} then 1 else 0 end) as excellent,
+    sum(CASE when sub.SCORE >= #{section.excellent,jdbcType=INTEGER} then 1 else 0 end) as pass,
+    sum(CASE when sub.SCORE=#{section.col1,jdbcType=INTEGER} then 1 else 0 end) as col1,
+    sum(CASE when sub.SCORE>=#{section.col2,jdbcType=INTEGER} then 1 else 0 end) as col2,
+    sum(CASE when sub.SCORE>=#{section.col3,jdbcType=INTEGER} then 1 else 0 end) as col3,
+    sum(CASE when sub.SCORE>=#{section.col4,jdbcType=INTEGER} then 1 else 0 end) as col4,
+    sum(CASE when sub.SCORE>=#{section.col5,jdbcType=INTEGER} then 1 else 0 end) as col5,
+    <![CDATA[sum(CASE when sub.SCORE < #{section.col6,jdbcType=INTEGER} then 1 else 0 end) as col6]]>
+    from (
+    select
+    sco.class_id,
+    sco.grade_id as grade,
+    sco.class_name  as className,
+    sco.STU_ID,
+    (select REAL_NAME from arc_student_info where id = sco.STU_ID) as stuName,
+    sco.SCORE,
+    subj.id as subjectId,
+    subj.name as subjectName,
+    co.term,
+    co.school_year,
+    sco.type
+    from
+    sco_exam_scores sco,
+    tch_class_info c,
+    tch_scores_config sc,
+    tch_course_open co,
+    tch_course cour,
+    sys_subject_info subj,
+    arc_student_info stu
+    where
+    c.id = stu.class_id
+    and
+    stu.id = sco.STU_ID
+    and
+    co.COURSE_ID = cour.id
+    and
+    cour.SUBJECT_ID = subj.id
+    and
+    sco.COURSE_OPEN_ID = sc.COURSE_OPEN_ID
+    and
+    sc.SCORES_TYPE = sco.TYPE
+    and
+    sc.COURSE_OPEN_ID = co.id
+    and co.school_year = #{schoolYear,jdbcType=VARCHAR}
+    and co.term = #{term,jdbcType=VARCHAR}
+    and sco.status = '1'
+    and sco.type = #{scoreType,jdbcType=VARCHAR}
+    and sc.status = '4'
+    and sco.grade_id = #{grade,jdbcType=VARCHAR}
+    and subj.type = '0'
+    and subj.id in ('204b500d0a336fb44d692f6b347ea20e70c','204c78425d8fe5b49718a89823d5ac59490','2049b7b9200a0164001bfaa3cc19bc38677')
+    ) sub
+    group by sub.class_id,sub.subjectId
+    union
+    select sub.class_id,sub.grade,sub.className,sub.subjectId,sub.subjectName,max(sub.SCORE),sum(sub.SCORE) as totalScore,
+    count(1) as stuCount,round(Avg(sub.SCORE),2) as avgScore,term,school_year,sub.type,
+    sum(CASE when sub.SCORE >= 80 then 1 else 0 end) as excellent,
+    sum(CASE when sub.SCORE >= 60 then 1 else 0 end) as pass,
+    sum(CASE when sub.SCORE=100 then 1 else 0 end) as col1,
+    sum(CASE when sub.SCORE>=90 then 1 else 0 end) as col2,
+    sum(CASE when sub.SCORE>=80 then 1 else 0 end) as col3,
+    sum(CASE when sub.SCORE>=70 then 1 else 0 end) as col4,
+    sum(CASE when sub.SCORE>=60 then 1 else 0 end) as col5,
+    <![CDATA[sum(CASE when sub.SCORE < 60 then 1 else 0 end) as col6]]>
+    from (
+    select
+    sco.class_id,
+    sco.grade_id as grade,
+    sco.class_name  as className,
+    sco.STU_ID,
+    (select REAL_NAME from arc_student_info where id = sco.STU_ID) as stuName,
+    sco.SCORE,
+    subj.id as subjectId,
+    subj.name as subjectName,
+    co.term,
+    co.school_year,
+    sco.type
+    from
+    sco_exam_scores sco,
+    tch_class_info c,
+    tch_scores_config sc,
+    tch_course_open co,
+    tch_course cour,
+    sys_subject_info subj,
+    arc_student_info stu
+    where
+    c.id = stu.class_id
+    and
+    stu.id = sco.STU_ID
+    and
+    co.COURSE_ID = cour.id
+    and
+    cour.SUBJECT_ID = subj.id
+    and
+    sco.COURSE_OPEN_ID = sc.COURSE_OPEN_ID
+    and
+    sc.SCORES_TYPE = sco.TYPE
+    and
+    sc.COURSE_OPEN_ID = co.id
+    and co.school_year = #{schoolYear,jdbcType=VARCHAR}
+    and co.term = #{term,jdbcType=VARCHAR}
+    and sco.status = '1'
+    and sco.type = #{scoreType,jdbcType=VARCHAR}
+    and sc.status = '4'
+    and sco.grade_id = #{grade,jdbcType=VARCHAR}
+    and subj.type = '0'
+    and subj.id not in ('204b500d0a336fb44d692f6b347ea20e70c','204c78425d8fe5b49718a89823d5ac59490','2049b7b9200a0164001bfaa3cc19bc38677')
+    ) sub
+    group by sub.class_id,sub.subjectId
+  </update>
+
+  <delete id="deleteDatas">
+    delete FROM sco_class_score_static
+    where
+    SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and TERM = #{term,jdbcType=VARCHAR}
+    and type = #{scoreType,jdbcType=VARCHAR}
+    and grade = #{grade,jdbcType=VARCHAR}
+  </delete>
+
+  <!--<select id="select4ExamClassPrint" resultMap="BaseResultMap" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from sco_class_score_static-->
+    <!--where-->
+    <!--SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}-->
+    <!--and TERM = #{term,jdbcType=VARCHAR}-->
+    <!--and type = #{scoreType,jdbcType=VARCHAR}-->
+    <!--and grade = #{grade,jdbcType=VARCHAR}-->
+    <!--order by CLASS_ID,SUBJECT_ID-->
+  <!--</select>-->
+  <select id="select4ExamClassPrint" resultMap="BaseResultMap" >
+        SELECT
+        a.ID,
+        a.CLASS_ID,
+        a.CLASS_NAME,
+        a.STU_COUNT,
+        a.SUBJECT_ID,
+        a.SUBJECT_NAME,
+        a.TOTAL_SCORE,
+        a.AVG_SCORE,
+        a.MAX_SCORE,
+        a.TERM,
+        a.SCHOOL_YEAR,
+        a.GRADE,
+        a.TYPE,
+        a.EXCELLENT,
+        a.PASS,
+        a.COL1,
+        a.COL2,
+        a.COL3,
+        a.COL4,
+        a.COL5,
+        a.COL6
+    FROM
+        sco_class_score_static a,sys_subject_info b
+    WHERE
+      a.SUBJECT_ID = b.ID
+    and
+    a.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and a.TERM = #{term,jdbcType=VARCHAR}
+    and a.type = #{scoreType,jdbcType=VARCHAR}
+    and a.grade = #{grade,jdbcType=VARCHAR}
+    ORDER BY
+    a.CLASS_name,b.seq desc
+  </select>
+</mapper>

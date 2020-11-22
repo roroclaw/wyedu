@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reference Manual http://logback.qos.ch/manual/index.html -->
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!--<logger name="org.springframework.web" level="DEBUG" />-->
+	<logger name="com.cloud9" level="ALL" />
+	<logger name="dao" level="ALL">
+		<!--daoFILE为实际定义的appender-->
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<!--<logger name="java.sql.Connection" level="DEBUG" />-->
+	<!--<logger name="java.sql.Statement" level="DEBUG" />-->
+	<!--<logger name="java.sql.PreparedStatement" level="DEBUG" />-->
+	<root level="ALL">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

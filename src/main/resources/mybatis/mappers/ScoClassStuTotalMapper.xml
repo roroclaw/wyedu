@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.ScoClassStuTotalMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ScoClassStuTotal" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="STU_INAME" property="stuIname" jdbcType="VARCHAR" />
+    <result column="TOTAL_SCORE" property="totalScore" jdbcType="BIGINT" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CLASS_ID, CLASS_NAME, STU_ID, STU_INAME, TOTAL_SCORE, TERM, SCHOOL_YEAR, GRADE, 
+    TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sco_class_stu_total
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sco_class_stu_total
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ScoClassStuTotal" >
+    insert into sco_class_stu_total (ID, CLASS_ID, CLASS_NAME, 
+      STU_ID, STU_INAME, TOTAL_SCORE, 
+      TERM, SCHOOL_YEAR, GRADE, 
+      TYPE)
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{stuId,jdbcType=VARCHAR}, #{stuIname,jdbcType=VARCHAR}, #{totalScore,jdbcType=BIGINT}, 
+      #{term,jdbcType=VARCHAR}, #{schoolYear,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ScoClassStuTotal" >
+    insert into sco_class_stu_total
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+      <if test="stuId != null" >
+        STU_ID,
+      </if>
+      <if test="stuIname != null" >
+        STU_INAME,
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE,
+      </if>
+      <if test="term != null" >
+        TERM,
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="stuIname != null" >
+        #{stuIname,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ScoClassStuTotal" >
+    update sco_class_stu_total
+    <set >
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        STU_ID = #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="stuIname != null" >
+        STU_INAME = #{stuIname,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="term != null" >
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null" >
+        SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ScoClassStuTotal" >
+    update sco_class_stu_total
+    set CLASS_ID = #{classId,jdbcType=VARCHAR},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      STU_ID = #{stuId,jdbcType=VARCHAR},
+      STU_INAME = #{stuIname,jdbcType=VARCHAR},
+      TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      TERM = #{term,jdbcType=VARCHAR},
+      SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--自定义-->
+  <update id="calClassStuTotal">
+    insert into
+    sco_class_stu_total(CLASS_ID,CLASS_NAME,STU_ID,STU_NAME,TOTAL_SCORE,TERM,SCHOOL_YEAR,GRADE,TYPE)
+    select sub.class_id,sub.className,sub.STU_ID,sub.stuName,sum(sub.SCORE) as totalScore,term,school_year,sub.grade,sub.type
+    from (
+        select
+        stu.class_id,
+        sco.grade_id as grade,
+        sco.class_name  as className,
+        sco.STU_ID,
+        (select REAL_NAME from arc_student_info where id = sco.STU_ID) as stuName,
+        sco.SCORE,
+        subj.id as subjectId,
+        subj.name as subjectName,
+        co.term,
+        co.school_year,
+        sco.type
+        from
+        sco_exam_scores sco,
+        tch_class_info c,
+        tch_scores_config sc,
+        tch_course_open co,
+        tch_course cour,
+        sys_subject_info subj,
+        arc_student_info stu
+        where
+        c.id = stu.class_id
+        and
+        stu.id = sco.STU_ID
+        and
+        co.COURSE_ID = cour.id
+        and
+        cour.SUBJECT_ID = subj.id
+        and
+        sco.COURSE_OPEN_ID = sc.COURSE_OPEN_ID
+        and
+        sc.SCORES_TYPE = sco.TYPE
+        and
+        sc.COURSE_OPEN_ID = co.id
+        and co.school_year = #{schoolYear,jdbcType=VARCHAR} and co.term = #{term,jdbcType=VARCHAR}
+        and sco.status = '1'
+            and sco.type = #{scoreType,jdbcType=VARCHAR} and sc.status = '4'
+            and sco.grade_id = #{grade,jdbcType=VARCHAR}
+        and subj.type = '0'
+    ) sub
+    group by sub.class_id,sub.STU_ID
+  </update>
+
+  <delete id="deleteClassStuTotal">
+    delete FROM sco_class_stu_total
+    where
+    SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and TERM = #{term,jdbcType=VARCHAR}
+    and type = #{scoreType,jdbcType=VARCHAR}
+    and grade = #{grade,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="select4ExamGradePrint" resultType="java.util.Map">
+    select sub1.*,sub2.stuCount,sub2.totalAvg from
+    (
+    select
+    st.class_id,st.class_name as className,max(st.TOTAL_SCORE) as totalScore,
+    sum(CASE when st.TOTAL_SCORE>=600 then 1 else 0 end) as col1,
+    sum(CASE when st.TOTAL_SCORE>=580 then 1 else 0 end) as col2,
+    sum(CASE when st.TOTAL_SCORE>=550 then 1 else 0 end) as col3,
+    sum(CASE when st.TOTAL_SCORE>=500 then 1 else 0 end) as col4,
+    sum(CASE when st.TOTAL_SCORE>=450 then 1 else 0 end) as col5,
+    sum(CASE when st.TOTAL_SCORE>=400 then 1 else 0 end) as col6,
+    sum(CASE when st.TOTAL_SCORE>=350 then 1 else 0 end) as col7,
+    sum(CASE when st.TOTAL_SCORE>=300 then 1 else 0 end) as col8,
+    <![CDATA[sum(CASE when st.TOTAL_SCORE<300 then 1 else 0 end) as col9]]>
+    from sco_class_stu_total st
+    where
+    st.TERM = #{term,jdbcType=VARCHAR}
+    and
+    st.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and
+    st.GRADE = #{grade,jdbcType=VARCHAR}
+    and
+    st.TYPE = #{scoreType,jdbcType=VARCHAR}
+    group by st.class_id
+    ) sub1
+    ,
+    (
+    select sta.class_id,max(STU_COUNT) as stuCount,sum(AVG_SCORE) as totalAvg from sco_stu_subjct_total_avg sta
+    where
+    sta.TERM = #{term,jdbcType=VARCHAR}
+    and
+    sta.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and
+    sta.GRADE = #{grade,jdbcType=VARCHAR}
+    and
+    sta.TYPE = #{scoreType,jdbcType=VARCHAR}
+    group by sta.class_id
+    ) sub2
+    where
+    sub1.class_id = sub2.class_id
+  </select>
+
+</mapper>

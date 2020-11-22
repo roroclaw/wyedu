@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.CmsFolderMapper">
+    <resultMap id="FolderResultMap" type="com.cloud9.biz.models.CmsFolder">
+        <id column="ID" property="folder_id" jdbcType="VARCHAR" />
+        <result column="FOLDER_NAME" property="folder_name" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+        <result column="FOLDER_SEQUENCE" property="folder_sequence" jdbcType="VARCHAR" />
+        <result column="FATHER_ID" property="father_id" jdbcType="VARCHAR" />
+        <result column="PATH" property="path" jdbcType="VARCHAR" />
+        <result column="FOLDER_LEVEL" property="folder_level" jdbcType="VARCHAR" />
+        <result column="FOLDER_TYPE" property="folder_type" jdbcType="VARCHAR" />
+        <!-- 自定义 -->
+        <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+        <result column="FATHER_NAME" property="father_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectFolderByPrimaryKey" resultMap="FolderResultMap" parameterType="java.lang.String">
+        select
+        ID as FOLDER_ID ,FOLDER_NAME,STATUS,FOLDER_SEQUENCE,FATHER_ID,PATH,FOLDER_LEVEL
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,(select FOLDER_NAME from cms_folder where ID =a.FATHER_ID) as father_name
+        from cms_folder a
+        where 1=1
+
+        and a.ID = #{folder_id,jdbcType=VARCHAR}
+
+        <if test="status != null">
+            and 	STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <!-- 分页查询 -->
+    <select id="selectFlodersPageDataByFatherId" resultMap="FolderResultMap"	parameterType="pageBean">
+        select
+        ID as FOLDER_ID,STATUS,FOLDER_SEQUENCE,FATHER_ID,PATH,FOLDER_LEVEL
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,FOLDER_NAME as folder_name
+        <if	test="queryparam.locked==null || queryparam.locked=='' ">
+            ,if (#{queryparam.userId,jdbcType=VARCHAR}=AUTHOR,#{queryparam.accToken,jdbcType=VARCHAR},0) as LOCKED
+        </if>
+        <if	test="queryparam.locked!=null and queryparam.locked!='' ">
+            ,#{queryparam.locked,jdbcType=VARCHAR} as LOCKED
+        </if>
+        from cms_folder a where 1=1
+        <if	test="queryparam.father_id!=null and queryparam.father_id!='' ">
+            and FATHER_ID = #{queryparam.father_id,jdbcType=VARCHAR}
+        </if>
+        <if	test="queryparam.folder_type!=null and queryparam.folder_type!='' ">
+            and FOLDER_TYPE = #{queryparam.folder_type,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectFoldersList" resultMap="FolderResultMap"	parameterType="com.cloud9.biz.models.CmsFolder">
+        select
+        ID as FOLDER_ID,FOLDER_NAME,STATUS,FOLDER_SEQUENCE,FATHER_ID,PATH,FOLDER_LEVEL,FOLDER_TYPE
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COM_STATUS' and CODE = a.STATUS) as statusText
+        from cms_folder a where 1=1 and  ID!='00000000'
+        <if	test="status!=null and status!='' ">
+            and STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+        <if	test="folder_type!=null and folder_type!='' ">
+            and (FOLDER_TYPE = #{folder_type,jdbcType=VARCHAR})
+        </if>
+        <if	test="folder_id!=null and folder_id!='' ">
+            and (  a.PATH LIKE '%#${folder_id}#%' or a.PATH LIKE '%#${folder_id}'	or a.PATH LIKE '${folder_id}#%'  or a.PATH ='${folder_id}')
+        </if>
+        ORDER BY a.PATH,a.FOLDER_SEQUENCE
+    </select>
+    <insert id="insertFolder" parameterType="com.cloud9.biz.models.CmsFolder">
+        insert into cms_folder
+        (ID,FOLDER_NAME,STATUS,FOLDER_SEQUENCE,FATHER_ID,PATH,FOLDER_LEVEL,AUTHOR
+        <if	test="folder_type!=null and folder_type!='' ">
+            ,FOLDER_TYPE
+        </if>
+        )
+        values (#{folder_id,jdbcType=VARCHAR},
+        #{folder_name,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{folder_sequence,jdbcType=VARCHAR},#{father_id,jdbcType=VARCHAR},#{path,jdbcType=VARCHAR},
+        #{folder_level,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR}
+        <if	test="folder_type!=null and folder_type!='' ">
+            ,#{folder_type,jdbcType=VARCHAR}
+        </if>
+        )
+    </insert>
+    <update id="updateFolder" parameterType="com.cloud9.biz.models.CmsFolder">
+        update cms_folder
+        <set>
+            <if test="folder_name != null">
+                FOLDER_NAME = #{folder_name,jdbcType=VARCHAR},
+            </if>
+            <if test="father_id != null">
+                FATHER_ID = #{father_id,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                PATH = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="folder_level != null">
+                FOLDER_LEVEL = #{folder_level,jdbcType=VARCHAR},
+            </if>
+            <if test="folder_sequence != null">
+                FOLDER_SEQUENCE = #{folder_sequence,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where ID = #{folder_id,jdbcType=VARCHAR} and AUTHOR = #{author,jdbcType=VARCHAR}
+    </update>
+</mapper>

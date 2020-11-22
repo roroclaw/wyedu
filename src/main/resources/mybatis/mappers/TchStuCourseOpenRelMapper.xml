@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchStuCourseOpenRelMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="COURSE_OPEN_ID" property="courseOpenId" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SCHEDULE_ID, COURSE_OPEN_ID, STU_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tch_stu_course_open_rel
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_stu_course_open_rel
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    insert into tch_stu_course_open_rel (ID, SCHEDULE_ID, COURSE_OPEN_ID, 
+      STU_ID)
+    values (#{id,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, #{courseOpenId,jdbcType=VARCHAR}, 
+      #{stuId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    insert into tch_stu_course_open_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scheduleId != null" >
+        SCHEDULE_ID,
+      </if>
+      <if test="courseOpenId != null" >
+        COURSE_OPEN_ID,
+      </if>
+      <if test="stuId != null" >
+        STU_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOpenId != null" >
+        #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    update tch_stu_course_open_rel
+    <set >
+      <if test="scheduleId != null" >
+        SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOpenId != null" >
+        COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="stuId != null" >
+        STU_ID = #{stuId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    update tch_stu_course_open_rel
+    set SCHEDULE_ID = #{scheduleId,jdbcType=VARCHAR},
+      COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR},
+      STU_ID = #{stuId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--自定义-->
+  <resultMap id="tchCourseOpenStudentRelResultMap" type="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SCHEDULE_ID" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="COURSE_OPEN_ID" property="courseOpenId" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="stuGrade" property="stuGrade" jdbcType="VARCHAR" />
+    <result column="MAJOR_ID" property="majorId" jdbcType="VARCHAR" />
+    <result column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="termText" property="termText" jdbcType="VARCHAR" />
+    <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
+    <result column="majorText" property="majorText" jdbcType="VARCHAR" />
+    <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
+    <result column="sexText" property="sexText" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selecTchCourseOpenStudentsPageData" resultMap="tchCourseOpenStudentRelResultMap" parameterType="pageBean">
+    select
+    a.ID,b.REAL_NAME,b.IDENTITY_CARD,a.STU_ID,b.STU_NUMBER, b.CLASS_ID,b.GRADE as stuGrade,b.MAJOR_ID,c.COURSE_ID, c.CLASSROOM_ID, c.SCHOOL_YEAR,c.TERM, d.NAME as courseName
+    ,(select NAME from sys_teacher_info where ID  = d.TEACHER_ID) as teacherName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = c.TERM) as termText
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_classroom where ID  = c.CLASSROOM_ID) as classroomText
+    ,(select name from sys_major where id = b.MAJOR_ID) as majorText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'USER_SEX' and CODE = b.SEX) as sexText
+    from tch_stu_course_open_rel a,arc_student_info b,tch_course_open c,tch_course d
+    where  a.STU_ID=b.ID and a.COURSE_OPEN_ID=c.ID and c.COURSE_ID=d.ID
+    <if test="queryparam.courseOpenId!=null and queryparam.courseOpenId!='' ">
+      and c.ID = #{queryparam.courseOpenId,jdbcType=VARCHAR}
+    </if>
+
+      order by b.STU_NUMBER
+
+  </select>
+  <!--查询数量信息-->
+  <select id="selectTchStuCourseOpenRelCountByParam" resultType="java.lang.Integer"  parameterType="com.cloud9.biz.models.TchStuCourseOpenRel">
+    select count(1)
+    from tch_stu_course_open_rel
+    where  1=1
+    <if test="courseOpenId != null" >
+      and COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR}
+    </if>
+    <if test="stuId != null" >
+      and STU_ID = #{stuId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectTchStuCourseOpenRelForCheck" resultType="java.lang.Integer"  parameterType="com.cloud9.biz.models.TchStuCourseOpenRel">
+    select count(*)
+    from ( select count(*) as cnt
+    from tch_stu_course_open_rel a,tch_course_open b,tch_course c
+    where  1=1 and a.COURSE_OPEN_ID=b.ID and b.COURSE_ID=c.ID and b.SCHOOL_YEAR=(SELECT SCHOOL_YEAR from tch_course_open where ID=#{courseOpenId,jdbcType=VARCHAR})
+    and b.TERM=(SELECT TERM from tch_course_open where ID=#{courseOpenId,jdbcType=VARCHAR})
+    <if test="stuId != null" >
+      and a.STU_ID = #{stuId,jdbcType=VARCHAR}
+    </if>
+    GROUP by c.SUBJECT_ID)T
+  </select>
+  <insert id="insertTchStuCourseOpenRelSelective" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" >
+    insert into tch_stu_course_open_rel (ID,COURSE_OPEN_ID,
+    STU_ID)
+    values (#{id,jdbcType=VARCHAR}, #{courseOpenId,jdbcType=VARCHAR},
+    #{stuId,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectCourseOpenStudentsList" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" resultMap="tchCourseOpenStudentRelResultMap">
+   select
+    b.REAL_NAME,b.IDENTITY_CARD,a.STU_ID,a.COURSE_OPEN_ID,b.STU_NUMBER, b.CLASS_ID,b.GRADE as stuGrade,b.MAJOR_ID,c.COURSE_ID, c.CLASSROOM_ID, c.SCHOOL_YEAR,c.TERM, d.NAME as courseName
+    ,(select NAME from sys_teacher_info where ID  = d.TEACHER_ID) as teacherName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = c.TERM) as termText
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_classroom where ID  = c.CLASSROOM_ID) as classroomText
+    ,(select name from sys_major where id = b.MAJOR_ID) as majorText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'USER_SEX' and CODE = b.SEX) as sexText
+    from tch_stu_course_open_rel a,arc_student_info b,tch_course_open c,tch_course d
+    where  a.STU_ID=b.ID and a.COURSE_OPEN_ID=c.ID and c.COURSE_ID=d.ID
+    <if test="courseOpenId!=null and courseOpenId!='' ">
+      and a.COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR}
+    </if>
+    <if test="stuStatus!=null and stuStatus!='' ">
+      and b.STATUS = #{stuStatus,jdbcType=VARCHAR}
+    </if>
+    order by b.STU_NUMBER
+  </select>
+
+  <select id="selectStuCourseOpenCheckList" parameterType="com.cloud9.biz.models.TchStuCourseOpenRel" resultMap="tchCourseOpenStudentRelResultMap">
+    select
+    a.STU_ID,c.SCHOOL_YEAR,c.TERM,d.SUBJECT_ID,b.REAL_NAME,b.IDENTITY_CARD,b.STU_NUMBER, b.CLASS_ID,b.GRADE as stuGrade,b.MAJOR_ID,c.COURSE_ID, c.CLASSROOM_ID,  d.NAME as courseName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = c.TERM) as termText
+    ,(select NAME from tch_class_info where ID  = b.CLASS_ID) as className
+    ,(select NAME from sys_classroom where ID  = c.CLASSROOM_ID) as classroomText
+    ,(select name from sys_major where id = b.MAJOR_ID) as majorText
+    from tch_stu_course_open_rel a,arc_student_info b,tch_course_open c,tch_course d
+    where  a.STU_ID=b.ID and a.COURSE_OPEN_ID=c.ID and c.COURSE_ID=d.ID
+            and a.STU_ID = #{stuId,jdbcType=VARCHAR}  and c.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}  and c.TERM = #{term,jdbcType=VARCHAR}
+            and d.SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    order by a.STU_ID,c.SCHOOL_YEAR,c.TERM,d.SUBJECT_ID
+  </select>
+
+  <select id="selectStuOpenCourseNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1)
+    from tch_stu_course_open_rel a
+    where a.stu_id =  #{stuId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

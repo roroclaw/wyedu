@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.CmsArticleMapper">
+    <resultMap id="ArticleResultMap" type="com.cloud9.biz.models.CmsArticle">
+        <id column="ID" property="article_id" jdbcType="VARCHAR" />
+        <result column="FOLDER_ID" property="folder_id" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+        <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+        <result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+        <result column="TITLE" property="title" jdbcType="VARCHAR" />
+        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="create_time" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="update_time" jdbcType="TIMESTAMP" />
+        <!-- 自定义 -->
+        <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+        <result column="folder_name" property="folder_name" jdbcType="VARCHAR" />
+        <result column="author_name" property="author_name" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="selectNoticesPageDataByFolderId" resultMap="ArticleResultMap"	parameterType="pageBean">
+        select a.ID,a.FOLDER_ID,a.STATUS,a.AUTHOR,a.SUMMARY,a.TITLE,a.CREATE_TIME, a.UPDATE_TIME,b.REAL_NAME as author_name
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,(select FOLDER_NAME from cms_folder where ID = a.FOLDER_ID) as folder_name
+        ,if(a.KEY_WORD is not null and a.KEY_WORD!="",(select NAME from tch_class_info where ID = a.KEY_WORD),"") as keyWord
+        <if	test="queryparam.locked==null || queryparam.locked=='' ">
+            ,if (#{queryparam.userId,jdbcType=VARCHAR}=a.AUTHOR,#{queryparam.accToken,jdbcType=VARCHAR},0) as LOCKED
+        </if>
+        <if	test="queryparam.locked!=null and queryparam.locked!='' ">
+            ,#{queryparam.locked,jdbcType=VARCHAR} as LOCKED
+        </if>
+        from cms_article a,sys_user b,cms_folder c where 1=1 and a.AUTHOR=b.ID and a.FOLDER_ID=c.ID
+        <if	test="queryparam.folder_id!=null and queryparam.folder_id!=''">
+            and (  c.PATH LIKE '%#${queryparam.folder_id}#%' or c.PATH LIKE '%#${queryparam.folder_id}'	or c.PATH LIKE '${queryparam.folder_id}#%'  or c.PATH ='${queryparam.folder_id}')
+        </if>
+        <if test="queryparam.keyWord != null and queryparam.keyWord!='' ">
+            and KEY_WORD like '%${queryparam.keyWord}%'
+        </if>
+        <if test="queryparam.title != null and queryparam.key_word!='' ">
+            and TITLE like '%${queryparam.title}%'
+        </if>
+        <if	test="queryparam.author!=null and queryparam.author!='' ">
+            and (a.AUTHOR = #{queryparam.author,jdbcType=VARCHAR})
+        </if>
+        <if test="queryparam.status != null and queryparam.status!='' ">
+            and a.STATUS in (#{queryparam.status,jdbcType=VARCHAR})
+        </if>
+        <if test="queryparam.order_param != null and queryparam.order_param!='' ">
+            order by ${queryparam.order_param}
+        </if>
+    </select>
+    <select id="selectArticlesPageDataByFolderId" resultMap="ArticleResultMap"	parameterType="pageBean">
+        select a.ID,a.FOLDER_ID,a.STATUS,a.AUTHOR,a.SUMMARY,a.TITLE,a.CREATE_TIME,a.UPDATE_TIME,b.REAL_NAME as author_name
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'ARTI_STATUS' and CODE = a.STATUS) as statusText
+        ,(select FOLDER_NAME from cms_folder where ID = a.FOLDER_ID) as folder_name
+        <if	test="queryparam.locked==null || queryparam.locked=='' ">
+            ,if (#{queryparam.userId,jdbcType=VARCHAR}=a.AUTHOR,#{queryparam.accToken,jdbcType=VARCHAR},0) as LOCKED
+        </if>
+        <if	test="queryparam.locked!=null and queryparam.locked!='' ">
+            ,#{queryparam.locked,jdbcType=VARCHAR} as LOCKED
+        </if>
+        from cms_article a,sys_user b where 1=1 and a.AUTHOR=b.ID
+        <if	test="queryparam.folder_id!=null and queryparam.folder_id!=''">
+            and FOLDER_ID = #{queryparam.folder_id,jdbcType=VARCHAR}
+        </if>
+        <if test="queryparam.title != null and queryparam.title!='' ">
+            and TITLE like '%${queryparam.title}%'
+        </if>
+        <if test="queryparam.keyWord != null and queryparam.keyWord!='' ">
+            and KEY_WORD like '%${queryparam.keyWord}%'
+        </if>
+        <if	test="queryparam.author!=null and queryparam.author!='' ">
+            and (a.AUTHOR = #{queryparam.author,jdbcType=VARCHAR})
+        </if>
+        <if test="queryparam.status != null and queryparam.status!='' ">
+            and a.STATUS in (#{queryparam.status,jdbcType=VARCHAR})
+        </if>
+        <if test="queryparam.order_param != null and queryparam.order_param!='' ">
+            order by ${queryparam.order_param}
+        </if>
+    </select>
+    <select id="selectArticleByPrimaryKey" resultMap="ArticleResultMap" parameterType="com.cloud9.biz.models.CmsArticle">
+        select
+        a.ID,FOLDER_ID,a.STATUS,AUTHOR,SUMMARY,KEY_WORD,TITLE,a.CREATE_TIME, a.UPDATE_TIME,CONTENT,b.REAL_NAME as author_name
+        ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+        ,(select FOLDER_NAME from cms_folder where ID = a.FOLDER_ID) as folder_name
+        from cms_article a,sys_user b
+        where 1=1 and a.AUTHOR=b.ID
+        and  a.ID = #{article_id,jdbcType=VARCHAR}
+        <if test="author != null">
+            and 	AUTHOR = #{author,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null and status !=''"  >
+            and 	a.STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <insert id="insertArticle" parameterType="com.cloud9.biz.models.CmsArticle">
+        insert into cms_article
+        (ID,FOLDER_ID,STATUS,AUTHOR,TITLE,KEY_WORD,CREATE_TIME,UPDATE_TIME,CONTENT)
+        values (#{article_id,jdbcType=VARCHAR},
+        #{folder_id,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{keyWord,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateArticle" parameterType="com.cloud9.biz.models.CmsArticle">
+        update cms_article
+        <set>
+            <if test="folder_id != null">
+                FOLDER_ID = #{folder_id,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="update_time != null">
+                UPDATE_TIME = #{update_time,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{article_id,jdbcType=VARCHAR}
+    </update>
+    <delete id="deleteArticle" parameterType="com.cloud9.biz.models.CmsArticle" >
+        delete from cms_article
+        where ID = #{article_id,jdbcType=VARCHAR}
+
+    </delete>
+</mapper>

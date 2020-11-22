@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysDictItemMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysDictItem" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <id column="DICT_TYPE" property="dictType" jdbcType="VARCHAR" />
+    <result column="TEXT" property="text" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, DICT_TYPE, TEXT, SEQ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.cloud9.biz.models.SysDictItemKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dict_item
+    where CODE = #{code,jdbcType=VARCHAR}
+      and DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cloud9.biz.models.SysDictItemKey" >
+    delete from sys_dict_item
+    where CODE = #{code,jdbcType=VARCHAR}
+      and DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysDictItem" >
+    insert into sys_dict_item (CODE, DICT_TYPE, TEXT, 
+      SEQ)
+    values (#{code,jdbcType=VARCHAR}, #{dictType,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR}, 
+      #{seq,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysDictItem" >
+    insert into sys_dict_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="dictType != null" >
+        DICT_TYPE,
+      </if>
+      <if test="text != null" >
+        TEXT,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        #{dictType,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysDictItem" >
+    update sys_dict_item
+    <set >
+      <if test="text != null" >
+        TEXT = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+      and DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysDictItem" >
+    update sys_dict_item
+    set TEXT = #{text,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+      and DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 自定义 -->
+  <select id="getItemsByType" resultMap="BaseResultMap"
+          parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_item
+    where DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+    <if test="keyText != null and keyText != '' ">
+      and TEXT like '%${keyText}%'
+    </if>
+    order by SEQ desc
+  </select>
+
+  <select id="getItemsByTypeAndCode" resultMap="BaseResultMap"
+          parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_item
+    where DICT_TYPE = #{dictType,jdbcType=VARCHAR}
+    <if test="code != null and code != '' ">
+      and CODE in(${code})
+    </if>
+    order by SEQ desc
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dict_item
+    order by SEQ desc
+  </select>
+
+
+  <select id="selectClassItems" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from tch_class_info
+    where STATUS = '1'
+    <if test="grade != null and grade != '' ">
+      and GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    order by CAST(GRADE as UNSIGNED),SEQ
+  </select>
+
+  <select id="selectClassItemsForPower" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from tch_class_info
+    where   <!---->  (STATUS = '1'  or STATUS = '2')
+    <if test="period != null and period != '' ">
+      and PERIOD = #{period,jdbcType=VARCHAR}
+    </if>
+    <if test="grade != null and grade != '' ">
+      and GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="graduateYear != null and graduateYear != '' ">
+      and GRADUATE_YEAR = #{graduateYear,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherId != null and teacherId != '' ">
+      and TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectClassItemsByPowerForArtiAdd" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from tch_class_info
+    where   STATUS = '1'
+    <if test="teacherId != null and teacherId != '' ">
+      and TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+    order by GRADUATE_YEAR desc,SEQ
+  </select>
+  <select id="selectClassItemsForTeachPower" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.ID as code,
+    a.NAME as text
+    from tch_class_info a,tch_course b,tch_course_open c,tch_stu_course_open_rel d,arc_student_info e
+    where a.STATUS = '1' and a.ID=e.CLASS_ID and b.ID=c.COURSE_ID and c.ID=d.COURSE_OPEN_ID and d.STU_ID=e.ID
+    <if test="period != null and period != '' ">
+      and a.PERIOD = #{period,jdbcType=VARCHAR}
+    </if>
+    <if test="grade != null and grade != '' ">
+      and a.GRADE = #{grade,jdbcType=VARCHAR}
+    </if>
+    <if test="schoolYear != null and schoolYear != '' ">
+      and c.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="term != null and term != '' ">
+      and c.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherId != null and teacherId != '' ">
+      and b.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+    group by a.ID
+  </select>
+  <select id="getTeachingPlanItems" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from tch_teaching_plan
+    where 1=1
+    <if test="majorId != null and majorId != '' ">
+      and MAJOR_ID = #{majorId,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="getScopeSelItems" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from sys_scores_rule_grade_scope
+  </select>
+
+</mapper>

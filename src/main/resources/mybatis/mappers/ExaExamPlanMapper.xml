@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.ExaExamPlanMapper">
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ExaExamPlan">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="SCHOOL_YEAR" jdbcType="VARCHAR" property="schoolYear" />
+    <result column="TERM" jdbcType="VARCHAR" property="term" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, TYPE, CREATE_TIME, CREATOR, UPDATE_TIME, SCHOOL_YEAR, TERM, UPDATER, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from exa_exam_plan
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from exa_exam_plan
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ExaExamPlan">
+    insert into exa_exam_plan (ID, NAME, TYPE, 
+      CREATE_TIME, CREATOR, UPDATE_TIME, 
+      SCHOOL_YEAR, TERM, UPDATER, 
+      STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{schoolYear,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ExaExamPlan">
+    insert into exa_exam_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="schoolYear != null">
+        SCHOOL_YEAR,
+      </if>
+      <if test="term != null">
+        TERM,
+      </if>
+      <if test="updater != null">
+        UPDATER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolYear != null">
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ExaExamPlan">
+    update exa_exam_plan
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolYear != null">
+        SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ExaExamPlan">
+    update exa_exam_plan
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      TERM = #{term,jdbcType=VARCHAR},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 自定义 -->
+  <resultMap id="ExamPlanResultMap" type="com.cloud9.biz.models.ExaExamPlan">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="SCHOOL_YEAR" jdbcType="VARCHAR" property="schoolYear" />
+    <result column="TERM" jdbcType="VARCHAR" property="term" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="statusText" jdbcType="VARCHAR" property="statusText" />
+    <result column="examTypeText" jdbcType="VARCHAR" property="examTypeText" />
+    <result column="termText" jdbcType="VARCHAR" property="termText" />
+  </resultMap>
+  <!-- 分页查询 -->
+  <select id="selectExamPlanPageData" parameterType="pageBean" resultMap="ExamPlanResultMap">
+    select
+    a.ID, a.NAME, a.TYPE,  a.CREATE_TIME, a.CREATOR,  a.UPDATE_TIME, a.UPDATER,  a.STATUS,a.SCHOOL_YEAR,a.TERM
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_TYPE' and CODE = a.TYPE) as examTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    from exa_exam_plan a where 1=1
+    <if test="queryparam.type!=null and queryparam.type!='' ">
+      and TYPE = #{queryparam.type,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.id!=null and queryparam.id!='' ">
+      and a.ID = #{queryparam.id,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and a.SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    order By a.UPDATE_TIME DESC
+  </select>
+  <select id="selectExamPlanByPrimaryKey" parameterType="java.lang.String" resultMap="ExamPlanResultMap">
+    select
+    a.ID, a.NAME, a.TYPE,  a.CREATE_TIME, a.CREATOR,  a.UPDATE_TIME, a.UPDATER,  a.STATUS,a.SCHOOL_YEAR,a.TERM
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_TYPE' and CODE = a.TYPE) as examTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    from exa_exam_plan a
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectExamPlanByParam" parameterType="java.lang.String" resultMap="ExamPlanResultMap">
+    select
+    a.ID, a.NAME, a.TYPE,  a.CREATE_TIME, a.CREATOR,  a.UPDATE_TIME, a.UPDATER,  a.STATUS,a.SCHOOL_YEAR,a.TERM
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'COMMON_STATUS' and CODE = a.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_TYPE' and CODE = a.TYPE) as examTypeText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    from exa_exam_plan a
+    where 1=1
+    <if test="type != null and type != ''">
+      and TYPE = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+      and STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="schoolYear != null and schoolYear != ''">
+      and SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    </if>
+    order By a.UPDATE_TIME
+  </select>
+  <resultMap id="ExaExamPlanDetailResultMap" type="com.cloud9.biz.models.ExaExamPlanDetailInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="EXAM_NUM" property="examNum" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="EXAM_ID" property="examId" jdbcType="VARCHAR" />
+    <result column="EXAM_ROOM_ID" property="examRoomId" jdbcType="VARCHAR" />
+    <result column="SEAT_NUM" property="seatNum" jdbcType="INTEGER" />
+    <result column="SEAT_AB" property="seatAb" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="STU_NUMBER" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="gradeName" property="gradeName" jdbcType="VARCHAR" />
+    <result column="examRoomName" property="examRoomName" jdbcType="VARCHAR" />
+    <result column="stuNum" property="stuNum" jdbcType="INTEGER" />
+    <result column="examStatus" property="examStatus" jdbcType="VARCHAR" />
+    <result column="subjectName" property="subjectName" jdbcType="VARCHAR" />
+    <result column="DATE" property="date" jdbcType="DATE" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectExamPlanDetailListByExaExamPlanId" parameterType="com.cloud9.biz.models.ExaExamPlan" resultMap="ExaExamPlanDetailResultMap" >
+    select
+    a.ID,  a.EXAM_NUM,  a.STU_ID,  a.EXAM_ID,  a.EXAM_ROOM_ID,  a.SEAT_NUM,  a.SEAT_AB,  a.STATUS,b.DATE,b.START_TIME,b.END_TIME
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'EXAM_STU_STATUS' and CODE = a.STATUS) as statusText
+    ,(select NAME from sys_subject_info where ID = b.SUBJECT_ID) as subjectName
+    ,(select NAME from exa_exam_room where a.EXAM_ROOM_ID=ID) as examRoomName
+    ,count(*) as stuNum
+    from exa_stu_exam_info a,exa_exam_info b,exa_exam_plan c where a.EXAM_ID=b.ID and b.EXAM_PLAN_ID=c.ID
+    and a.STATUS = "1" and c.ID=#{id,jdbcType=VARCHAR}
+    and ISNULL(a.EXAM_ROOM_ID)=0 and ISNULL(a.SEAT_NUM)=0 and ISNULL(a.SEAT_AB)=0
+    group  by a.EXAM_ROOM_ID,a.EXAM_ID order by examRoomName,b.DATE,b.START_TIME
+  </select>
+</mapper>

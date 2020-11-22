@@ -1,0 +1,3 @@
+--评定级别由“优、良、中、差”，改为“优、良、及格、不及格”
+update sco_exam_scores set REMARK = '及格' where REMARK = '中';
+update sco_exam_scores set REMARK = '差' where REMARK = '不及格';

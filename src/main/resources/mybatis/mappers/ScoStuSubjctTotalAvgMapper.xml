@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.ScoStuSubjctTotalAvgMapper">
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CLASS_ID" jdbcType="VARCHAR" property="classId" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SUBJECT_ID" jdbcType="VARCHAR" property="subjectId" />
+    <result column="SUBJECT_NAME" jdbcType="VARCHAR" property="subjectName" />
+    <result column="TOTAL_SCORE" jdbcType="BIGINT" property="totalScore" />
+    <result column="AVG_SCORE" jdbcType="DECIMAL" property="avgScore" />
+    <result column="STU_COUNT" jdbcType="SMALLINT" property="stuCount" />
+    <result column="TERM" jdbcType="VARCHAR" property="term" />
+    <result column="SCHOOL_YEAR" jdbcType="VARCHAR" property="schoolYear" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CLASS_ID, CLASS_NAME, GRADE, TYPE, SUBJECT_ID, SUBJECT_NAME, TOTAL_SCORE, AVG_SCORE, 
+    STU_COUNT, TERM, SCHOOL_YEAR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sco_stu_subjct_total_avg
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sco_stu_subjct_total_avg
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    insert into sco_stu_subjct_total_avg (ID, CLASS_ID, CLASS_NAME, 
+      GRADE, TYPE, SUBJECT_ID, 
+      SUBJECT_NAME, TOTAL_SCORE, AVG_SCORE, 
+      STU_COUNT, TERM, SCHOOL_YEAR
+      )
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{subjectId,jdbcType=VARCHAR}, 
+      #{subjectName,jdbcType=VARCHAR}, #{totalScore,jdbcType=BIGINT}, #{avgScore,jdbcType=DECIMAL}, 
+      #{stuCount,jdbcType=SMALLINT}, #{term,jdbcType=VARCHAR}, #{schoolYear,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    insert into sco_stu_subjct_total_avg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="grade != null">
+        GRADE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID,
+      </if>
+      <if test="subjectName != null">
+        SUBJECT_NAME,
+      </if>
+      <if test="totalScore != null">
+        TOTAL_SCORE,
+      </if>
+      <if test="avgScore != null">
+        AVG_SCORE,
+      </if>
+      <if test="stuCount != null">
+        STU_COUNT,
+      </if>
+      <if test="term != null">
+        TERM,
+      </if>
+      <if test="schoolYear != null">
+        SCHOOL_YEAR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null">
+        #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="avgScore != null">
+        #{avgScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuCount != null">
+        #{stuCount,jdbcType=SMALLINT},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null">
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    update sco_stu_subjct_total_avg
+    <set>
+      <if test="classId != null">
+        CLASS_ID = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null">
+        SUBJECT_NAME = #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      </if>
+      <if test="avgScore != null">
+        AVG_SCORE = #{avgScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuCount != null">
+        STU_COUNT = #{stuCount,jdbcType=SMALLINT},
+      </if>
+      <if test="term != null">
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYear != null">
+        SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    update sco_stu_subjct_total_avg
+    set CLASS_ID = #{classId,jdbcType=VARCHAR},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      SUBJECT_NAME = #{subjectName,jdbcType=VARCHAR},
+      TOTAL_SCORE = #{totalScore,jdbcType=BIGINT},
+      AVG_SCORE = #{avgScore,jdbcType=DECIMAL},
+      STU_COUNT = #{stuCount,jdbcType=SMALLINT},
+      TERM = #{term,jdbcType=VARCHAR},
+      SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--自定义-->
+  <update id="calStuSubjctTotalAvg" parameterType="com.cloud9.biz.models.ScoStuSubjctTotalAvg">
+    insert into
+    sco_stu_subjct_total_avg(CLASS_ID,GRADE,CLASS_NAME,SUBJECT_ID,SUBJECT_NAME,TOTAL_SCORE,STU_COUNT,AVG_SCORE,TERM,SCHOOL_YEAR,TYPE)
+    select sub.class_id,sub.grade,sub.className,sub.subjectId,sub.subjectName,sum(sub.SCORE),
+    count(1) as stuCount,round(Avg(sub.SCORE),2) as avgScore,term,school_year,sub.type
+    from (
+    select
+    stu.class_id,
+    sco.GRADE_id as grade,
+    sco.class_name  as className,
+    sco.STU_ID,
+    (select REAL_NAME from arc_student_info where id = sco.STU_ID) as stuName,
+    sco.SCORE,
+    subj.id as subjectId,
+    subj.name as subjectName,
+    co.term,
+    co.school_year,
+    sco.type
+    from
+    sco_exam_scores sco,
+    tch_class_info c,
+    tch_scores_config sc,
+    tch_course_open co,
+    tch_course cour,
+    sys_subject_info subj,
+    arc_student_info stu
+    where
+    c.id = stu.class_id
+    and
+    stu.id = sco.STU_ID
+    and
+    co.COURSE_ID = cour.id
+    and
+    cour.SUBJECT_ID = subj.id
+    and
+     sco.COURSE_OPEN_ID = sc.COURSE_OPEN_ID
+    and
+    sc.SCORES_TYPE = sco.TYPE
+    and
+    sc.COURSE_OPEN_ID = co.id
+    and co.school_year = #{schoolYear,jdbcType=VARCHAR} and co.term = #{term,jdbcType=VARCHAR}
+    and sco.status = '1'
+    and sco.type = #{scoreType,jdbcType=VARCHAR}
+    and sc.status = '4'
+    and sco.grade_id = #{grade,jdbcType=VARCHAR}
+    and subj.type = '0'
+    ) sub
+    group by sub.class_id,sub.subjectId
+  </update>
+
+  <delete id="deleteStuSubjctTotalAvg">
+    delete FROM sco_stu_subjct_total_avg
+    where
+    SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and TERM = #{term,jdbcType=VARCHAR}
+    and type = #{scoreType,jdbcType=VARCHAR}
+    and grade = #{grade,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

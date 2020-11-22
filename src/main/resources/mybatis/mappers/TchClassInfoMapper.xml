@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.TchClassInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.TchClassInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="SEQ" property="seq" jdbcType="INTEGER" />
+    <result column="TEACHER_ID" property="teacherId" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="number" jdbcType="INTEGER" />
+    <result column="CLASSROOM_ID" property="classroomId" jdbcType="VARCHAR" />
+    <result column="ENROL_YEAR" property="enrolYear" jdbcType="DATE" />
+    <result column="GRADUATE_YEAR" property="graduateYear" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATER" property="updater" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, PERIOD, GRADE, SEQ, TEACHER_ID, NUMBER, CLASSROOM_ID, ENROL_YEAR, GRADUATE_YEAR, 
+    CREATE_TIME, CREATOR, UPDATE_TIME, UPDATER, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tch_class_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tch_class_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.TchClassInfo" >
+    insert into tch_class_info (ID, NAME, PERIOD, 
+      GRADE, SEQ, TEACHER_ID, 
+      NUMBER, CLASSROOM_ID, ENROL_YEAR, 
+      GRADUATE_YEAR, CREATE_TIME, CREATOR, 
+      UPDATE_TIME, UPDATER, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{teacherId,jdbcType=VARCHAR}, 
+      #{number,jdbcType=INTEGER}, #{classroomId,jdbcType=VARCHAR}, #{enrolYear,jdbcType=DATE}, 
+      #{graduateYear,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.TchClassInfo" >
+    insert into tch_class_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+      <if test="teacherId != null" >
+        TEACHER_ID,
+      </if>
+      <if test="number != null" >
+        NUMBER,
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID,
+      </if>
+      <if test="enrolYear != null" >
+        ENROL_YEAR,
+      </if>
+      <if test="graduateYear != null" >
+        GRADUATE_YEAR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updater != null" >
+        UPDATER,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="enrolYear != null" >
+        #{enrolYear,jdbcType=DATE},
+      </if>
+      <if test="graduateYear != null" >
+        #{graduateYear,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.TchClassInfo" >
+    update tch_class_info
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null" >
+        TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        NUMBER = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="classroomId != null" >
+        CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="enrolYear != null" >
+        ENROL_YEAR = #{enrolYear,jdbcType=DATE},
+      </if>
+      <if test="graduateYear != null" >
+        GRADUATE_YEAR = #{graduateYear,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.TchClassInfo" >
+    update tch_class_info
+    set NAME = #{name,jdbcType=VARCHAR},
+      PERIOD = #{period,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      SEQ = #{seq,jdbcType=INTEGER},
+      TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=INTEGER},
+      CLASSROOM_ID = #{classroomId,jdbcType=VARCHAR},
+      ENROL_YEAR = #{enrolYear,jdbcType=DATE},
+      GRADUATE_YEAR = #{graduateYear,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="selectActClassList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tch_class_info
+    where STATUS = '1'
+  </select>
+  <select id="selectClassinfoByGradeSeq" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tch_class_info
+    where
+    GRADE = #{grade,jdbcType=VARCHAR}
+    and
+    SEQ = #{classSeq,jdbcType=INTEGER}
+    AND  STATUS = '1'
+  </select>
+  <update id="refreshClassStuNum" >
+    update tch_class_info c
+    set
+    NUMBER = (select count(1) from ARC_STUDENT_INFO s where s.CLASS_ID = c.id)
+    where STATUS = '1'
+  </update>
+
+  <select id="selectClassPageData" resultMap="BaseResultMap" parameterType="pageBean">
+    select
+    <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = c.PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'CLASS_STATUS' and CODE = c.STATUS) as statusText
+    ,(select name from sys_teacher_info a where a.id = c.TEACHER_ID) as teacherText
+    ,(select NAME from SYS_CLASSROOM where ID = c.CLASSROOM_ID) as roomText
+    FROM
+    tch_class_info c
+    where 1=1
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+     and   status =  #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.enrolYear!=null and queryparam.enrolYear!='' ">
+      and   ENROL_YEAR =  #{queryparam.enrolYear,jdbcType=VARCHAR}
+    </if>
+    order by  CAST(GRADE AS SIGNED),SEQ,PERIOD
+  </select>
+
+  <select id="selectRepeatClassinfo" resultType="java.lang.Integer" parameterType="com.cloud9.biz.models.TchClassInfo">
+    select
+    count(1)
+    FROM
+    tch_class_info c
+    where
+    (c.NAME = #{tchClassInfo.name,jdbcType=VARCHAR}
+    OR
+    (
+    c.GRADE = #{tchClassInfo.grade,jdbcType=VARCHAR} and c.SEQ = #{tchClassInfo.seq,jdbcType=INTEGER}
+    ))
+    <if test="selfId != null" >
+      <![CDATA[  and id <> #{selfId,jdbcType=VARCHAR} ]]>
+    </if>
+    and STATUS = '1'
+  </select>
+
+  <select id="validateClassDelLimit" resultType="com.cloud9.biz.models.vo.ValidateDelVo" parameterType="java.lang.String">
+    select count(1) as num ,'存在班级学员' as msg
+    FROM
+    ARC_STUDENT_INFO s
+    where
+    s.CLASS_ID = #{classId,jdbcType=VARCHAR}
+    UNION
+    select count(1) as num ,'存在开课信息' as msg
+    FROM
+    TCH_COURSE_OPEN co
+    where
+    co.CLASS_ID = #{classId,jdbcType=VARCHAR}
+  </select>
+
+  <update id="changeClassStatus" >
+    update tch_class_info c
+    set
+    STATUS = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectClassInfoById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from sys_teacher_info a where a.id = c.TEACHER_ID) as teacherText
+    from tch_class_info c
+    where c.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--通过学员id获取班级信息-->
+  <select id="selectClassInfoByStuId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tch_class_info c
+    where c.ID = (
+    select stu.CLASS_ID
+    from
+    arc_student_info stu
+    where stu.id = #{stuId,jdbcType=VARCHAR}
+    )
+  </select>
+
+  <select id="selectClassItemsBySchoolYear" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID, NAME, PERIOD, GRADE, SEQ, TEACHER_ID, NUMBER, CLASSROOM_ID, ENROL_YEAR, GRADUATE_YEAR,
+    CREATE_TIME, CREATOR, UPDATE_TIME, UPDATER, STATUS
+    from tch_class_info
+    where   <!---->  (STATUS = '1'  or STATUS = '2')
+    <if test="schoolYear != null and schoolYear != '' ">
+      and (ENROL_YEAR &lt;= #{schoolYear,jdbcType=VARCHAR})   and    (CAST(GRADUATE_YEAR AS SIGNED) > #{schoolYear,jdbcType=VARCHAR}  )
+    </if>
+    <if test="teacherId != null and teacherId != '' ">
+      and TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+    order by GRADUATE_YEAR desc,SEQ
+  </select>
+  <select id="selectClassItemsBySchoolYearForTeacher" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.NAME, a.PERIOD,a.GRADE, a.SEQ,a.TEACHER_ID,a.NUMBER,a.CLASSROOM_ID, a.ENROL_YEAR, a.GRADUATE_YEAR,
+    a.CREATE_TIME, a.CREATOR, a.UPDATE_TIME, a.UPDATER, a.STATUS
+    from tch_class_info a,tch_course b,tch_course_open c,tch_stu_course_open_rel d,arc_student_info e
+    where (a.STATUS = '1'  or a.STATUS = '2') and a.ID=e.CLASS_ID and b.ID=c.COURSE_ID and c.ID=d.COURSE_OPEN_ID and d.STU_ID=e.ID
+    <if test="schoolYear != null and schoolYear != '' ">
+      and (a.ENROL_YEAR &lt;= #{schoolYear,jdbcType=VARCHAR})   and    (CAST(a.GRADUATE_YEAR AS SIGNED) > #{schoolYear,jdbcType=VARCHAR}  )
+    </if>
+    <if test="term != null and term != '' ">
+      and c.TERM = #{term,jdbcType=VARCHAR}
+    </if>
+    <if test="teacherId != null and teacherId != '' ">
+      and b.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    </if>
+    group by a.ID
+    order by a.GRADUATE_YEAR desc,a.SEQ
+  </select>
+
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysSubjectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysSubjectInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NAME_EN" property="nameEn" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, NAME, NAME_EN, TYPE, PERIOD, STATUS, SEQ
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_subject_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_subject_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysSubjectInfo" >
+    insert into sys_subject_info (ID, CODE, NAME, 
+      TYPE, PERIOD, STATUS ,SEQ
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{seq,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysSubjectInfo" >
+    insert into sys_subject_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nameEn != null" >
+        NAME_EN,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="period != null" >
+        PERIOD,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="seq != null" >
+        SEQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysSubjectInfo" >
+    update sys_subject_info
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        NAME_EN = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        PERIOD = #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        SEQ = #{seq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysSubjectInfo" >
+    update sys_subject_info
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PERIOD = #{period,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--自定义-->
+  <resultMap id="SubjectInfoResultMap" type="com.cloud9.biz.models.SysSubjectInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PERIOD" property="period" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="periodText" property="periodText" jdbcType="VARCHAR" />
+    <result column="statusText" property="statusText" jdbcType="VARCHAR" />
+    <result column="typeText" property="typeText" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectSubjectPageData" resultMap="SubjectInfoResultMap" parameterType="pageBean">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = TYPE) as typeText
+
+    from sys_subject_info a
+    where 1=1
+    <if test="queryparam.type!=null and queryparam.type!='' ">
+      and TYPE = #{queryparam.type,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.name!=null and queryparam.name!='' ">
+      and NAME like '%${queryparam.name}%'
+    </if>
+  </select>
+
+  <select id="selectSubjectsListByParam" parameterType="com.cloud9.biz.models.SysSubjectInfo" resultMap="SubjectInfoResultMap">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = TYPE) as typeText
+    from sys_subject_info a
+    where 1=1
+    <if test="type!=null and type!='' ">
+      and TYPE = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="name!=null and name!='' ">
+      and NAME like '%${name,jdbcType=VARCHAR}%'
+    </if>
+    <if test="status!=null and status!='' ">
+      and STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectByParam" parameterType="com.cloud9.biz.models.SysSubjectInfo" resultMap="SubjectInfoResultMap">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'COMMON_STATUS' and CODE = STATUS) as statusText
+    ,(select TEXT from sys_dict_item where dict_type = 'PERIOD' and CODE = PERIOD) as periodText
+    ,(select TEXT from sys_dict_item where dict_type = 'SUBJECT_TYPE' and CODE = TYPE) as typeText
+
+    from sys_subject_info a
+    where 1=1
+    <if test="name!=null and name!='' ">
+      and NAME= #{name,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+</mapper>

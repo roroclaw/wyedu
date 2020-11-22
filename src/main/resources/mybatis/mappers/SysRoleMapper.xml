@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysRole" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ItemMap" type="com.roroclaw.base.bean.ItemBean" >
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLE_NAME, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_role
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysRole" >
+    insert into sys_role (ID, ROLE_NAME, TYPE )
+    values (#{id,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysRole" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysRole" >
+    update sys_role
+    <set >
+      <if test="roleName != null" >
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysRole" >
+    update sys_role
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="selectRoleItems" resultMap="ItemMap"  >
+    select ID code,ROLE_NAME text
+    from sys_role
+  </select>
+
+  <!--by zl-->
+  <select id="selectRolesList" resultMap="BaseResultMap" >
+    select r.ID,r.ROLE_NAME,r.TYPE,
+    (select a.Text from sys_dict_item a where a.dict_type = 'ROLE_TYPE' and a.code = r.type) typeText
+    from sys_role r
+    ORDER BY type,ID
+  </select>
+
+  <select id="selectRolesPageData" resultMap="BaseResultMap" parameterType="pageBean">
+    select
+    r.ID,r.ROLE_NAME,r.TYPE,
+    (select a.Text from sys_dict_item a where a.dict_type = 'ROLE_TYPE' and a.code = r.type) typeText
+	from sys_role r
+    ORDER BY type,ID
+  </select>
+
+  <select id="selectUserRoles" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select r.ID,r.ROLE_NAME,r.TYPE
+	from sys_role r,sys_user_role_rel ur
+    where r.id = ur.role_id
+    and ur.USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectCountByName" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1)
+	from sys_role r
+    where ROLE_NAME = #{name,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

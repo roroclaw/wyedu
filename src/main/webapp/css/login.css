@@ -1,0 +1,34 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{margin:0px; padding:0px;}
+.clear{clear:both;}
+body{background:#fff;}
+.login_top{width:100%; height:130px; background:#e8e8e8;}
+.login_top .login_name{width:1000px; margin:0px auto; clear:both;}
+.login_top .login_name .login_logo{float:left;}
+.login_top .login_name .login_right{float:right;}
+
+.login_text{width:1000px; margin:0px auto;padding-top:40px;}
+.text_left{width:471px; height:471px; background:url(../images/textbg.png) no-repeat; float:left;}
+.text_right{width:410px; height:360px; float:right; border:1px solid #d4d4d4;}
+.text_right .right_title{height:30px; line-height:30px; margin-bottom:15px; padding:8px; font-size:16px; font-weight:bold; padding-left:40px;}
+.user_name,.user_pass,.user_cord{width:300px; height:40px; border:1px solid #c5c5c5; margin:0px auto; margin-bottom:15px;}
+.user_name input,.user_pass input{width:250px; float:right; height:40px; border:none; outline:none;}
+.user_name span,.user_pass span,.user_cord span{display:block; width:50px; float:left; height:40px;}
+.user_name span{background:url(../images/inputbg.png) 0px 0px;}
+.user_pass span{background:url(../images/inputbg.png) 0px -40px;}
+.user_cord span{background:url(../images/cord.png)}
+.user_cord input{width:150px; height:40px; border:none; outline:none; float:left;}
+.user_cord a{display:block; width:100px; height:40px; float:left;}
+.user_cord a img{width:100px; height:40px;}
+.usr_message{width:300px; margin:0px auto; font-size:12px; color:red; text-align:center; overflow:hidden; height:30px; line-height:30px; margin-bottom:15px;}
+.usr_submit{width:300px; margin:0px auto; font-size:14px; color:white; background:#fd4140; height:40px; text-align:center; line-height:40px;cursor: pointer;}
+.usr_submit a{ text-decoration:none; color:white;}
+
+.login_bottom{width:100%; height:100px; background:url(../images/bottom.png); position:absolute; left:0px; bottom:0px; right:0px;}
+.error_div{width:550px; height:550px; position:absolute; left:50%; top:50%; margin-left:-275px; margin-top:-275px; background:url(../images/404.png);}
+.error_message{width:450px; height:70px; margin-top:445px; margin-left:50px; text-align:center; line-height:65px; font-size:18px; font-weight:bold;}
+
+
+

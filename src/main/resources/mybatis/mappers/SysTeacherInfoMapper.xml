@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysTeacherInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysTeacherInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTH" property="birth" jdbcType="DATE" />
+    <result column="AGE" property="age" jdbcType="INTEGER" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="NAME_PY" property="namePy" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="IDENTITY_CARD" property="identityCard" jdbcType="VARCHAR" />
+    <result column="COLLEG" property="colleg" jdbcType="VARCHAR" />
+    <result column="STUDY_MAJOR" property="studyMajor" jdbcType="VARCHAR" />
+    <result column="TEACH_MAJOR_ID" property="teachMajorId" jdbcType="VARCHAR" />
+    <result column="PRO_TITLE" property="proTitle" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="DEPART_ID" property="departId" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="SPECIALTY" property="specialty" jdbcType="VARCHAR" />
+    <result column="IN_PARTY_DATE" property="inPartyDate" jdbcType="DATE" />
+    <result column="POLITICAL_STATUS" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="NATION" property="nation" jdbcType="VARCHAR" />
+    <result column="BACH_SCHOOL" property="bachSchool" jdbcType="VARCHAR" />
+    <result column="BACH_DATE" property="bachDate" jdbcType="DATE" />
+    <result column="BACH_MAJOR" property="bachMajor" jdbcType="VARCHAR" />
+    <result column="MASTER_DATE" property="masterDate" jdbcType="DATE" />
+    <result column="MASTER_SCHOOL" property="masterSchool" jdbcType="VARCHAR" />
+    <result column="MASTER_MAJOR" property="masterMajor" jdbcType="VARCHAR" />
+    <result column="DOCTOR_SCHOOL" property="doctorSchool" jdbcType="VARCHAR" />
+    <result column="DOCTOR_DATE" property="doctorDate" jdbcType="DATE" />
+    <result column="DOCTOR_MAJOR" property="doctorMajor" jdbcType="VARCHAR" />
+    <result column="DEGREE" property="degree" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="BE_TEACHER_YEARS" property="beTeacherYears" jdbcType="INTEGER" />
+    <result column="BE_TEACHER_DATE" property="beTeacherDate" jdbcType="DATE" />
+    <result column="INWORK_DATE" property="inworkDate" jdbcType="DATE" />
+    <result column="INSCHOOL_DATE" property="inschoolDate" jdbcType="DATE" />
+    <result column="MAIN_COURSE" property="mainCourse" jdbcType="VARCHAR" />
+    <result column="DOUBLE_DUTY" property="doubleDuty" jdbcType="VARCHAR" />
+    <result column="SPOUSE_NAME" property="spouseName" jdbcType="VARCHAR" />
+    <result column="SPOUSE_PHONE" property="spousePhone" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+
+    <!--自定义-->
+    <result column="typeText" property="typeText" jdbcType="INTEGER"/>
+    <result column="statusText" jdbcType="VARCHAR" property="statusText"/>
+    <result column="sexText" property="sexText" jdbcType="VARCHAR"/>
+    <result column="departName" property="departName" jdbcType="VARCHAR"/>
+    <result column="studyMajorText" property="studyMajorText" jdbcType="VARCHAR"/>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, CODE, NAME, SEX, BIRTH, AGE, PIC_URL, NAME_PY, PHONE, IDENTITY_CARD, 
+    COLLEG, STUDY_MAJOR, TEACH_MAJOR_ID, PRO_TITLE, POST, DEPART_ID, NATIVE_PLACE, TYPE, 
+    SPECIALTY, IN_PARTY_DATE, POLITICAL_STATUS, NATION, BACH_SCHOOL, BACH_DATE, BACH_MAJOR, 
+    MASTER_DATE, MASTER_SCHOOL, MASTER_MAJOR, DOCTOR_SCHOOL, DOCTOR_DATE, DOCTOR_MAJOR, 
+    DEGREE, EDUCATION, BE_TEACHER_YEARS, BE_TEACHER_DATE, INWORK_DATE, INSCHOOL_DATE, 
+    MAIN_COURSE, DOUBLE_DUTY, SPOUSE_NAME, SPOUSE_PHONE, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_teacher_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_teacher_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysTeacherInfo" >
+    insert into sys_teacher_info (ID, USER_ID, CODE, 
+      NAME, SEX, BIRTH, AGE, 
+      PIC_URL, NAME_PY, PHONE, 
+      IDENTITY_CARD, COLLEG, STUDY_MAJOR, 
+      TEACH_MAJOR_ID, PRO_TITLE, POST, 
+      DEPART_ID, NATIVE_PLACE, TYPE, 
+      SPECIALTY, IN_PARTY_DATE, POLITICAL_STATUS, 
+      NATION, BACH_SCHOOL, BACH_DATE, 
+      BACH_MAJOR, MASTER_DATE, MASTER_SCHOOL, 
+      MASTER_MAJOR, DOCTOR_SCHOOL, DOCTOR_DATE, 
+      DOCTOR_MAJOR, DEGREE, EDUCATION, 
+      BE_TEACHER_YEARS, BE_TEACHER_DATE, INWORK_DATE, 
+      INSCHOOL_DATE, MAIN_COURSE, DOUBLE_DUTY, 
+      SPOUSE_NAME, SPOUSE_PHONE, STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, #{age,jdbcType=INTEGER}, 
+      #{picUrl,jdbcType=VARCHAR}, #{namePy,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{identityCard,jdbcType=VARCHAR}, #{colleg,jdbcType=VARCHAR}, #{studyMajor,jdbcType=VARCHAR}, 
+      #{teachMajorId,jdbcType=VARCHAR}, #{proTitle,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
+      #{departId,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{specialty,jdbcType=VARCHAR}, #{inPartyDate,jdbcType=DATE}, #{politicalStatus,jdbcType=VARCHAR}, 
+      #{nation,jdbcType=VARCHAR}, #{bachSchool,jdbcType=VARCHAR}, #{bachDate,jdbcType=DATE}, 
+      #{bachMajor,jdbcType=VARCHAR}, #{masterDate,jdbcType=DATE}, #{masterSchool,jdbcType=VARCHAR}, 
+      #{masterMajor,jdbcType=VARCHAR}, #{doctorSchool,jdbcType=VARCHAR}, #{doctorDate,jdbcType=DATE}, 
+      #{doctorMajor,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{beTeacherYears,jdbcType=INTEGER}, #{beTeacherDate,jdbcType=DATE}, #{inworkDate,jdbcType=DATE}, 
+      #{inschoolDate,jdbcType=DATE}, #{mainCourse,jdbcType=VARCHAR}, #{doubleDuty,jdbcType=VARCHAR}, 
+      #{spouseName,jdbcType=VARCHAR}, #{spousePhone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysTeacherInfo" >
+    insert into sys_teacher_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="birth != null" >
+        BIRTH,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="namePy != null" >
+        NAME_PY,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="identityCard != null" >
+        IDENTITY_CARD,
+      </if>
+      <if test="colleg != null" >
+        COLLEG,
+      </if>
+      <if test="studyMajor != null" >
+        STUDY_MAJOR,
+      </if>
+      <if test="teachMajorId != null" >
+        TEACH_MAJOR_ID,
+      </if>
+      <if test="proTitle != null" >
+        PRO_TITLE,
+      </if>
+      <if test="post != null" >
+        POST,
+      </if>
+      <if test="departId != null" >
+        DEPART_ID,
+      </if>
+      <if test="nativePlace != null" >
+        NATIVE_PLACE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY,
+      </if>
+      <if test="inPartyDate != null" >
+        IN_PARTY_DATE,
+      </if>
+      <if test="politicalStatus != null" >
+        POLITICAL_STATUS,
+      </if>
+      <if test="nation != null" >
+        NATION,
+      </if>
+      <if test="bachSchool != null" >
+        BACH_SCHOOL,
+      </if>
+      <if test="bachDate != null" >
+        BACH_DATE,
+      </if>
+      <if test="bachMajor != null" >
+        BACH_MAJOR,
+      </if>
+      <if test="masterDate != null" >
+        MASTER_DATE,
+      </if>
+      <if test="masterSchool != null" >
+        MASTER_SCHOOL,
+      </if>
+      <if test="masterMajor != null" >
+        MASTER_MAJOR,
+      </if>
+      <if test="doctorSchool != null" >
+        DOCTOR_SCHOOL,
+      </if>
+      <if test="doctorDate != null" >
+        DOCTOR_DATE,
+      </if>
+      <if test="doctorMajor != null" >
+        DOCTOR_MAJOR,
+      </if>
+      <if test="degree != null" >
+        DEGREE,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="beTeacherYears != null" >
+        BE_TEACHER_YEARS,
+      </if>
+      <if test="beTeacherDate != null" >
+        BE_TEACHER_DATE,
+      </if>
+      <if test="inworkDate != null" >
+        INWORK_DATE,
+      </if>
+      <if test="inschoolDate != null" >
+        INSCHOOL_DATE,
+      </if>
+      <if test="mainCourse != null" >
+        MAIN_COURSE,
+      </if>
+      <if test="doubleDuty != null" >
+        DOUBLE_DUTY,
+      </if>
+      <if test="spouseName != null" >
+        SPOUSE_NAME,
+      </if>
+      <if test="spousePhone != null" >
+        SPOUSE_PHONE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="namePy != null" >
+        #{namePy,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="colleg != null" >
+        #{colleg,jdbcType=VARCHAR},
+      </if>
+      <if test="studyMajor != null" >
+        #{studyMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="teachMajorId != null" >
+        #{teachMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="proTitle != null" >
+        #{proTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="inPartyDate != null" >
+        #{inPartyDate,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="bachSchool != null" >
+        #{bachSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="bachDate != null" >
+        #{bachDate,jdbcType=DATE},
+      </if>
+      <if test="bachMajor != null" >
+        #{bachMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="masterDate != null" >
+        #{masterDate,jdbcType=DATE},
+      </if>
+      <if test="masterSchool != null" >
+        #{masterSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="masterMajor != null" >
+        #{masterMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorSchool != null" >
+        #{doctorSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorDate != null" >
+        #{doctorDate,jdbcType=DATE},
+      </if>
+      <if test="doctorMajor != null" >
+        #{doctorMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="beTeacherYears != null" >
+        #{beTeacherYears,jdbcType=INTEGER},
+      </if>
+      <if test="beTeacherDate != null" >
+        #{beTeacherDate,jdbcType=DATE},
+      </if>
+      <if test="inworkDate != null" >
+        #{inworkDate,jdbcType=DATE},
+      </if>
+      <if test="inschoolDate != null" >
+        #{inschoolDate,jdbcType=DATE},
+      </if>
+      <if test="mainCourse != null" >
+        #{mainCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="doubleDuty != null" >
+        #{doubleDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseName != null" >
+        #{spouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="spousePhone != null" >
+        #{spousePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysTeacherInfo" >
+    update sys_teacher_info
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null" >
+        BIRTH = #{birth,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="namePy != null" >
+        NAME_PY = #{namePy,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        IDENTITY_CARD = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="colleg != null" >
+        COLLEG = #{colleg,jdbcType=VARCHAR},
+      </if>
+      <if test="studyMajor != null" >
+        STUDY_MAJOR = #{studyMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="teachMajorId != null" >
+        TEACH_MAJOR_ID = #{teachMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="proTitle != null" >
+        PRO_TITLE = #{proTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        POST = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        DEPART_ID = #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        NATIVE_PLACE = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="inPartyDate != null" >
+        IN_PARTY_DATE = #{inPartyDate,jdbcType=DATE},
+      </if>
+      <if test="politicalStatus != null" >
+        POLITICAL_STATUS = #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        NATION = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="bachSchool != null" >
+        BACH_SCHOOL = #{bachSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="bachDate != null" >
+        BACH_DATE = #{bachDate,jdbcType=DATE},
+      </if>
+      <if test="bachMajor != null" >
+        BACH_MAJOR = #{bachMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="masterDate != null" >
+        MASTER_DATE = #{masterDate,jdbcType=DATE},
+      </if>
+      <if test="masterSchool != null" >
+        MASTER_SCHOOL = #{masterSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="masterMajor != null" >
+        MASTER_MAJOR = #{masterMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorSchool != null" >
+        DOCTOR_SCHOOL = #{doctorSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorDate != null" >
+        DOCTOR_DATE = #{doctorDate,jdbcType=DATE},
+      </if>
+      <if test="doctorMajor != null" >
+        DOCTOR_MAJOR = #{doctorMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null" >
+        DEGREE = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="beTeacherYears != null" >
+        BE_TEACHER_YEARS = #{beTeacherYears,jdbcType=INTEGER},
+      </if>
+      <if test="beTeacherDate != null" >
+        BE_TEACHER_DATE = #{beTeacherDate,jdbcType=DATE},
+      </if>
+      <if test="inworkDate != null" >
+        INWORK_DATE = #{inworkDate,jdbcType=DATE},
+      </if>
+      <if test="inschoolDate != null" >
+        INSCHOOL_DATE = #{inschoolDate,jdbcType=DATE},
+      </if>
+      <if test="mainCourse != null" >
+        MAIN_COURSE = #{mainCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="doubleDuty != null" >
+        DOUBLE_DUTY = #{doubleDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseName != null" >
+        SPOUSE_NAME = #{spouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="spousePhone != null" >
+        SPOUSE_PHONE = #{spousePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysTeacherInfo" >
+    update sys_teacher_info
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      BIRTH = #{birth,jdbcType=DATE},
+      AGE = #{age,jdbcType=INTEGER},
+      PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      NAME_PY = #{namePy,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      IDENTITY_CARD = #{identityCard,jdbcType=VARCHAR},
+      COLLEG = #{colleg,jdbcType=VARCHAR},
+      STUDY_MAJOR = #{studyMajor,jdbcType=VARCHAR},
+      TEACH_MAJOR_ID = #{teachMajorId,jdbcType=VARCHAR},
+      PRO_TITLE = #{proTitle,jdbcType=VARCHAR},
+      POST = #{post,jdbcType=VARCHAR},
+      DEPART_ID = #{departId,jdbcType=VARCHAR},
+      NATIVE_PLACE = #{nativePlace,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      IN_PARTY_DATE = #{inPartyDate,jdbcType=DATE},
+      POLITICAL_STATUS = #{politicalStatus,jdbcType=VARCHAR},
+      NATION = #{nation,jdbcType=VARCHAR},
+      BACH_SCHOOL = #{bachSchool,jdbcType=VARCHAR},
+      BACH_DATE = #{bachDate,jdbcType=DATE},
+      BACH_MAJOR = #{bachMajor,jdbcType=VARCHAR},
+      MASTER_DATE = #{masterDate,jdbcType=DATE},
+      MASTER_SCHOOL = #{masterSchool,jdbcType=VARCHAR},
+      MASTER_MAJOR = #{masterMajor,jdbcType=VARCHAR},
+      DOCTOR_SCHOOL = #{doctorSchool,jdbcType=VARCHAR},
+      DOCTOR_DATE = #{doctorDate,jdbcType=DATE},
+      DOCTOR_MAJOR = #{doctorMajor,jdbcType=VARCHAR},
+      DEGREE = #{degree,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      BE_TEACHER_YEARS = #{beTeacherYears,jdbcType=INTEGER},
+      BE_TEACHER_DATE = #{beTeacherDate,jdbcType=DATE},
+      INWORK_DATE = #{inworkDate,jdbcType=DATE},
+      INSCHOOL_DATE = #{inschoolDate,jdbcType=DATE},
+      MAIN_COURSE = #{mainCourse,jdbcType=VARCHAR},
+      DOUBLE_DUTY = #{doubleDuty,jdbcType=VARCHAR},
+      SPOUSE_NAME = #{spouseName,jdbcType=VARCHAR},
+      SPOUSE_PHONE = #{spousePhone,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+
+
+  <!--自定义-->
+  <select id="selectTeacherInfoPageData" resultMap="BaseResultMap" parameterType="pageBean">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'INFO_STATUS' and CODE = STATUS) as infoStatusText
+    ,(select TEXT from sys_dict_item where dict_type = 'USER_SEX' and CODE = SEX) as sexText
+    ,(select TEXT from sys_dict_item where dict_type = 'TEACHER_TYPE' and CODE = TYPE) as typeText
+    ,(select NAME from sys_department where ID = a.DEPART_ID) as departName
+    ,(select NAME from sys_major where ID = a.STUDY_MAJOR) as studyMajorText
+    from sys_teacher_info a
+    where 1=1
+    <if test="queryparam.status!=null and queryparam.status!='' ">
+      and STATUS = #{queryparam.status,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.departId!=null and queryparam.departId!='' ">
+      and DEPART_ID = #{queryparam.departId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.name!=null and queryparam.name!='' ">
+      and NAME like '%${queryparam.name}%'
+    </if>
+  </select>
+  <!--查询有效学员信息-->
+  <select id="selectActCountByUserId" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    select count(1)
+    from sys_teacher_info
+    where  USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectActCountByWorkId" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    select count(1)
+    from sys_teacher_info
+    where  CODE = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectActCountByIdentityCard" resultType="java.lang.Integer"  parameterType="java.lang.String">
+    select count(1)
+    from sys_teacher_info
+    where  IDENTITY_CARD = #{identityCard,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectTeachersListByParam" resultMap="BaseResultMap" parameterType="com.cloud9.biz.models.SysTeacherInfo">
+    select  <include refid="Base_Column_List"/>
+    ,(select TEXT from sys_dict_item where dict_type = 'INFO_STATUS' and CODE = STATUS) as infoStatusText
+    ,(select TEXT from sys_dict_item where dict_type = 'USER_SEX' and CODE = SEX) as sexText
+    ,(select TEXT from sys_dict_item where dict_type = 'TEACHER_TYPE' and CODE = TYPE) as typeText
+    ,(select NAME from sys_department where ID = a.DEPART_ID) as departName
+    from sys_teacher_info a
+    where 1=1
+    <if test="status!=null and status!='' ">
+      and STATUS =#{status,jdbcType=VARCHAR}
+    </if>
+    <if test="name!=null and name!='' ">
+      and NAME like  '%${name}%'
+    </if>
+    <if test="type!=null and type!='' ">
+      and TYPE=#{type,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectTeacherListByKey" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select
+      <include refid="Base_Column_List"/>
+    from sys_teacher_info
+    where  status = '1'
+    and NAME like '%${key}%'
+    <if test="numLimit != null and numLimit != ''" >
+      limit #{numLimit,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectTeacherInfoByUserId" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_teacher_info
+    where  status = '1'
+    and USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+</mapper>

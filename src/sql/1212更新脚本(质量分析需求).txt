@@ -1,0 +1,7 @@
+ALTER TABLE sys_subject_info ADD COLUMN seq int DEFAULT 0 COMMENT '优先级顺序';
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='2043ddf54d5b45f46aca0a50b0a42c433db', `CODE`=NULL, `NAME`='政治', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='3' WHERE (`ID`='2043ddf54d5b45f46aca0a50b0a42c433db');
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='204561c06f1821e47d492162edc297665ae', `CODE`=NULL, `NAME`='地理', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='1' WHERE (`ID`='204561c06f1821e47d492162edc297665ae');
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='2049b7b9200a0164001bfaa3cc19bc38677', `CODE`=NULL, `NAME`='英语', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='4' WHERE (`ID`='2049b7b9200a0164001bfaa3cc19bc38677');
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='204b500d0a336fb44d692f6b347ea20e70c', `CODE`=NULL, `NAME`='数学', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='5' WHERE (`ID`='204b500d0a336fb44d692f6b347ea20e70c');
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='204c78425d8fe5b49718a89823d5ac59490', `CODE`=NULL, `NAME`='语文', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='6' WHERE (`ID`='204c78425d8fe5b49718a89823d5ac59490');
+UPDATE `wyedu`.`sys_subject_info` SET `ID`='204fdb6d9fdfe35456e80083e907c440046', `CODE`=NULL, `NAME`='历史', `NAME_EN`=NULL, `TYPE`='0', `PERIOD`='2', `STATUS`='1', `seq`='2' WHERE (`ID`='204fdb6d9fdfe35456e80083e907c440046');
