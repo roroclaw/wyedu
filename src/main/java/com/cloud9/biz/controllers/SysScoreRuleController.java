@@ -1,11 +1,15 @@
 package com.cloud9.biz.controllers;
 
 import com.cloud9.biz.dao.mybatis.SysSubjectInfoMapper;
+import com.cloud9.biz.dao.mybatis.SysTeacherInfoMapper;
 import com.cloud9.biz.models.SysScoresRuleConfig;
+import com.cloud9.biz.models.SysTchScoresRuleConf;
+import com.cloud9.biz.models.SysTeacherInfo;
 import com.cloud9.biz.models.vo.VUserInfo;
 import com.cloud9.biz.services.SysScoreRuleService;
 import com.roroclaw.base.bean.PageBean;
 import com.roroclaw.base.controller.BaseController;
+import com.roroclaw.base.handler.BizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +36,30 @@ public class SysScoreRuleController extends BaseController {
      @Autowired
      private SysSubjectInfoMapper sysSubjectInfoMapper;
 
+    @Autowired
+    private SysTeacherInfoMapper sysTeacherInfoMapper;
+
      @RequestMapping(value = "/scoreRuleConfig.do")
      public ModelAndView initRuleEdit(){
          ModelAndView mv = new ModelAndView();
          mv.setViewName("sys/scoreRule/scoreRuleConfig");
+         return mv;
+     }
+
+     @RequestMapping(value = "/tchScoreRuleConfig.do")
+     public ModelAndView initTchRuleEdit(){
+         ModelAndView mv = new ModelAndView();
+         mv.setViewName("sys/scoreRule/tchScoreRuleConfig");
+         return mv;
+     }
+
+     @RequestMapping(value = "/iniTchRuleEdit.do")
+     public ModelAndView iniTchRuleEdit(String ruleId){
+         ModelAndView mv = new ModelAndView();
+         //获取分数配置信息
+         SysTchScoresRuleConf tchScoresRuleConf = this.sysScoreRuleService.getTchScoreRuleById(ruleId);
+         mv.addObject("tchScoresRuleConf",tchScoresRuleConf);
+         mv.setViewName("sys/scoreRule/tchScoreRuleMod");
          return mv;
      }
 
@@ -68,6 +92,16 @@ public class SysScoreRuleController extends BaseController {
          return bol;
      }
 
+     @RequestMapping(value = "/modTchScoreRule.infc")
+     @ResponseBody
+     public Object modTchScoreRule(SysTchScoresRuleConf tchScoresRuleConf,VUserInfo vUserInfo){
+         boolean bol = false;
+         tchScoresRuleConf.setUpdater(vUserInfo.getId());
+         tchScoresRuleConf.setUpdateTime(new Date());
+         bol = this.sysScoreRuleService.modTchScoreRule(tchScoresRuleConf);
+         return bol;
+     }
+
     @RequestMapping(value = "/addScoreRule.infc")
      @ResponseBody
      public Object addScoreRule(SysScoresRuleConfig sysScoresRuleConfig,VUserInfo vUserInfo){
@@ -75,6 +109,22 @@ public class SysScoreRuleController extends BaseController {
          sysScoresRuleConfig.setCreator(vUserInfo.getId());
          sysScoresRuleConfig.setCreateTime(new Date());
          this.sysScoreRuleService.addScoreRule(sysScoresRuleConfig);
+         return true;
+     }
+
+    @RequestMapping(value = "/addTchScoreRule.infc")
+     @ResponseBody
+     public Object addTchScoreRule(SysTchScoresRuleConf tchScoresRuleConf, VUserInfo vUserInfo){
+         boolean bol = false;
+         String userId = vUserInfo.getId();
+        SysTeacherInfo sysTeacherInfo = this.sysTeacherInfoMapper.selectTeacherInfoByUserId(userId);
+        if(sysTeacherInfo == null){
+            throw new BizException("当前非教师用户,不可使用此功能!");
+        }
+        tchScoresRuleConf.setTeacherId(sysTeacherInfo.getId());
+        tchScoresRuleConf.setCreator(userId);
+        tchScoresRuleConf.setCreateTime(new Date());
+         this.sysScoreRuleService.addTchScoreRule(tchScoresRuleConf);
          return true;
      }
 
@@ -90,6 +140,13 @@ public class SysScoreRuleController extends BaseController {
      @ResponseBody
      public Object doScoreRulePageData(PageBean pageBean, WebRequest request){
          pageBean = this.sysScoreRuleService.getScoreRulePageData(pageBean);
+         return pageBean;
+     }
+
+     @RequestMapping(value = "/doTchScoreRulePageData.infc")
+     @ResponseBody
+     public Object doTchScoreRulePageData(PageBean pageBean, WebRequest request,VUserInfo vUserInfo){
+         pageBean = this.sysScoreRuleService.getTchScoreRulePageData(pageBean,vUserInfo.getId());
          return pageBean;
      }
 

@@ -270,4 +270,14 @@
     </foreach>
   </select>
 
+  <select id="selectExaScoresByExam" resultMap="ScoExamScoresMap" >
+    select es.*,co.GRADE as grade
+    ,es.class_name  as classText
+    from sco_exam_scores es,tch_course_open co,tch_course c
+    where
+    es.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    and  es.TYPE = #{scoreType,jdbcType=VARCHAR}
+    and  es.COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

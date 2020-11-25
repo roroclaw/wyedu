@@ -54,6 +54,8 @@ $(function () {
         url: 'scoExamScores/doGetScoRecordCoursePageData.infc'
         , operColFun: function (i, rowdata) {
             var status = rowdata['status'];
+            var scoresType =  rowdata['scoresType'];
+
             if (status == '3') {
                 var goRecordScoresObj = $('<i href="###" class="iconfont  icon-icon07 " title="登分" rownum="' + i + '"></i>');
                 goRecordScoresObj.on('click', function () {
@@ -67,7 +69,38 @@ $(function () {
                     var scoresType = rowdata['scoresType'];
                     subScoresConfig(id, scoresType);
                 });
+
                 goRecordScoresObj.after(saveObj);
+
+                if( scoresType =="2"){
+                    var calObj = $('<i href="###" class="iconfont  bgColor-4 " title="计算科目成绩" rownum="' + i + '">算</i>');
+                    calObj.on('click', function () {
+                        // var id = rowdata['id'];
+                        // var scoresType = rowdata['scoresType'];
+                        var showBox = $.showPopupForm('#showForm',function(){
+                            $.loadingBox.show();
+                            var params = $('#showForm').getValue();
+                            if(params['schoolYear'] == null || params['schoolYear'] == ''){
+                                $.alert_error("请选择学年!");
+                                $.loadingBox.close();
+                                return false;
+                            }
+                            $.ajaxConnSend(this, 'sysScoreRule/calSocresBySubjectId.infc',params,function (data) {
+                                if (data.status == '1' && data.object) {
+                                    $.alert_success('计算成功!');
+                                    showBox.close();
+                                } else {
+                                    $.alert_error('计算失败');
+                                }
+                            }, function() {
+                                $.loadingBox.close();
+                            });
+                        });
+
+                    });
+                    goRecordScoresObj.after(calObj);
+                }
+
                 return goRecordScoresObj;
             } else if (status == '5') {
                 var printObj = $('<i href="###" class="iconfont  bgColor-4 " title="印" rownum="' + i + '">印</i>');
@@ -109,5 +142,17 @@ $(function () {
             $.loadingBox.close();
         });
     }
+
+    // $('#calBtn').click(function(){
+    //     var items=table.getChecked();
+    //     if(items.length==1){
+    //         var item = items[0];
+    //         $('#ruleFormId').val(item['id']);
+    //
+    //     }else{
+    //         $.alert_error('请选中一个科目');
+    //     }
+    // });
+
 
 });

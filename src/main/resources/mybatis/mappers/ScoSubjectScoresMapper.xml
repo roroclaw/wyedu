@@ -442,4 +442,12 @@
     where  SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR} and SUBJECT_ID = #{subjectId,jdbcType=VARCHAR} and STATUS = #{StatusUsed,jdbcType=VARCHAR}
   </update>
 
+  <delete id="deleteBySubjectAndYearTermStuId" >
+    delete from sco_subject_scores
+    where  SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    and  SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and TERM = #{term,jdbcType=VARCHAR}
+    and STU_ID = #{stuId,jdbcType=VARCHAR}
+  </delete>
+
 </mapper>
