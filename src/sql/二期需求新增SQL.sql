@@ -16,4 +16,4 @@ CREATE TABLE `sys_tch_scores_rule_conf`  (
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '教师成绩规则配置表' ROW_FORMAT = Dynamic;
 
-alter table sco_subject_scores add TEACHER_ID varchar(64);
+/*alter table sco_subject_scores add TEACHER_ID varchar(64);*/
