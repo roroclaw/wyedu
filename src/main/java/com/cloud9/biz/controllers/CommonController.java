@@ -1,5 +1,7 @@
 package com.cloud9.biz.controllers;
 
+import com.cloud9.biz.dao.mybatis.SysTchScoresRuleConfMapper;
+import com.cloud9.biz.dao.mybatis.SysTeacherInfoMapper;
 import com.cloud9.biz.models.*;
 import com.cloud9.biz.models.vo.MajorItem;
 import com.cloud9.biz.models.vo.VFileObj;
@@ -51,6 +53,9 @@ public class CommonController extends BaseController {
 
     @Autowired
     private TchClassService tchClassService;
+
+    @Autowired
+    private SysTeacherInfoMapper sysTeacherInfoMapper;
 
     @RequestMapping(value = "/doGetClassInfoStatus.infc")
     @ResponseBody
@@ -700,5 +705,18 @@ public class CommonController extends BaseController {
         resList = this.commonService.getItemsByType(BizConstants.DICT_TYPE.ATTENDANCE_CHECK_ITEMS, "");
         return resList;
     }
+
+    @RequestMapping(value = "/getTchRules.infc")
+    @ResponseBody
+    public Object getTchRules(VUserInfo vUserInfo){
+        List resList = null;
+        SysTeacherInfo sysTeacherInfo = this.sysTeacherInfoMapper.selectTeacherInfoByUserId(vUserInfo.getId());
+        if(sysTeacherInfo == null){
+            throw new BizException("当前非教师用户,不可使用此功能!");
+        }
+        resList = this.commonService.getTchRules(sysTeacherInfo.getId());
+        return resList;
+    }
+
 
 }

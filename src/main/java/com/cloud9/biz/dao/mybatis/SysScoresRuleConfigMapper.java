@@ -30,5 +30,5 @@ public interface SysScoresRuleConfigMapper {
 
     List<ScoExamScores> selectExaScoresBySubjectIdGrades(@Param("subjectId")String subjectId,@Param("schoolYear")String schoolYear,@Param("term")String term,@Param("gradeArr") String[] gradeArr);
 
-    List<ScoExamScores> selectExaScoresByExam(@Param("openCourseId")String openCourseId,@Param("scoreType")String scoreType,@Param("teacherId")String teacherId);
+    List<ScoExamScores> selectExaScoresByExam(@Param("openCourseId")String openCourseId,@Param("scoreType")String scoreType);
 }

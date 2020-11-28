@@ -53,14 +53,7 @@
 <form id="showForm" style="display:none">
   <div class="message_title">计算规则选择</div>
   <div class="message_text">
-    <div class="data_input" defvalue="1" tag_doing="false">
-      <span>规则:</span>
-      <div class="select_box">
-        <select name="calrule" id="calrule" class="validate[required]">
-          <option value="">--请选择--</option>
-          <%--<option value="2021">2021---2022</option><option value="2020">2020---2021</option>--%>
-        </select>
-      </div><b>*</b>
+    <div class="data_input ruleSel" defvalue="1" tag_doing="false">
     </div>
     <div style="clear:both;"></div>
   </div>
@@ -70,7 +63,7 @@
 <!--内容数据end-->
 <script type="text/javascript" src="${contextpath}/plugins/autoInput/js/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="${contextpath}/js/common/jquery.roroclaw.autoInput.js"></script>
-<script type="text/javascript" src="${contextpath}/js/modules/sco/recordScores/index.js?v=20201125"></script>
+<script type="text/javascript" src="${contextpath}/js/modules/sco/recordScores/index.js?v=20201128"></script>
 <jsp:include page="../../common/basic.jsp"/>
 </body>
 </html>

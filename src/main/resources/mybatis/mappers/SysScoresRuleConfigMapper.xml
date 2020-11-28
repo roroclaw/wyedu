@@ -275,7 +275,8 @@
     ,es.class_name  as classText
     from sco_exam_scores es,tch_course_open co,tch_course c
     where
-    es.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    es.COURSE_OPEN_ID = co.id
+    and co.COURSE_ID = c.id
     and  es.TYPE = #{scoreType,jdbcType=VARCHAR}
     and  es.COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
   </select>

@@ -295,19 +295,14 @@ public class SysScoreRuleService extends BaseService {
      */
     public void calTchSocresByRuleId(String ruleId, String userId, String openCourseId,String scoreType) {
         //获取规则信息
-        SysScoresRuleConfig sysScoresRuleConfig = this.sysScoresRuleConfigMapper.selectScoreRuleById(ruleId);
-        String gradeScopeStr = sysScoresRuleConfig.getScope();
-        String subjectId = sysScoresRuleConfig.getSubjectId();
-        String[] gradeArr = gradeScopeStr.split(",");
-
+        SysTchScoresRuleConf tchScoresRuleConf = this.sysTchScoresRuleConfMapper.selectScoreRuleById(ruleId);
         SysTeacherInfo sysTeacherInfo = this.sysTeacherInfoMapper.selectTeacherInfoByUserId(userId);
+        String subjectId = tchScoresRuleConf.getSubjectId();
         if(sysTeacherInfo == null){
             throw new BizException("当前非教师用户,不可使用此功能!");
         }
 
-        List<ScoExamScores> scoExamScoresList = this.sysScoresRuleConfigMapper.selectExaScoresByExam(openCourseId, scoreType,sysTeacherInfo.getId());
-//        SysScoresRuleConfig sysScoresRuleConfig = sysScoresRuleConfigMapper.selectScoreRuleBySubjectId(subjectId);
-
+        List<ScoExamScores> scoExamScoresList = this.sysScoresRuleConfigMapper.selectExaScoresByExam(openCourseId, scoreType);
         Map<String,ScoSubjectScores> subjectScoresMap = new HashMap<String, ScoSubjectScores>();
         for(int i= 0 ;i < scoExamScoresList.size(); i++){
             ScoExamScores scoExamScores = scoExamScoresList.get(i);
@@ -336,17 +331,17 @@ public class SysScoreRuleService extends BaseService {
 
             if(BizConstants.SCORES_TYPE.MID.equals(scoresType)){
                 scoSubjectScore.setHasMidScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getMiddelRatio());
+                BigDecimal ratio = new BigDecimal(tchScoresRuleConf.getMiddelRatio());
                 BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
                 scoSubjectScore.addScore(resScore);
             }else if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){
                 scoSubjectScore.setHasEndScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getEndRatio());
+                BigDecimal ratio = new BigDecimal(tchScoresRuleConf.getEndRatio());
                 BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
                 scoSubjectScore.addScore(resScore);
             }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){
                 scoSubjectScore.setHasUsualScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getUsualRatio());
+                BigDecimal ratio = new BigDecimal(tchScoresRuleConf.getUsualRatio());
                 BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
                 scoSubjectScore.addScore(resScore);
             }
@@ -376,7 +371,7 @@ public class SysScoreRuleService extends BaseService {
             logger.info("计算生成"+scoresNum+"条数据!");
             this.scoSubjectScoresMapper.batchAddSubjectScores(scoSubjectScoresList);
         }else{
-            logger.info("计算生成"+"学年0条数据!");
+            logger.info("计算生成"+"0条数据!");
         }
 
     }
@@ -396,4 +391,6 @@ public class SysScoreRuleService extends BaseService {
         sysTchScoresRuleConfMapper.updateByPrimaryKeySelective(tchScoresRuleConf);
         return true;
     }
+
+
 }

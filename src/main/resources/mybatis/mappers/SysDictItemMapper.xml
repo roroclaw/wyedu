@@ -197,4 +197,12 @@
     from sys_scores_rule_grade_scope
   </select>
 
+  <select id="selectTchRules4Items" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    ID as code,
+    NAME as text
+    from sys_tch_scores_rule_conf src
+    where src.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

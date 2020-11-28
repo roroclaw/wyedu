@@ -7,6 +7,7 @@ import com.cloud9.biz.models.SysTchScoresRuleConf;
 import com.cloud9.biz.models.SysTeacherInfo;
 import com.cloud9.biz.models.vo.VUserInfo;
 import com.cloud9.biz.services.SysScoreRuleService;
+import com.cloud9.biz.util.BizConstants;
 import com.roroclaw.base.bean.PageBean;
 import com.roroclaw.base.controller.BaseController;
 import com.roroclaw.base.handler.BizException;
@@ -20,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by roroclaw on 2017/11/8.
@@ -156,4 +158,12 @@ public class SysScoreRuleController extends BaseController {
          this.sysScoreRuleService.calSocresByRuleId(ruleId,vUserInfo.getId(),schoolYear,term);
          return true;
      }
+
+     @RequestMapping(value = "/calTchSocresByRuleId.infc")
+     @ResponseBody
+     public Object calTchSocresByRuleId(VUserInfo vUserInfo,String ruleId, String openCourseId,String scoreType){
+         this.sysScoreRuleService.calTchSocresByRuleId(ruleId,vUserInfo.getId(),openCourseId,scoreType);
+         return true;
+     }
+
 }

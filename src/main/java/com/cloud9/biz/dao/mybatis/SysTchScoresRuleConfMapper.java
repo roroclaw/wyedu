@@ -1,5 +1,6 @@
 package com.cloud9.biz.dao.mybatis;
 
+import com.cloud9.biz.models.SysDictItem;
 import com.cloud9.biz.models.SysTchScoresRuleConf;
 import com.roroclaw.base.bean.PageBean;
 import org.apache.ibatis.annotations.Param;

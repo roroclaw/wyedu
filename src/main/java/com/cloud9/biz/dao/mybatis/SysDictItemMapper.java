@@ -41,4 +41,5 @@ public interface SysDictItemMapper {
 
     List<SysDictItem> getScopeSelItems();
 
+    List<SysDictItem> selectTchRules4Items(@Param("teacherId")String teacherId);
 }
