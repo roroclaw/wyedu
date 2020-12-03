@@ -23,6 +23,8 @@ public interface TchCourseOpenMapper {
     ///////自定义
     List selectCourseOpensPageData(PageBean pageBean);
 
+    List selectCourseOpensForEntranceExamPageData(PageBean pageBean);
+
     TchCourseOpen selectCourseOpensById(String id);
 
     List selectCourseOpenList(TchCourseOpen record);

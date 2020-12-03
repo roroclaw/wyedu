@@ -2,6 +2,7 @@ package com.cloud9.biz.services;
 
 import com.cloud9.biz.dao.mybatis.ScoCommentMapper;
 import com.cloud9.biz.models.ScoComment;
+import com.cloud9.biz.models.ScoCommentMarks;
 import com.cloud9.biz.models.ScoSubjectScores;
 import com.cloud9.biz.models.vo.VRecordConfig;
 import com.cloud9.biz.util.BizConstants;
@@ -32,8 +33,14 @@ public class ScoCommentService extends BaseService {
 
     public ScoComment getComment(String stuId, String schoolYear, String term) {
         ScoComment scoComment = null;
-        scoComment = this.scoCommentMapper.selectComment(stuId,schoolYear,term);
+        scoComment = this.scoCommentMapper.selectComment(stuId, schoolYear, term);
         return scoComment;
+    }
+
+    public List<ScoCommentMarks> getCommentMark(String stuId, String schoolYear, String term) {
+       // ScoCommentMarks scoCommentMarks = null;
+        List<ScoCommentMarks> scoCommentMarks = this.scoCommentMapper.selectCommentMark(stuId, schoolYear,term);
+        return scoCommentMarks;
     }
 
     public int addComment(ScoComment scoComment) {
@@ -54,6 +61,15 @@ public class ScoCommentService extends BaseService {
             commentList.add(scoComment);
         }
         this.scoCommentMapper.batchCommentStatus(commentList);
+        return true;
+    }
+
+    public int deleteCommentItemsByCommentID(String commentId) {
+        return this.scoCommentMapper.deleteCommentItemsByCommentID(commentId);
+    }
+
+    public boolean addCommentMarks(List scoCommentMarksList) {
+        this.scoCommentMapper.insertMarks(scoCommentMarksList);
         return true;
     }
 }

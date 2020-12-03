@@ -1,6 +1,7 @@
 package com.cloud9.biz.dao.mybatis;
 
 import com.cloud9.biz.models.ScoOtherExamScores;
+import com.cloud9.biz.models.TchStuCourseOpenRel;
 import com.roroclaw.base.bean.PageBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,4 +33,5 @@ public interface ScoOtherExamScoresMapper {
     List<ScoOtherExamScores> selectExamScores4AdminModPageData(@Param("pageBean")PageBean pageBean);
 
     int updateRecordStatusByExamId(@Param("examId")String examId,@Param("recordStatus")String recordStatus);
+
 }

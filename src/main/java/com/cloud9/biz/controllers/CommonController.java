@@ -719,4 +719,20 @@ public class CommonController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/getCommentItemNames.infc")
+    @ResponseBody
+    public Object getCommentItemNames() throws BizException {
+        List<SysDictItem> resList = null;
+        resList = this.commonService.getItemsByType(BizConstants.DICT_TYPE.COMMENT_ITEMS_NAME, "");
+        return resList;
+    }
+
+    @RequestMapping(value = "/getCommentItemMarks.infc")
+    @ResponseBody
+    public Object getCommentItemMarks() throws BizException {
+        List<SysDictItem> resList = null;
+        resList = this.commonService.getItemsByType(BizConstants.DICT_TYPE.COMMENT_ITEMS_MARK, "");
+        return resList;
+    }
+
 }

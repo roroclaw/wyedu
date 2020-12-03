@@ -12,6 +12,8 @@
     <result column="SCORE" jdbcType="DECIMAL" property="score" />
     <result column="SCHOOL_YEAR" jdbcType="VARCHAR" property="schoolYear" />
     <result column="TERM" jdbcType="VARCHAR" property="term" />
+    <result column="GARDE" property="grade" jdbcType="VARCHAR" />
+    <result column="GRADE_ID" property="gradeId" jdbcType="VARCHAR" />
     <result column="TEACHER_ID" jdbcType="VARCHAR" property="teacherId" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
@@ -25,6 +27,7 @@
     <result column="typeText" jdbcType="VARCHAR" property="typeText" />
     <result column="courseName" jdbcType="VARCHAR" property="courseName" />
     <result column="stuNo" jdbcType="VARCHAR" property="stuNo" />
+    <result column="stuName" property="stuName" jdbcType="VARCHAR" />
     <result column="classText" jdbcType="VARCHAR" property="classText" />
     <result column="majorText" jdbcType="VARCHAR" property="majorText" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -118,6 +121,12 @@
       <if test="status != null">
         STATUS,
       </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="grade != null">
+        GRADE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -173,6 +182,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -698,4 +713,54 @@
         COURSE_OPEN_ID = #{openCourseId,jdbcType=VARCHAR}
     </update>
 
+  <select id="selectExamScoresCountByParam" resultType="java.lang.Integer" parameterType="com.cloud9.biz.models.ScoExamScores">
+    select  count(1)
+    from sco_exam_scores a
+    where 1=1
+    and a.STU_ID = #{stuId,jdbcType=VARCHAR}
+    And
+    a.COURSE_OPEN_ID = #{courseOpenId,jdbcType=VARCHAR}
+    AND
+    a.TYPE = #{type,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectRecordScoresPageDataByParam" resultMap="BaseResultMap">
+    select  es.*
+    ,(select TEXT from sys_dict_item it where dict_type = 'EXAM_STU_STATUS' and it.CODE = es.STATUS) as statusText
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'RECORDE_STATUS' and CODE = es.RECORDE_STATUS) as recordeStatusText
+    ,(select NAME from sys_major where id = stu.MAJOR_ID ) as majorText
+    ,stu.real_name as stuName
+    ,stu.STU_NUMBER as stuNo
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'SCORES_TYPE' and CODE = es.type) as typeText
+    ,es.class_name as classText
+    from sco_exam_scores es,arc_student_info stu,tch_class_info cal
+    where
+    cal.id = es.CLASS_ID
+    AND
+    es.STU_ID = stu.id
+    <if test="pageBean.queryparam.status != null and pageBean.queryparam.status!= '' ">
+      AND
+      es.STATUS in  (#{pageBean.queryparam.status,jdbcType=VARCHAR})
+    </if>
+
+    <if test="pageBean.queryparam.scoreType != null and pageBean.queryparam.scoreType!= '' ">
+      and es.TYPE = #{pageBean.queryparam.scoreType,jdbcType=VARCHAR}
+    </if>
+    <if test="pageBean.queryparam.stuNumber != null and pageBean.queryparam.stuNumber!= '' ">
+      and stu.STU_NUMBER = #{pageBean.queryparam.stuNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="pageBean.queryparam.openCourseId != null and pageBean.queryparam.openCourseId!= '' ">
+      and es.COURSE_OPEN_ID = #{pageBean.queryparam.openCourseId,jdbcType=VARCHAR}
+    </if>
+    <if test="pageBean.queryparam.classId != null and pageBean.queryparam.classId!= '' ">
+      and es.CLASS_ID = #{pageBean.queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="pageBean.queryparam.gradeId != null and pageBean.queryparam.gradeId!= '' ">
+      and cal.GRADE = #{pageBean.queryparam.gradeId,jdbcType=VARCHAR}
+    </if>
+    <if test="pageBean.queryparam.majorId != null and pageBean.queryparam.majorId!= '' ">
+      and stu.MAJOR_ID = #{pageBean.queryparam.majorId,jdbcType=VARCHAR}
+    </if>
+    order by stu.STU_NUMBER
+  </select>
   </mapper>

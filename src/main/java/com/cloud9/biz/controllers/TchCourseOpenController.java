@@ -127,6 +127,15 @@ public class TchCourseOpenController extends BaseController{
         return mv;
     }
 
+    @RequestMapping(value = "/initEditForEntranceExamStudentRel.do")
+    public ModelAndView initEditForEntranceExamStudentRel(String id){
+        ModelAndView mv = new ModelAndView("exa/exam/entranceExamStudentRelModForm");
+        //获取计划信息
+        TchCourseOpen tchCourseOpen = this.courseOpenService.getCourseOpenById(id);
+        mv.addObject("courseOpenInfo",tchCourseOpen);
+        return mv;
+    }
+
     @RequestMapping(value = "/doAddCourseStudentRel.infc")
     @ResponseBody
     public Object doAddCourseStudentRel(TchStuCourseOpenRel tchStuCourseOpenRel,VUserInfo userInfo) throws Exception {
@@ -134,6 +143,7 @@ public class TchCourseOpenController extends BaseController{
         this.courseOpenService.addStuCourseOpenRelInfo(tchStuCourseOpenRel);
         return bol;
     }
+
 
     @RequestMapping(value = "/doGetTchCourseOpenStudentsPageData.infc")
     @ResponseBody
@@ -163,4 +173,11 @@ public class TchCourseOpenController extends BaseController{
         return bol;
     }
 
+    @RequestMapping(value = "/doGetCourseOpensForEntranceExamPageData.infc")
+    @ResponseBody
+    public Object doGetCourseOpensForEntranceExamPageData(PageBean pageBean,WebRequest request,VUserInfo userInfo)
+            throws Exception {
+        pageBean = this.courseOpenService.getCourseOpensForEntranceExamPageData(pageBean);
+        return pageBean;
+    }
 }

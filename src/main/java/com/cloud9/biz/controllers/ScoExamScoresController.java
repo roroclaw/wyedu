@@ -51,6 +51,9 @@ public class ScoExamScoresController extends BaseController {
     private TchCourseService courseService;
 
     @Autowired
+    private TchCourseOpenService courseOpenService;
+
+    @Autowired
     private SysGradesMapper sysGradesMapper;
 
     @Autowired
@@ -710,5 +713,34 @@ public class ScoExamScoresController extends BaseController {
         mv.addObject("vRecordConfig",vRecordConfig);
         mv.addObject("examId",examId);
         return mv;
+    }
+
+
+
+    @RequestMapping(value = "/doAddEntranceExamStudentRel.infc")
+    @ResponseBody
+    public Object doAddEntranceExamStudentRel(TchStuCourseOpenRel tchStuCourseOpenRel,VUserInfo userInfo) throws Exception {
+        boolean bol =true;
+        this.courseOpenService.addStuEntranceExamRelInfo(tchStuCourseOpenRel, userInfo);
+        return bol;
+    }
+
+    /**
+     * 获取成绩分页信息查询
+     * @param pageBean
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/doGetExamScoresPageDataByParam.infc")
+    @ResponseBody
+    public Object doGetExamScoresPageDataByParam(PageBean pageBean, WebRequest request,String openCourseId,VUserInfo vUserInfo)
+            throws Exception {
+        if(openCourseId == null || "".equals(openCourseId.trim())){
+            throw new BizException("丢失课程信息!");
+        }
+        pageBean.getQueryparam().put("openCourseId",openCourseId);
+        pageBean = this.scoExamScoresService.getRecordScoresPageDataByParam(pageBean);
+        return pageBean;
     }
 }

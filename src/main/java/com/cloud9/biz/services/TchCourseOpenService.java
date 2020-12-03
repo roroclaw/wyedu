@@ -2,6 +2,7 @@ package com.cloud9.biz.services;
 
 import com.cloud9.biz.dao.mybatis.*;
 import com.cloud9.biz.models.*;
+import com.cloud9.biz.models.vo.VUserInfo;
 import com.cloud9.biz.models.vo.ValidateDelVo;
 import com.cloud9.biz.util.BizConstants;
 import com.cloud9.biz.util.EduKit;
@@ -37,10 +38,19 @@ public class TchCourseOpenService extends BaseService{
     private TchStuCourseOpenRelMapper tchStuCourseOpenRelMapper;
 
     @Autowired
+    private ScoExamScoresMapper scoExamScoresMapper;
+
+    @Autowired
     private CommonService commonService;
 
     public PageBean getCourseOpensPageData(PageBean pageBean){
         List resList = this.courseOpenMapper.selectCourseOpensPageData(pageBean);
+        pageBean.setData(resList);
+        return pageBean;
+    }
+
+    public PageBean getCourseOpensForEntranceExamPageData(PageBean pageBean){
+        List resList = this.courseOpenMapper.selectCourseOpensForEntranceExamPageData(pageBean);
         pageBean.setData(resList);
         return pageBean;
     }
@@ -95,11 +105,11 @@ public class TchCourseOpenService extends BaseService{
         String studentIds=tchStuCourseOpenRel.getStudentIds();
         List studentIdsList= this.commonService.changeGroupToList(studentIds);
         TchStuCourseOpenRel newRel=tchStuCourseOpenRel;
-        TchStuCourseOpenRel newRelForCheck=new TchStuCourseOpenRel();
-        newRelForCheck.setCourseOpenId(tchStuCourseOpenRel.getCourseOpenId());
+        //TchStuCourseOpenRel newRelForCheck=new TchStuCourseOpenRel();
+       // newRelForCheck.setCourseOpenId(tchStuCourseOpenRel.getCourseOpenId());
         for(int i=0;i < studentIdsList.size();i++){
             newRel.setStuId((String) studentIdsList.get(i));
-            newRelForCheck.setStuId((String) studentIdsList.get(i));
+           // newRelForCheck.setStuId((String) studentIdsList.get(i));
             ////////////////////检验学籍信息状态
             ArcStudentInfo arcStudentInfo=new ArcStudentInfo();
             arcStudentInfo=this.arcStudentInfoMapper.selectByPrimaryKey((String) studentIdsList.get(i));
@@ -118,6 +128,41 @@ public class TchCourseOpenService extends BaseService{
                     }
                 }else{
                     //throw new BizException("与教学计划不符!");
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean addStuEntranceExamRelInfo(TchStuCourseOpenRel tchStuCourseOpenRel,VUserInfo userInfo) throws BizException {
+        String studentIds=tchStuCourseOpenRel.getStudentIds();
+        List studentIdsList= this.commonService.changeGroupToList(studentIds);
+        ScoExamScores newScores=new ScoExamScores();
+        for(int i=0;i < studentIdsList.size();i++){
+            newScores.setStuId((String) studentIdsList.get(i));
+            newScores.setCourseOpenId((String)tchStuCourseOpenRel.getCourseOpenId());
+            newScores.setType(BizConstants.SCORES_TYPE.ENTRANCE);
+            ////////////////////检验学籍信息状态
+            ArcStudentInfo arcStudentInfo=new ArcStudentInfo();
+            arcStudentInfo=this.arcStudentInfoMapper.selectByPrimaryKey((String) studentIdsList.get(i));
+            if(arcStudentInfo.getStatus().equals(BizConstants.INFO_STATUS.CHECKED)){
+                int count = this.scoExamScoresMapper.selectExamScoresCountByParam(newScores);////////////成绩数据排重
+                if(!(count>0)){
+                    TchCourseOpen tchCourseOpen = this.courseOpenMapper.selectCourseOpensById((String)tchStuCourseOpenRel.getCourseOpenId());
+                    newScores.setId(BizConstants.generatorPid());
+                    newScores.setStatus(BizConstants.EXAM_STU_STATUS.NORMALE);
+                    newScores.setClassId((String) tchCourseOpen.getClassId());
+                    newScores.setClassName((String) tchCourseOpen.getClassName());
+                    newScores.setSchoolYear((String) tchCourseOpen.getSchoolYear());
+                    newScores.setTerm((String) tchCourseOpen.getTerm());
+                    newScores.setCreateTime(new Date());
+                    newScores.setCreator(userInfo.getId());
+                    newScores.setGrade((String) tchCourseOpen.getGrade());
+                    newScores.setUpdater(userInfo.getId());
+                    newScores.setUpdateTime(new Date());
+                    newScores.setRecordeStatus(BizConstants.RECORD_STATUS.UNSET);
+                    this.scoExamScoresMapper.insertSelective(newScores);
                 }
             }
         }

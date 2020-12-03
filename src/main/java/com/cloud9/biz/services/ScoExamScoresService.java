@@ -691,4 +691,15 @@ public class ScoExamScoresService extends BaseService{
         this.otherExamScoresMapper.updateRecordStatusByExamId(examId,BizConstants.RECORDE_STATUS.PUBLISH);
         return true;
     }
+
+    /**
+     * 分页查询成绩
+     * @param pageBean
+     * @return
+     */
+    public PageBean getRecordScoresPageDataByParam(PageBean pageBean) {
+        List<ScoExamScores> resList = this.scoExamScoresMapper.selectRecordScoresPageDataByParam(pageBean);
+        pageBean.setData(resList);
+        return pageBean;
+    }
 }

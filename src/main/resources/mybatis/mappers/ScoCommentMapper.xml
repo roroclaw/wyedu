@@ -26,6 +26,17 @@
   <resultMap id="ResultMapWithBLOBs" type="com.cloud9.biz.models.ScoComment" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
+  <resultMap id="CommentMarkResultMap" type="com.cloud9.biz.models.ScoCommentMarks" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COMMENT_ID" property="commentId" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="SCHOOL_YEAR" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="STU_ID" property="stuId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     ID, TERM, SCHOOL_YEAR, STU_ID, CREATE_TIME, CREATOR,UPDATE_TIME,UPDATER, STATUS
   </sql>
@@ -226,6 +237,14 @@
     and TERM = #{term,jdbcType=VARCHAR}
   </select>
 
+  <select id="selectCommentMark" resultMap="CommentMarkResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.TERM, a.SCHOOL_YEAR, a.STU_ID, a.CREATE_TIME, a.CREATOR,a.UPDATE_TIME,a.UPDATER, a.STATUS,a.COMMENT,b.CODE,b.MARK
+    from sco_comment a,sco_comment_items b
+    where a.ID = b.COMMENT_ID and     a.STU_ID = #{stuId,jdbcType=VARCHAR}   and a.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}   and a.TERM = #{term,jdbcType=VARCHAR}
+    order by b.CODE
+  </select>
+
   <update id="batchCommentStatus">
     <foreach close="" collection="commentList" index="index" item="item" open="" separator=";">
       update sco_comment
@@ -235,5 +254,18 @@
       where id = #{item.id,jdbcType=VARCHAR}
     </foreach>
   </update>
-
+  <delete id="deleteCommentItemsByCommentID" parameterType="java.lang.String" >
+    delete from sco_comment_items
+    where COMMENT_ID =  #{commentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertMarks" parameterType="java.util.List" >
+    insert into sco_comment_items (ID, COMMENT_ID,CODE,MARK)
+    VALUES
+    <foreach close="" collection="list" item="item" index="index" open="" separator=",">
+      (#{item.id,jdbcType=VARCHAR},
+      #{item.commentId,jdbcType=VARCHAR},
+      #{item.code,jdbcType=VARCHAR},
+      #{item.mark,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
 </mapper>

@@ -191,9 +191,41 @@
     order by a.SCHOOL_YEAR DESC,a.TERM DESC,className
   </select>
 
-  <select id="selectCourseOpensById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectCourseOpensForEntranceExamPageData" parameterType="pageBean" resultMap="CourseOpenResultMap">
     select
     a.ID, a.COURSE_ID, a.CLASSROOM_ID, a.SCHOOL_YEAR, a.TERM, a.CLASS_ID, a.TEACH_BOOK, a.OTHER_BOOKS,b.NAME as courseName
+    ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
+    ,c.NAME as className
+    ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText
+    ,(select NAME from sys_subject_info where ID  = b.SUBJECT_ID) as subjectName
+    ,(select NAME from sys_teacher_info where ID  = b.TEACHER_ID) as teacherName
+    from tch_course_open a,tch_course b,tch_class_info c where 1=1 and a.COURSE_ID=b.ID and a.CLASS_ID=c.ID
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.classId!=null and queryparam.classId!='' ">
+      and CLASS_ID = #{queryparam.classId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.grade!=null and queryparam.grade!='' ">
+      and c.GRADE = #{queryparam.grade,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.courseId!=null and queryparam.courseId!='' ">
+      and COURSE_ID = #{queryparam.courseId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.term!=null and queryparam.term!='' ">
+      and TERM = #{queryparam.term,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.teacherId!=null and queryparam.teacherId!='' ">
+      and b.TEACHER_ID = #{queryparam.teacherId,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.subjectId!=null and queryparam.subjectId!='' ">
+      and b.SUBJECT_ID = #{queryparam.subjectId,jdbcType=VARCHAR}
+    </if>
+    order by a.SCHOOL_YEAR DESC,a.TERM DESC,className
+  </select>
+  <select id="selectCourseOpensById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.ID, a.COURSE_ID, a.CLASSROOM_ID, a.SCHOOL_YEAR, a.TERM, a.CLASS_ID,a.GRADE, a.TEACH_BOOK, a.OTHER_BOOKS,b.NAME as courseName
     ,(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText
     ,(select NAME from tch_class_info where ID  = a.CLASS_ID) as className
     ,(select NAME from sys_classroom where ID  = a.CLASSROOM_ID) as classroomText

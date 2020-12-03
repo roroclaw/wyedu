@@ -1,6 +1,7 @@
 package com.cloud9.biz.dao.mybatis;
 
 import com.cloud9.biz.models.ScoComment;
+import com.cloud9.biz.models.ScoCommentMarks;
 import com.roroclaw.base.bean.PageBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,10 @@ public interface ScoCommentMapper {
     ScoComment selectComment(@Param("stuId")String stuId,@Param("schoolYear") String schoolYear,@Param("term") String term);
 
     void batchCommentStatus(@Param("commentList")List<ScoComment> commentList);
+
+    int deleteCommentItemsByCommentID(@Param("commentId") String commentId);
+
+    void insertMarks(@Param("list")List<ScoCommentMarks> list);
+
+    List<ScoCommentMarks> selectCommentMark(@Param("stuId")String stuId,@Param("schoolYear") String schoolYear,@Param("term") String term);
 }

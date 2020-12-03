@@ -37,6 +37,8 @@ public class ScoComment {
 
     private String comment;
 
+    private String commentMarksList;
+
     public String getStatusText() {
         return statusText;
     }
@@ -171,5 +173,13 @@ public class ScoComment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getCommentMarksList() {
+        return commentMarksList;
+    }
+
+    public void setCommentMarksList(String commentMarksList) {
+        this.commentMarksList = commentMarksList;
     }
 }

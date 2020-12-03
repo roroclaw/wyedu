@@ -100,7 +100,8 @@ public class BizConstants {
 		String RECORD_CONFIG_STATUS = "RECORD_CONFIG_STATUS";//专业类型
 		String ATTENDANCE_CHECK_ITEMS = "ATTENDANCE_CHECK_ITEMS";
 		String SCORES_SUBJECT_STATUS = "SCORES_SUBJECT_STATUS";
-
+		String COMMENT_ITEMS_NAME="COMMENT_ITEMS_NAME";
+		String COMMENT_ITEMS_MARK="COMMENT_ITEMS_MARK";
 	}
 
 	/**
@@ -146,6 +147,7 @@ public class BizConstants {
 		String  MID = "1"; //期中
 		String FINAL  = "2"; //期末
 		String USUAL  = "3"; //平时
+		String ENTRANCE  = "4"; //入学
 	}
 
 	/**

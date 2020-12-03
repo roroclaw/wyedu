@@ -4,6 +4,7 @@ import com.cloud9.biz.models.vo.VUserInfo;
 import com.cloud9.biz.services.ExmExamRoomService;
 import com.cloud9.biz.services.ExmExamService;
 import com.cloud9.biz.services.ScoExamScoresService;
+import com.cloud9.biz.services.TchCourseOpenService;
 import com.cloud9.biz.util.BizConstants;
 import com.roroclaw.base.bean.PageBean;
 import com.roroclaw.base.handler.BizException;
@@ -31,6 +32,9 @@ public class ExaExamController {
 
     @Autowired
     private ScoExamScoresService examScoresService;
+
+    @Autowired
+    private TchCourseOpenService courseOpenService;
 
     @RequestMapping(value = "/doGetExamPlanPageData.infc")
     @ResponseBody
@@ -537,6 +541,15 @@ public class ExaExamController {
         pageBean.getQueryparam().put("examStatus","4");
         pageBean = this.exmExamService.getExamStudentsPageDataByExamPlan(pageBean);
         return pageBean;
+    }
+
+    @RequestMapping(value = "/initEditForEntranceExamStudentRel.do")
+    public ModelAndView initEditForEntranceExamStudentRel(String id){
+        ModelAndView mv = new ModelAndView("exa/exam/entranceExamStudentRelModForm");
+        //获取计划信息
+        TchCourseOpen tchCourseOpen = this.courseOpenService.getCourseOpenById(id);
+        mv.addObject("courseOpenInfo",tchCourseOpen);
+        return mv;
     }
 
 

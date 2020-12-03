@@ -68,4 +68,14 @@ public interface ScoExamScoresMapper {
     List<ScoExamScores> selectExamScores4AdminModPageData(@Param("pageBean")PageBean pageBean);
 
     int updateRecordStatusByOpenCourseId(@Param("openCourseId")String openCourseId, @Param("scoreType")String scoresType,@Param("recordStatus") String recordStatus);
+
+    int selectExamScoresCountByParam(ScoExamScores record);
+
+    /**
+     * 分页查询成绩信息
+     * @param pageBean
+     * @return
+     */
+    List<ScoExamScores> selectRecordScoresPageDataByParam(@Param("pageBean")PageBean pageBean);
+
 }
