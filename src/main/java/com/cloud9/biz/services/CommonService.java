@@ -46,6 +46,9 @@ public class CommonService extends BaseService {
     @Autowired
     private ScoExamScoresMapper scoExamScoresMapper;
 
+//    @Autowired
+//    private SysTchScoresRuleConfMapper sysTchScoresRuleConfMapper;
+
     @Autowired
     private RoleService roleService;
 
@@ -233,4 +236,11 @@ public class CommonService extends BaseService {
         }
         return newList;
     }
+
+    public List getTchRules(String teacherId) {
+        List<SysDictItem> resList = null;
+        resList = this.dictItemMapper.selectTchRules4Items(teacherId);
+        return resList;
+    }
+
 }

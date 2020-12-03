@@ -485,4 +485,11 @@ public class SysUserService extends BaseAuthService {
         bol = this.sysUserMapper.updateByPrimaryKeySelective(sysUser) > 0?true:false;
         return bol;
     }
+
+//    public static void main(String[] args) {
+//        PasswordEncoder encoder = new StandardPasswordEncoder();
+//        String encryptPass = encoder.encode("123456");
+//        System.out.println(encryptPass);
+//    }
+
 }

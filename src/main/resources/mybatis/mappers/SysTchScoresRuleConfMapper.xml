@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysTchScoresRuleConfMapper">
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysTchScoresRuleConf">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TEACHER_ID" jdbcType="VARCHAR" property="teacherId" />
+    <result column="SUBJECT_ID" jdbcType="VARCHAR" property="subjectId" />
+    <result column="GRADE_SCOPE_ID" jdbcType="VARCHAR" property="gradeScopeId" />
+    <result column="MIDDEL_RATIO" jdbcType="DOUBLE" property="middelRatio" />
+    <result column="END_RATIO" jdbcType="DOUBLE" property="endRatio" />
+    <result column="USUAL_RATIO" jdbcType="DOUBLE" property="usualRatio" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="subjectName" jdbcType="VARCHAR" property="subjectName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, TEACHER_ID, SUBJECT_ID, GRADE_SCOPE_ID, MIDDEL_RATIO, END_RATIO, USUAL_RATIO, 
+    CREATE_TIME, CREATOR, UPDATE_TIME, UPDATER
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_tch_scores_rule_conf
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_tch_scores_rule_conf
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysTchScoresRuleConf">
+    insert into sys_tch_scores_rule_conf (ID, NAME, TEACHER_ID, 
+      SUBJECT_ID, GRADE_SCOPE_ID, MIDDEL_RATIO, 
+      END_RATIO, USUAL_RATIO, CREATE_TIME, 
+      CREATOR, UPDATE_TIME, UPDATER
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, 
+      #{subjectId,jdbcType=VARCHAR}, #{gradeScopeId,jdbcType=VARCHAR}, #{middelRatio,jdbcType=DOUBLE}, 
+      #{endRatio,jdbcType=DOUBLE}, #{usualRatio,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysTchScoresRuleConf">
+    insert into sys_tch_scores_rule_conf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID,
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID,
+      </if>
+      <if test="gradeScopeId != null">
+        GRADE_SCOPE_ID,
+      </if>
+      <if test="middelRatio != null">
+        MIDDEL_RATIO,
+      </if>
+      <if test="endRatio != null">
+        END_RATIO,
+      </if>
+      <if test="usualRatio != null">
+        USUAL_RATIO,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updater != null">
+        UPDATER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeScopeId != null">
+        #{gradeScopeId,jdbcType=VARCHAR},
+      </if>
+      <if test="middelRatio != null">
+        #{middelRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="endRatio != null">
+        #{endRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="usualRatio != null">
+        #{usualRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud9.biz.models.SysTchScoresRuleConf">
+    update sys_tch_scores_rule_conf
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">
+        SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeScopeId != null">
+        GRADE_SCOPE_ID = #{gradeScopeId,jdbcType=VARCHAR},
+      </if>
+      <if test="middelRatio != null">
+        MIDDEL_RATIO = #{middelRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="endRatio != null">
+        END_RATIO = #{endRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="usualRatio != null">
+        USUAL_RATIO = #{usualRatio,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud9.biz.models.SysTchScoresRuleConf">
+    update sys_tch_scores_rule_conf
+    set NAME = #{name,jdbcType=VARCHAR},
+      TEACHER_ID = #{teacherId,jdbcType=VARCHAR},
+      SUBJECT_ID = #{subjectId,jdbcType=VARCHAR},
+      GRADE_SCOPE_ID = #{gradeScopeId,jdbcType=VARCHAR},
+      MIDDEL_RATIO = #{middelRatio,jdbcType=DOUBLE},
+      END_RATIO = #{endRatio,jdbcType=DOUBLE},
+      USUAL_RATIO = #{usualRatio,jdbcType=DOUBLE},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATER = #{updater,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--自定义-->
+  <select id="selectTchScoreRulePageData" resultMap="BaseResultMap">
+    SELECT
+    cnf.*,
+    sj.NAME AS subjectName,
+    sj.id AS subjectId
+    FROM
+    sys_tch_scores_rule_conf cnf,
+    sys_subject_info sj
+    WHERE
+    cnf.TEACHER_ID = #{teacherId,jdbcType=VARCHAR}
+    AND sj.id = cnf.SUBJECT_ID
+    <if test="pageBean.queryparam.subjectId!=null and pageBean.queryparam.subjectId!='' ">
+      and sj.id = #{pageBean.queryparam.subjectId,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectScoreRuleById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from sys_subject_info sj where sj.id = src.SUBJECT_ID) as subjectName
+    from sys_tch_scores_rule_conf src
+    where ID = #{ruleId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

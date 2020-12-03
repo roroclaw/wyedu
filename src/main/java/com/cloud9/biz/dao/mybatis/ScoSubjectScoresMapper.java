@@ -49,4 +49,8 @@ public interface ScoSubjectScoresMapper {
     int batchScoreStatus(@Param("scoreList")List<ScoSubjectScores> scoreList);
 
     int batchAllScoreStatusByParam(@Param("subjectId")String subjectId,@Param("schoolYear")  String schoolYear,@Param("StatusSet")  String StatusSet,@Param("StatusUsed")  String StatusUsed);
+
+    void deleteBySubjectAndYearTermStuId(@Param("subjectId")String subjectId,@Param("schoolYear") String schoolYear,@Param("term")String term,@Param("stuId")String stuId);
+
+//    void deleteByExam(@Param("openCourseId")String openCourseId,@Param("scoreType")String scoreType,@Param("teacherId")String teacherId);
 }

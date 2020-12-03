@@ -2,18 +2,14 @@
  * Created by dengxianzhi on 2017/1/26.
  */
 $(function(){
-    //初始化角色信息
-    // $('.statusSel').mysel({
-    //     url : 'common/doGetUserStatus.infc',
-    //     text : '状态',
-    //     name : 'userStatus',
-    //     isRequired : false
-    // });
 
     //table
     var table = $('.dataTable').mytable({
         isCheck: true,
         header: [{
+            code: 'name',
+            text: '规则名'
+        },{
             code: 'subjectName',
             text: '科目'
         },{
@@ -25,37 +21,34 @@ $(function(){
         }, {
             code: 'usualRatio',
             text: '平时成绩比例'
-        },{
-            code: 'scopeName',
-            text: '适用范围'
         }
         ],
-        url: 'sysScoreRule/doScoreRulePageData.infc',
+        url: 'sysScoreRule/doTchScoreRulePageData.infc',
         operColFun:function(i,rowdata){
             var operObj = $('<i href="###" class="iconfont icon-icon07" title="编辑" rownum="' + i + '"></i>');
             operObj.on('click', function () {
                 var id = rowdata['id'];
-                window.location.href = $.customOpt.url + '/sysScoreRule/initEdit.do?ruleId='+id;
+                window.location.href = $.customOpt.url + '/sysScoreRule/iniTchRuleEdit.do?ruleId='+id;
             });
             return operObj;
-        },
-        delFun: function(id) {
-            $.alert_confirm('确定删除此记录?', function() {
-                $.loadingBox.show();
-                $.ajaxConnSend(this, 'sysScoreRule/doDelScoreRuleById.infc', {
-                    id:id
-                }, function(data) {
-                    if (data.status == '1' && data.object) {
-                        $.alert_success('操作成功');
-                        table.refreshData();
-                    } else {
-                        $.alert_error('操作失败');
-                    }
-                },function(){
-                    $.loadingBox.close();
-                })
-            });
         }
+        // ,delFun: function(id) {
+        //     $.alert_confirm('确定删除此记录?', function() {
+        //         $.loadingBox.show();
+        //         $.ajaxConnSend(this, 'sysScoreRule/doDelTchScoreRuleById.infc', {
+        //             id:id
+        //         }, function(data) {
+        //             if (data.status == '1' && data.object) {
+        //                 $.alert_success('操作成功');
+        //                 table.refreshData();
+        //             } else {
+        //                 $.alert_error('操作失败');
+        //             }
+        //         },function(){
+        //             $.loadingBox.close();
+        //         })
+        //     });
+        // }
     });
 
     /**

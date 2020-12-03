@@ -54,6 +54,8 @@ $(function () {
         url: 'scoExamScores/doGetScoRecordCoursePageData.infc'
         , operColFun: function (i, rowdata) {
             var status = rowdata['status'];
+            var scoresType =  rowdata['scoresType'];
+
             if (status == '3') {
                 var goRecordScoresObj = $('<i href="###" class="iconfont  icon-icon07 " title="登分" rownum="' + i + '"></i>');
                 goRecordScoresObj.on('click', function () {
@@ -67,7 +69,42 @@ $(function () {
                     var scoresType = rowdata['scoresType'];
                     subScoresConfig(id, scoresType);
                 });
+
+                if( scoresType =="2"){
+                    var calObj = $('<i href="###" class="iconfont  bgColor-4 " title="计算科目成绩" rownum="' + i + '">算</i>');
+                    calObj.on('click', function () {
+                        // var id = rowdata['id'];
+                        // var scoresType = rowdata['scoresType'];
+                        var showBox = $.showPopupForm('#showForm',function(){
+                            $.loadingBox.show();
+                            var params = $('#showForm').getValue();
+                            if(params['ruleId'] == null || params['ruleId'] == ''){
+                                $.alert_error("请选择规则!");
+                                $.loadingBox.close();
+                                return false;
+                            }
+
+                            params['openCourseId'] = rowdata['id'];
+                            params['scoreType'] = scoresType;
+
+                            $.ajaxConnSend(this, 'sysScoreRule/calTchSocresByRuleId.infc',params,function (data) {
+                                if (data.status == '1' && data.object) {
+                                    $.alert_success('计算成功!');
+                                    showBox.close();
+                                } else {
+                                    $.alert_error('计算失败');
+                                }
+                            }, function() {
+                                $.loadingBox.close();
+                            });
+                        });
+
+                    });
+                    goRecordScoresObj.after(calObj);
+                }
+
                 goRecordScoresObj.after(saveObj);
+
                 return goRecordScoresObj;
             } else if (status == '5') {
                 var printObj = $('<i href="###" class="iconfont  bgColor-4 " title="印" rownum="' + i + '">印</i>');
@@ -80,18 +117,6 @@ $(function () {
                 return printObj;
             }
         }
-    });
-
-    $('.schoolYearSel').mysel({
-        url: 'common/getSchoolYearItems.infc',
-        text: '学年',
-        name: 'schoolYear'
-    });
-
-    $('.schoolYearSel').mysel({
-        url: 'common/doGetTermItems.infc',
-        text: '学期',
-        name: 'term'
     });
 
     function subScoresConfig(id, scoresType) {
@@ -109,5 +134,12 @@ $(function () {
             $.loadingBox.close();
         });
     }
+
+    $('.ruleSel').mysel({
+        url : 'common/getTchRules.infc',
+        text : '规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;则',
+        name : 'ruleId',
+        isRequired : true
+    });
 
 });
