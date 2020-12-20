@@ -38,7 +38,7 @@ public interface ExaStuExamInfoMapper {
 
     List selectExamStudentsPageDataByExamPlan(PageBean pageBean);
 
-    int cleanExamRoomSettingInfoByExamPlanID(@Param("examPlanId")String examPlanId);
+    int cleanExamRoomSettingInfoByExamPlanID(@Param("examPlanId") String examPlanId);
 
     int cleanExamRoomSettingInfo(ExaStuExamInfo record);
 
@@ -54,7 +54,7 @@ public interface ExaStuExamInfoMapper {
 
     int deleteStuExamInfoByParam(ExaStuExamInfo record);
 
-    int deleteStuExamInfoByExamPlanId(@Param("examPlanId")String examPlanId);
+    int deleteStuExamInfoByExamPlanId(@Param("examPlanId") String examPlanId);
 
     List<ExaStuExamInfo> selectStusByExamId(String examId);
 }
