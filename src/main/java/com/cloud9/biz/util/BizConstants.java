@@ -158,6 +158,8 @@ public class BizConstants {
 		String  EXCAPTION = "0"; //异常
 		String NORMAL = "1"; //正常
 		String UNPUBLISH = "2"; //未发布
+		String TEMP_STUDY = "11"; //请长假
+		String MID_DELAY = "12"; //其中缓考
 	}
 
 	/**
@@ -214,8 +216,8 @@ public class BizConstants {
 	public interface EXAM_STU_STATUS {
 
 		String NORMALE = "1";// 正常
-		String DISMISSED = "2";// 缺考
-		String DELAY = "3";// 缓考
+		String DISMISSED = "3";// 缺考
+		String DELAY = "2";// 缓考
 		String CHEAT = "4";// 作弊
 		String TEMP_STUDY = "5";// 借读
 	}
@@ -524,5 +526,15 @@ public class BizConstants {
 		String teacherNotice ="2131451137876977830";// 教师公告
 		String stuNotice ="2131455968989343029";// 学生公告
 		String allNotice ="2131449406230748070";// 全校公告
+	}
+
+	public interface SUBJECT_IDS{
+		String yuwen = "204c78425d8fe5b49718a89823d5ac59490";//语文
+		String shuxue = "204b500d0a336fb44d692f6b347ea20e70c";//数学
+		String yingyu = "2049b7b9200a0164001bfaa3cc19bc38677";//英语
+
+		String zhengzhi = "2043ddf54d5b45f46aca0a50b0a42c433db";//政治
+		String lishi = "204fdb6d9fdfe35456e80083e907c440046";//历史
+		String dili = "204561c06f1821e47d492162edc297665ae";//地理
 	}
 }
