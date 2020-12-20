@@ -190,4 +190,23 @@
     where a.stu_id =  #{stuId,jdbcType=VARCHAR}
   </select>
 
+  <!--根据分数开课关系计算学员信息-->
+  <select id="selectScoresRuleStuInfos" resultMap="tchCourseOpenStudentRelResultMap">
+    SELECT
+        a.STU_ID as stuId,
+        c.SUBJECT_ID as subjectId
+      FROM
+          tch_stu_course_open_rel a,
+          tch_course_open b,
+          tch_course c
+    WHERE
+          a.COURSE_OPEN_ID = b.id
+    and
+          b.COURSE_ID = c.ID
+    and   b.COURSE_ID in
+    <foreach collection="courseIdArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
 </mapper>

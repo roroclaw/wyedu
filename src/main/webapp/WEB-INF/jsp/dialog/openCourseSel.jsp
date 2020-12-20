@@ -33,6 +33,7 @@
                 <!--时间选择 end-->
                 <div class="data_seach" id="queryBtn" style="cursor:pointer">搜索</div>
                 <div class="data_seach" id="submitBtn" style="margin-left: 10px;"><a>提交</a></div>
+                <div class="data_seach" id="cleanBtn" style="margin-left: 10px;"><a>清除范围</a></div>
             </div>
         </form>
         <div class="UI_table data_box dataTable">

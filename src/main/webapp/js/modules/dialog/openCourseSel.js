@@ -47,6 +47,9 @@ $(function(){
         }, {
             code: 'termText',
             text: '学期'
+        },{
+            code: 'className',
+            text: '班级'
         }, {
             code: 'teacherName',
             text: '授课教师'
@@ -78,7 +81,7 @@ $(function(){
 
             $.ajaxConnSend(this, 'sysScoreRule/setRuleRel.infc',{
                 openCourseIds:openCourseIds,
-                ruleId:ruleId,
+                ruleId:ruleId
             },function (data) {
                 if (data.status == '1' && data.object) {
                     $.alert_success('设置成功!');
@@ -92,6 +95,22 @@ $(function(){
         }else{
             $.alert_error('请选中开课信息');
         }
+    });
+
+    //清除所有信息
+    $('#cleanBtn').click(function(){
+            $.ajaxConnSend(this, 'sysScoreRule/clearRuleRel.infc',{
+                ruleId:ruleId
+            },function (data) {
+                if (data.status == '1' && data.object) {
+                    $.alert_success('清除成功!');
+                    showBox.close();
+                } else {
+                    $.alert_error('清除失败');
+                }
+            }, function() {
+                $.loadingBox.close();
+            });
     });
 
 

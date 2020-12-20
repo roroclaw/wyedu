@@ -270,6 +270,32 @@
     </foreach>
   </select>
 
+  <select id="selectExaScoresBySubjectIdGradesCourse" resultMap="ScoExamScoresMap" >
+    select es.*,co.GRADE as grade
+    ,es.class_name  as classText
+    from sco_exam_scores es,tch_course_open co,tch_course c
+    where
+      es.COURSE_OPEN_ID = co.id
+    and
+      co.COURSE_ID = c.id
+    and
+      c.SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}
+    and
+      es.SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}
+    and
+      es.term = #{term,jdbcType=VARCHAR}
+    and
+      co.GRADE in
+    <foreach collection="gradeArr" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and
+    es.COURSE_OPEN_ID in
+    <foreach collection="courseIdList" index="index" item="item" open="(" separator="," close=")">
+      #{item.courseId}
+    </foreach>
+  </select>
+
   <select id="selectExaScoresByExam" resultMap="ScoExamScoresMap" >
     select es.*,co.GRADE as grade
     ,es.class_name  as classText

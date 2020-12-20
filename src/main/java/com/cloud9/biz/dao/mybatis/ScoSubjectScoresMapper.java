@@ -1,6 +1,7 @@
 package com.cloud9.biz.dao.mybatis;
 
 import com.cloud9.biz.models.ScoSubjectScores;
+import com.cloud9.biz.models.TchStuCourseOpenRel;
 import com.roroclaw.base.bean.PageBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -37,6 +38,8 @@ public interface ScoSubjectScoresMapper {
     void deleteBySubjectAndYearTerm(@Param("subjectId")String subjectId,@Param("schoolYear")  String schoolYear,@Param("term")  String term);
 
     void deleteBySubjectAndYearTermGrades(@Param("subjectId")String subjectId,@Param("schoolYear")  String schoolYear,@Param("term")  String term,@Param("gradeArr")String[] gradeArr);
+
+//    void deleteBySubjectAndYearTermGrades4ss(@Param("subjectId")String subjectId,@Param("schoolYear")  String schoolYear,@Param("term")  String term,@Param("gradeArr")String[] gradeArr,@Param("subjectStuInfos")List<TchStuCourseOpenRel> subjectStuInfos);
 
     List selectStuSubjectScoreInfoByParam(ScoSubjectScores record);
 

@@ -2,6 +2,7 @@ package com.cloud9.biz.dao.mybatis;
 
 import com.cloud9.biz.models.ScoExamScores;
 import com.cloud9.biz.models.SysScoresRuleConfig;
+import com.cloud9.biz.models.SysScoresRuleRelKey;
 import com.roroclaw.base.bean.PageBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,6 +30,8 @@ public interface SysScoresRuleConfigMapper {
     List<ScoExamScores> selectExaScoresBySubjectId(@Param("subjectId")String subjectId,@Param("schoolYear")String schoolYear,@Param("term")String term);
 
     List<ScoExamScores> selectExaScoresBySubjectIdGrades(@Param("subjectId")String subjectId,@Param("schoolYear")String schoolYear,@Param("term")String term,@Param("gradeArr") String[] gradeArr);
+
+    List<ScoExamScores> selectExaScoresBySubjectIdGradesCourse(@Param("subjectId")String subjectId,@Param("schoolYear")String schoolYear,@Param("term")String term,@Param("gradeArr") String[] gradeArr,@Param("courseIdList") List<SysScoresRuleRelKey> courseIdList);
 
     List<ScoExamScores> selectExaScoresByExam(@Param("openCourseId")String openCourseId,@Param("scoreType")String scoreType);
 }

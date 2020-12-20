@@ -52,4 +52,8 @@
     </foreach>
   </delete>
 
+  <delete id="clearRuleRel">
+     delete from sys_scores_rule_rel where RULE_ID = #{ruleId,jdbcType=VARCHAR}
+  </delete>
+
 </mapper>

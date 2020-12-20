@@ -365,20 +365,24 @@
     a.SCHOOL_YEAR,
     ( SELECT NAME FROM sys_subject_info WHERE ID = b.SUBJECT_ID ) AS subjectName,
     ( SELECT NAME FROM sys_teacher_info WHERE ID = b.TEACHER_ID ) AS teacherName,
+    (select NAME from tch_class_info where ID  = a.CLASS_ID) as className,
     a.ruleRelid
     FROM
     (select rr.course_id as ruleRelid,co.* from tch_course_open co
     LEFT JOIN sys_scores_rule_rel rr on rr.COURSE_ID = co.id and rr.RULE_ID = #{queryparam.ruleId,jdbcType=VARCHAR}
-    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
-      and co.SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
-    </if>
-    <if test="queryparam.term!=null and queryparam.term!='' ">
-      and co.TERM = #{queryparam.term,jdbcType=VARCHAR}
-    </if>
     ) a,
     tch_course b
     WHERE
     a.COURSE_ID = b.ID
+    <if test="queryparam.openCoursename!=null and queryparam.openCoursename!='' ">
+      and b.name like '%${queryparam.openCoursename}%'
+    </if>
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and a.SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.term!=null and queryparam.term!='' ">
+      and a.TERM = #{queryparam.term,jdbcType=VARCHAR}
+    </if>
     order by a.SCHOOL_YEAR DESC,a.TERM DESC
   </select>
 

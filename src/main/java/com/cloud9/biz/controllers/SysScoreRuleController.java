@@ -174,4 +174,11 @@ public class SysScoreRuleController extends BaseController {
          return true;
      }
 
+     @RequestMapping(value = "/clearRuleRel.infc")
+     @ResponseBody
+     public Object clearRuleRel(@RequestParam(value = "ruleId")String ruleId){
+         this.sysScoreRuleService.clearRuleRel(ruleId);
+         return true;
+     }
+
 }

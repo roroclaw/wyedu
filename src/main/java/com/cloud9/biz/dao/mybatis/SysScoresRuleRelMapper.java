@@ -17,4 +17,6 @@ public interface SysScoresRuleRelMapper {
     int batchInsertRels(@Param("dataList")List<SysScoresRuleRelKey> datalist);
 
     int batchDeleteRels(@Param("dataList")List<SysScoresRuleRelKey> datalist);
+
+    void clearRuleRel(@Param("ruleId")String ruleId);
 }

@@ -10,6 +10,7 @@ import com.roroclaw.base.service.BaseService;
 import org.omg.CORBA.StringHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,9 @@ public class SysScoreRuleService extends BaseService {
 
     @Autowired
     private SysScoresRuleRelMapper sysScoresRuleRelMapper;
+
+    @Autowired
+    private TchStuCourseOpenRelMapper tchStuCourseOpenRelMapper;
 
 //    /**
 //     * 获取规则信息列表
@@ -207,11 +211,29 @@ public class SysScoreRuleService extends BaseService {
         String gradeScopeStr = sysScoresRuleConfig.getScope();
         String subjectId = sysScoresRuleConfig.getSubjectId();
         String[] gradeArr = gradeScopeStr.split(",");
+
+        //获取规则课程关系下的学员信息
+        List<SysScoresRuleRelKey> ruleRellist = this.sysScoresRuleRelMapper.selectAllByRuleId(ruleId);
+
+//        String[] courseIds = new String[ruleRellist.size()];
+//
+//        for(int i = 0 ; i < ruleRellist.size() ; i++){
+//            SysScoresRuleRelKey ruleRel = ruleRellist.get(i);
+//            courseIds[i] = ruleRel.getCourseId();
+//        }
+
+//        List<TchStuCourseOpenRel> subjectStuInfos = tchStuCourseOpenRelMapper.selectScoresRuleStuInfos(courseIds);
+
         //删除科目学年下的成绩信息
-        this.scoSubjectScoresMapper.deleteBySubjectAndYearTermGrades(subjectId, schoolYear, term, gradeArr);
-        //获取科目开课信息
-        List<ScoExamScores> scoExamScoresList = this.sysScoresRuleConfigMapper.selectExaScoresBySubjectIdGrades(subjectId, schoolYear, term,gradeArr);
-//        SysScoresRuleConfig sysScoresRuleConfig = sysScoresRuleConfigMapper.selectScoreRuleBySubjectId(subjectId);
+//        this.scoSubjectScoresMapper.deleteBySubjectAndYearTermGrades(subjectId, schoolYear, term, gradeArr,subjectStuInfos);
+        List<ScoExamScores> scoExamScoresList = null;
+        if(ruleRellist != null && ruleRellist.size() > 0){
+            scoExamScoresList = this.sysScoresRuleConfigMapper.selectExaScoresBySubjectIdGradesCourse(subjectId, schoolYear, term,gradeArr,ruleRellist);
+        }else{
+           scoExamScoresList = this.sysScoresRuleConfigMapper.selectExaScoresBySubjectIdGrades(subjectId, schoolYear, term,gradeArr);
+        }
+
+        //        SysScoresRuleConfig sysScoresRuleConfig = sysScoresRuleConfigMapper.selectScoreRuleBySubjectId(subjectId);
         Map<String,ScoSubjectScores> subjectScoresMap = new HashMap<String, ScoSubjectScores>();
         for(int i= 0 ;i < scoExamScoresList.size(); i++){
             ScoExamScores scoExamScores = scoExamScoresList.get(i);
@@ -268,6 +290,9 @@ public class SysScoreRuleService extends BaseService {
             }
             subjectScore.setId(BizConstants.generatorPid());
             subjectScore.intScore();
+
+            //删除原有成绩
+            this.scoSubjectScoresMapper.deleteBySubjectAndYearTermStuId(subjectId,schoolYear,term,subjectScore.getStuId());
             scoSubjectScoresList.add(subjectScore);
         }
         int scoresNum = scoSubjectScoresList.size();
@@ -416,6 +441,11 @@ public class SysScoreRuleService extends BaseService {
 
         //批量添加关系
         sysScoresRuleRelMapper.batchInsertRels(datalist);
+        return true;
+    }
+
+    public boolean clearRuleRel(String ruleId) {
+        sysScoresRuleRelMapper.clearRuleRel(ruleId);
         return true;
     }
 }
