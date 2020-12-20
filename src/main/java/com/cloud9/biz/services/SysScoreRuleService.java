@@ -1,20 +1,19 @@
 package com.cloud9.biz.services;
 
-import com.cloud9.biz.dao.mybatis.ScoSubjectScoresMapper;
-import com.cloud9.biz.dao.mybatis.SysScoresRuleConfigMapper;
-import com.cloud9.biz.dao.mybatis.SysTchScoresRuleConfMapper;
-import com.cloud9.biz.dao.mybatis.SysTeacherInfoMapper;
+import com.cloud9.biz.dao.mybatis.*;
 import com.cloud9.biz.models.*;
 import com.cloud9.biz.models.vo.VUserInfo;
 import com.cloud9.biz.util.BizConstants;
 import com.roroclaw.base.bean.PageBean;
 import com.roroclaw.base.handler.BizException;
 import com.roroclaw.base.service.BaseService;
+import org.omg.CORBA.StringHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -39,6 +38,9 @@ public class SysScoreRuleService extends BaseService {
 
     @Autowired
     private SysTeacherInfoMapper sysTeacherInfoMapper;
+
+    @Autowired
+    private SysScoresRuleRelMapper sysScoresRuleRelMapper;
 
 //    /**
 //     * 获取规则信息列表
@@ -393,4 +395,27 @@ public class SysScoreRuleService extends BaseService {
     }
 
 
+    /**
+     * 设置分数计算规则关系
+     * @param ruleId
+     * @param openCourseIds
+     * @return
+     */
+    public boolean setRuleRel(String ruleId, String[] openCourseIds) {
+        List<SysScoresRuleRelKey> datalist = new ArrayList<SysScoresRuleRelKey>();
+        for(int i=0 ;i < openCourseIds.length ; i++){
+            String openCourseId = openCourseIds[i];
+            SysScoresRuleRelKey sysScoresRuleRelKey = new SysScoresRuleRelKey();
+            sysScoresRuleRelKey.setRuleId(ruleId);
+            sysScoresRuleRelKey.setCourseId(openCourseId);
+            datalist.add(sysScoresRuleRelKey);
+        }
+
+        //批量删除关系
+        sysScoresRuleRelMapper.batchDeleteRels(datalist);
+
+        //批量添加关系
+        sysScoresRuleRelMapper.batchInsertRels(datalist);
+        return true;
+    }
 }

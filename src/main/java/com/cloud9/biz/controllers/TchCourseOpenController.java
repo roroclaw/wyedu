@@ -163,4 +163,38 @@ public class TchCourseOpenController extends BaseController{
         return bol;
     }
 
+    /**
+     * 开课选择弹出框
+     * @param pageBean
+     * @param request
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/doGetCourseOpensSelPageData.infc")
+    @ResponseBody
+    public Object doGetCourseOpensSelPageData(PageBean pageBean,WebRequest request,VUserInfo userInfo)
+            throws Exception {
+        pageBean = this.courseOpenService.doGetCourseOpensSelPageData(pageBean);
+        return pageBean;
+    }
+
+    /**
+     * 获取开课规则关系
+     * @param pageBean
+     * @param request
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/doGetScoresRuleRelInfo.infc")
+    @ResponseBody
+    public Object doGetScoresRuleRelInfo(String ruleId)
+            throws Exception {
+        List<SysScoresRuleRelKey> ruleRelInfos = this.courseOpenService.getScoresRuleRelInfo(ruleId);
+        return ruleRelInfos;
+    }
+
+
+
 }

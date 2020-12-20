@@ -390,7 +390,7 @@
                     if (isCheck) {
                         var checked = rowdata['checked'];
                         if (checked) {
-                            html += '<td><input type="checkbox" class="checkBox" checked="true" seq="' + i + '"/></td>';
+                            html += '<td><input type="checkbox" class="checkBox i_cur" checked="true" seq="' + i + '"/></td>';
                         } else {
                             html += '<td><input type="checkbox" class="checkBox"  seq="' + i + '"/></td>';
                         }

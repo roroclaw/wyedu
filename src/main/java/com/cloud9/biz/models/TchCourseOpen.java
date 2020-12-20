@@ -33,6 +33,30 @@ public class TchCourseOpen {
 
     private String stuNumCount;
 
+    private String ruleRelid;
+
+    private boolean checked;
+
+    public boolean isChecked() {
+        if(ruleRelid == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getRuleRelid() {
+        return ruleRelid;
+    }
+
+    public void setRuleRelid(String ruleRelid) {
+        this.ruleRelid = ruleRelid;
+    }
+
     public String getId() {
         return id;
     }

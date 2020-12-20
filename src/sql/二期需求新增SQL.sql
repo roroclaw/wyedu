@@ -17,3 +17,9 @@ CREATE TABLE `sys_tch_scores_rule_conf`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '教师成绩规则配置表' ROW_FORMAT = Dynamic;
 
 /*alter table sco_subject_scores add TEACHER_ID varchar(64);*/
+
+CREATE TABLE `sys_scores_rule_rel`  (
+  `RULE_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `COURSE_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`RULE_ID`,`COURSE_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '成绩规则开课配置表' ROW_FORMAT = Dynamic;

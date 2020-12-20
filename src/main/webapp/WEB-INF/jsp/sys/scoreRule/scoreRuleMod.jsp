@@ -25,7 +25,7 @@
   <!--数据显示区域 star-->
   <form id="dataForm" >
     <div class="UI_data UIfrom">
-        <input type="hidden" name="id" value="${scoresRuleConfig.id}" />
+        <input type="hidden" id="ruleId" name="id" value="${scoresRuleConfig.id}" />
         <div class="data_input">
           <span>科目</span>
           <input name="subjectText" type="text"  value="${scoresRuleConfig.subjectName}" readonly="true"/>
@@ -47,16 +47,22 @@
         </div>
         <div class="clear"></div>
         <div class="data_input scopeSel" defValue="${scoresRuleConfig.gradeScopeId}">
-            <%--<span>适用范围</span>--%>
-            <%--<input name="usualRatio" type="text"  data-text="平时比例"  value="${scoresRuleConfig.usualRatio}" class="ratioInput validate[required,,custom[number]]"/>%<i>*</i>--%>
         </div>
         <div class="clear"></div>
+        <%--<div class="data_input">--%>
+            <%--<span>适用开课范围</span>--%>
+            <%--<textarea name="remark" class=""></textarea>--%>
+        <%--</div>--%>
+        <%--<div class="data_input courseSel">--%>
+        <%--</div>--%>
+        <div class="clear"></div>
         <div class="data_seach" id="modBtn"><a>提交</a></div>
+        <div class="data_seach" id="editCourseBtn" style="margin-left:30px"><a>编辑开课范围</a></div>
         <div class="data_back" id="backBtn"><a>返回</a></div>
         <div class="clear"></div>
     </div>
   </form>
 </div>
-<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleMod.js?v=20180111"></script>
+<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleMod.js?v=20201208"></script>
 </body>
 </html>

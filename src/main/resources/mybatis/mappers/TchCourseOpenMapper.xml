@@ -155,6 +155,7 @@
     <result column="classroomText" property="classroomText" jdbcType="VARCHAR" />
     <result column="teacherName" property="teacherName" jdbcType="VARCHAR" />
     <result column="stuNumCount" property="stuNumCount" jdbcType="VARCHAR" />
+    <result column="ruleRelid" property="ruleRelid" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 分页查询 -->
   <select id="selectCourseOpensPageData" parameterType="pageBean" resultMap="CourseOpenResultMap">
@@ -329,6 +330,56 @@
       and sub.status is null
     </if>
     order by sub.GRADE,sub.SEQ
+  </select>
+
+
+
+
+  <!--<select id="selectCourseOpensSelPageData" parameterType="pageBean" resultMap="CourseOpenResultMap">-->
+    <!--SELECT-->
+    <!--b.NAME as courseName,-->
+    <!--(select TEXT from sys_dict_item where DICT_TYPE = 'TERM' and CODE = a.TERM) as termText,-->
+    <!--a.SCHOOL_YEAR,-->
+    <!--(select NAME from sys_subject_info where ID  = b.SUBJECT_ID) as subjectName,-->
+    <!--( SELECT NAME FROM sys_teacher_info WHERE ID = b.TEACHER_ID ) AS teacherName-->
+    <!--FROM-->
+    <!--tch_course_open a,-->
+    <!--tch_course b-->
+    <!--WHERE-->
+    <!--a.COURSE_ID = b.ID-->
+    <!--<if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">-->
+      <!--and SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="queryparam.term!=null and queryparam.term!='' ">-->
+      <!--and TERM = #{queryparam.term,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--order by a.SCHOOL_YEAR DESC,a.TERM DESC-->
+  <!--</select>-->
+
+
+  <select id="selectCourseOpensSelPageData"  resultMap="CourseOpenResultMap">
+    SELECT
+    a.id ,
+    b.NAME AS courseName,
+    ( SELECT TEXT FROM sys_dict_item WHERE DICT_TYPE = 'TERM' AND CODE = a.TERM ) AS termText,
+    a.SCHOOL_YEAR,
+    ( SELECT NAME FROM sys_subject_info WHERE ID = b.SUBJECT_ID ) AS subjectName,
+    ( SELECT NAME FROM sys_teacher_info WHERE ID = b.TEACHER_ID ) AS teacherName,
+    a.ruleRelid
+    FROM
+    (select rr.course_id as ruleRelid,co.* from tch_course_open co
+    LEFT JOIN sys_scores_rule_rel rr on rr.COURSE_ID = co.id and rr.RULE_ID = #{queryparam.ruleId,jdbcType=VARCHAR}
+    <if test="queryparam.schoolYear!=null and queryparam.schoolYear!='' ">
+      and co.SCHOOL_YEAR = #{queryparam.schoolYear,jdbcType=VARCHAR}
+    </if>
+    <if test="queryparam.term!=null and queryparam.term!='' ">
+      and co.TERM = #{queryparam.term,jdbcType=VARCHAR}
+    </if>
+    ) a,
+    tch_course b
+    WHERE
+    a.COURSE_ID = b.ID
+    order by a.SCHOOL_YEAR DESC,a.TERM DESC
   </select>
 
 </mapper>

@@ -3,12 +3,12 @@
  */
 $(function(){
     //初始化角色信息
-    // $('.statusSel').mysel({
-    //     url : 'common/doGetUserStatus.infc',
-    //     text : '状态',
-    //     name : 'userStatus',
-    //     isRequired : false
-    // });
+    $('.statusSel').mysel({
+        url : 'common/doGetUserStatus.infc',
+        text : '状态',
+        name : 'userStatus',
+        isRequired : false
+    });
 
     //table
     var table = $('.dataTable').mytable({
@@ -77,7 +77,37 @@ $(function(){
     });
 
     $('#addBtn').click(function(){
-        window.location.href = BAS_URL+'sys/scoreRule/tchScoreRuleAdd.html';
+        window.location.href = BAS_URL+'sys/scoreRule/scoreRuleAdd.html';
+    });
+
+    $('#calBtn').click(function(){
+        var items=table.getChecked();
+        if(items.length==1){
+            var item = items[0];
+            $('#ruleFormId').val(item['id']);
+            var showBox = $.showPopupForm('#showForm',function(){
+                $.loadingBox.show();
+                var params = $('#showForm').getValue();
+                //params['subjectId'] = subjectId;
+                if(params['schoolYear'] == null || params['schoolYear'] == ''){
+                    $.alert_error("请选择学年!");
+                    $.loadingBox.close();
+                    return false;
+                }
+                $.ajaxConnSend(this, 'sysScoreRule/calSocresBySubjectId.infc',params,function (data) {
+                    if (data.status == '1' && data.object) {
+                        $.alert_success('计算成功!');
+                        showBox.close();
+                    } else {
+                        $.alert_error('计算失败');
+                    }
+                }, function() {
+                    $.loadingBox.close();
+                });
+            });
+        }else{
+            $.alert_error('请选中一个科目');
+        }
     });
 
     $('.termSel').mysel({

@@ -4,6 +4,7 @@ import com.cloud9.biz.models.TchCourseOpen;
 import com.cloud9.biz.models.TchStuCourseOpenRel;
 import com.cloud9.biz.models.vo.VRecordConfig;
 import com.roroclaw.base.bean.PageBean;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,4 +29,7 @@ public interface TchCourseOpenMapper {
     List selectCourseOpenList(TchCourseOpen record);
 
     List<VRecordConfig> selectRecordConfigPageData(PageBean pageBean);
+
+    List selectCourseOpensSelPageData(PageBean pageBean);
+
 }

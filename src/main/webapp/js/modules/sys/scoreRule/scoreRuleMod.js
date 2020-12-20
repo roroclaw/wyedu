@@ -70,4 +70,9 @@ $(function(){
         isRequired : true
     });
 
+    $('#editCourseBtn').click(function(){
+        var ruleId = $('#ruleId').val();
+        openwindow($.customOpt.url+"dialog/openCourseSel.html?id="+ruleId,"openCourseSel",800,500);
+    });
+
 });

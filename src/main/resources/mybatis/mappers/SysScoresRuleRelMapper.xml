@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud9.biz.dao.mybatis.SysScoresRuleRelMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud9.biz.models.SysScoresRuleRelKey" >
+    <id column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+    <id column="COURSE_ID" property="courseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.cloud9.biz.models.SysScoresRuleRelKey" >
+    delete from sys_scores_rule_rel
+    where RULE_ID = #{ruleId,jdbcType=VARCHAR}
+      and COURSE_ID = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cloud9.biz.models.SysScoresRuleRelKey" >
+    insert into sys_scores_rule_rel (RULE_ID, COURSE_ID)
+    values (#{ruleId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud9.biz.models.SysScoresRuleRelKey" >
+    insert into sys_scores_rule_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
+        RULE_ID,
+      </if>
+      <if test="courseId != null" >
+        COURSE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
+        #{ruleId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectAllByRuleId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select *  from sys_scores_rule_rel where RULE_ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="batchInsertRels" >
+    insert into sys_scores_rule_rel (RULE_ID, COURSE_ID)
+    values
+    <foreach item="data"  collection="dataList" index="index" separator=",">
+      (#{data.ruleId,jdbcType=VARCHAR}, #{data.courseId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <delete id="batchDeleteRels">
+    <foreach collection="dataList" item="data" separator=";">
+      delete from sys_scores_rule_rel where RULE_ID = #{data.ruleId,jdbcType=VARCHAR} and COURSE_ID = #{data.courseId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+
+</mapper>
