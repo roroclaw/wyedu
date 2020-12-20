@@ -7,6 +7,7 @@ import com.cloud9.biz.util.BizConstants;
 import com.roroclaw.base.bean.PageBean;
 import com.roroclaw.base.handler.BizException;
 import com.roroclaw.base.service.BaseService;
+import com.sun.java.accessibility.util.EventID;
 import org.omg.CORBA.StringHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -257,22 +258,56 @@ public class SysScoreRuleService extends BaseService {
                 scoSubjectScore.setFlag(Integer.valueOf(BizConstants.SCORES_SUBJECT_STATUS.NORMAL));
             }
 
-            if(BizConstants.SCORES_TYPE.MID.equals(scoresType)){
-                scoSubjectScore.setHasMidScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getMiddelRatio());
-                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
-                scoSubjectScore.addScore(resScore);
-            }else if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){
-                scoSubjectScore.setHasEndScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getEndRatio());
-                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
-                scoSubjectScore.addScore(resScore);
-            }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){
-                scoSubjectScore.setHasUsualScore(true);
-                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getUsualRatio());
-                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
-                scoSubjectScore.addScore(resScore);
+//            if(BizConstants.SCORES_TYPE.MID.equals(scoresType)){ //期中
+//                scoSubjectScore.setHasMidScore(true);
+//                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getMiddelRatio());
+//                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                scoSubjectScore.addScore(resScore);
+//            }else if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){//期末
+//                scoSubjectScore.setHasEndScore(true);
+//                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getEndRatio());
+//                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
+//                scoSubjectScore.addScore(resScore);
+//            }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){//平时
+//                scoSubjectScore.setHasUsualScore(true);
+//                BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getUsualRatio());
+//                BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
+//                scoSubjectScore.addScore(resScore);
+//            }
+
+            scoSubjectScore.setGradeScopeId(sysScoresRuleConfig.getGradeScopeId());
+            if(BizConstants.SCORES_TYPE.MID.equals(scoresType)){ //期中
+//                scoSubjectScore.setHasMidScore(true);
+                scoSubjectScore.setMiddleScore(score);
+            }else if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){//期末
+//                scoSubjectScore.setHasEndScore(true);
+                scoSubjectScore.setFinalScore(score);
+            }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){//平时
+//                scoSubjectScore.setHasUsualScore(true);
+                scoSubjectScore.setUsualScore(score);
             }
+
+            //判断考试成绩状态
+            String subjectScoresStatus =  scoExamScores.getStatus();
+            if(scoExamScores.getId().equals("f13e2b0dd0dc4c4bbfd3353033853251")){
+                System.out.println("subjectScoresStatus====="+subjectScoresStatus);
+            }
+            if(subjectScoresStatus != null && subjectScoresStatus.equals(BizConstants.EXAM_STU_STATUS.TEMP_STUDY)){//请长假
+                scoSubjectScore.setStatus(BizConstants.SCORES_SUBJECT_STATUS.TEMP_STUDY);
+//                calTempStudyScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+            }else if(subjectScoresStatus != null && subjectScoresStatus.equals(BizConstants.EXAM_STU_STATUS.DELAY)){//期中缓考
+                scoSubjectScore.setStatus(BizConstants.SCORES_SUBJECT_STATUS.MID_DELAY);
+//                calMidDelayScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+            }else{
+                String subjectStatus = scoSubjectScore.getStatus();
+                if(!subjectStatus.equals(BizConstants.SCORES_SUBJECT_STATUS.TEMP_STUDY) && !subjectStatus.equals(BizConstants.SCORES_SUBJECT_STATUS.MID_DELAY) ){
+                    calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);//常规规则计算
+                }
+            }
+
+            //数据重整
+            reSureScores(scoSubjectScore);
+
         }
 
         //循环map
@@ -303,6 +338,286 @@ public class SysScoreRuleService extends BaseService {
             logger.info("计算生成"+schoolYear+"学年0条数据!");
         }
 
+    }
+
+    /**
+     * 数据重整
+     */
+    public void reSureScores(ScoSubjectScores scoSubjectScore){
+        String subjectScoresStatus =  scoSubjectScore.getStatus();
+        if(subjectScoresStatus != null && subjectScoresStatus.equals(BizConstants.SCORES_SUBJECT_STATUS.TEMP_STUDY)){//请长假
+            calTempStudyScores(scoSubjectScore);
+        }else if(subjectScoresStatus != null && subjectScoresStatus.equals(BizConstants.SCORES_SUBJECT_STATUS.MID_DELAY)){//期中缓考
+            calMidDelayScores(scoSubjectScore);
+        }
+    }
+
+    //计算请长假成绩
+    public void calTempStudyScores(ScoSubjectScores scoSubjectScore){
+        String gradeScopeId = scoSubjectScore.getGradeScopeId();
+        String subjectId = scoSubjectScore.getSubjectId();
+
+        if(BizConstants.PERIOD.MIDDLE_SCHOOL.equals(gradeScopeId)){ //初中（语文、数学、英语 期末83.33% 政治、历史、地理 期末100%）
+
+            //判断科目
+            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+                    scoSubjectScore.setRemark("初中请长假(语数外)");
+                    BigDecimal ratio = new BigDecimal(83.33);
+                    BigDecimal resScore = ratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.setScore(resScore);
+            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+                    scoSubjectScore.setRemark("初中请长假(政史地)");
+                    BigDecimal ratio = new BigDecimal(100);
+                    BigDecimal resScore = ratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.setScore(resScore);
+            }
+        }else if(BizConstants.PERIOD.HIGH_SCHOOL.equals(gradeScopeId)){ //高中（语文、数学、英语 期末66.67% 政治、历史、地理 期末100%）
+
+            //判断科目
+            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+                    scoSubjectScore.setRemark("高中请长假(语数外)");
+                    BigDecimal ratio = new BigDecimal(66.67);
+                    BigDecimal resScore = ratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.setScore(resScore);
+            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+                    scoSubjectScore.setRemark("高中请长假(政史地)");
+                    BigDecimal ratio = new BigDecimal(100);
+                    BigDecimal resScore = ratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.setScore(resScore);
+            }
+        }
+
+    }
+
+//    //计算请长假成绩
+//    public ScoSubjectScores calTempStudyScores(ScoSubjectScores scoSubjectScore,ScoExamScores scoExamScores,SysScoresRuleConfig sysScoresRuleConfig){
+//        String gradeScopeId = sysScoresRuleConfig.getGradeScopeId();
+//        String subjectId = scoSubjectScore.getSubjectId();
+//
+//        if(BizConstants.PERIOD.MIDDLE_SCHOOL.equals(gradeScopeId)){ //初中（语文、数学、英语 期末83.33% 政治、历史、地理 期末100%）
+//
+//            BigDecimal score = scoExamScores.getScore() != null ? scoExamScores.getScore() : new BigDecimal(0);
+//            String scoresType = scoExamScores.getType();
+//            //判断科目
+//            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){
+//                    scoSubjectScore.setRemark("初中请长假");
+//                    BigDecimal ratio = new BigDecimal(83.33);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)) {
+//                    scoSubjectScore.setRemark("初中请长假");
+//                    BigDecimal ratio = new BigDecimal(100);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else{
+//                calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+//            }
+//        }else if(BizConstants.PERIOD.HIGH_SCHOOL.equals(gradeScopeId)){ //高中（语文、数学、英语 期末66.67% 政治、历史、地理 期末100%）
+//            BigDecimal score = scoExamScores.getScore() != null ? scoExamScores.getScore() : new BigDecimal(0);
+//            String scoresType = scoExamScores.getType();
+//            //判断科目
+//            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){
+//                    scoSubjectScore.setRemark("高中请长假");
+//                    BigDecimal ratio = new BigDecimal(66.67);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)) {
+//                    scoSubjectScore.setRemark("高中请长假");
+//                    BigDecimal ratio = new BigDecimal(100);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else{
+//                calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+//            }
+//        }
+//        return scoSubjectScore;
+//    }
+
+    //计算期中缓考
+//    public ScoSubjectScores calMidDelayScores(ScoSubjectScores scoSubjectScore,ScoExamScores scoExamScores,SysScoresRuleConfig sysScoresRuleConfig){
+//        String gradeScopeId = sysScoresRuleConfig.getGradeScopeId();
+//        String subjectId = scoSubjectScore.getSubjectId();
+//
+//        if(BizConstants.PERIOD.MIDDLE_SCHOOL.equals(gradeScopeId)){ //初中（语文、数学、英语 期中0%+期末50%+平时40% --- 政治、历史、地理 期中0%+期末60%+平时40%）
+//            BigDecimal score = scoExamScores.getScore() != null ? scoExamScores.getScore() : new BigDecimal(0);
+//            String scoresType = scoExamScores.getType();
+//            //判断科目
+//            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){ //期末成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(50);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){//
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)) {// 期末成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(60);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else{
+//                calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+//            }
+//        }else if(BizConstants.PERIOD.HIGH_SCHOOL.equals(gradeScopeId)){//高中（语文、数学、英语 期中0%+期末40%+平时40% --- 政治、历史、地理 期中0%+期末60%+平时40%）
+//            BigDecimal score = scoExamScores.getScore() != null ? scoExamScores.getScore() : new BigDecimal(0);
+//            String scoresType = scoExamScores.getType();
+//            //判断科目
+//            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){//期末成绩
+//                    scoSubjectScore.setRemark("高中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)) {//期末成绩
+//                    scoSubjectScore.setRemark("高中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(60);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else{
+//                calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+//            }
+//        }
+//        return scoSubjectScore;
+//    }
+
+    public ScoSubjectScores calMidDelayScores(ScoSubjectScores scoSubjectScore){
+        String gradeScopeId = scoSubjectScore.getGradeScopeId();
+        String subjectId = scoSubjectScore.getSubjectId();
+
+        if(BizConstants.PERIOD.MIDDLE_SCHOOL.equals(gradeScopeId)){ //初中（语文、数学、英语 期中0%+期末50%+平时40% --- 政治、历史、地理 期中0%+期末60%+平时40%）
+            //判断科目
+            scoSubjectScore.setScore(new BigDecimal(0));
+            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+                    scoSubjectScore.setRemark("初中期中缓考(语数外)");
+                    BigDecimal fratio = new BigDecimal(50);
+                    BigDecimal fresScore = fratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.addScore(fresScore);
+
+                    scoSubjectScore.setRemark("初中期中缓考（语数外）");
+                    BigDecimal uratio = new BigDecimal(40);
+                    BigDecimal uresScore = uratio.multiply(scoSubjectScore.getUsualScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.addScore(uresScore);
+
+            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+                    scoSubjectScore.setRemark("初中期中缓考(政史地)");
+                    BigDecimal fratio = new BigDecimal(60);
+                    BigDecimal fresScore = fratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.addScore(fresScore);
+
+                    scoSubjectScore.setRemark("初中期中缓考（政史地）");
+                    BigDecimal uratio = new BigDecimal(40);
+                    BigDecimal uresScore = uratio.multiply(scoSubjectScore.getUsualScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                    scoSubjectScore.addScore(uresScore);
+            }
+
+        }else if(BizConstants.PERIOD.HIGH_SCHOOL.equals(gradeScopeId)){//高中（语文、数学、英语 期中0%+期末40%+平时40% --- 政治、历史、地理 期中0%+期末60%+平时40%）
+            //判断科目
+            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+                scoSubjectScore.setRemark("高中期中缓考(语数外)");
+                BigDecimal fratio = new BigDecimal(40);
+                BigDecimal fresScore = fratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                scoSubjectScore.addScore(fresScore);
+
+                scoSubjectScore.setRemark("高中期中缓考（语数外）");
+                BigDecimal uratio = new BigDecimal(40);
+                BigDecimal uresScore = uratio.multiply(scoSubjectScore.getUsualScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                scoSubjectScore.addScore(uresScore);
+
+            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+                scoSubjectScore.setRemark("高中期中缓考(政史地)");
+                BigDecimal fratio = new BigDecimal(60);
+                BigDecimal fresScore = fratio.multiply(scoSubjectScore.getFinalScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                scoSubjectScore.addScore(fresScore);
+
+                scoSubjectScore.setRemark("高中期中缓考（政史地）");
+                BigDecimal uratio = new BigDecimal(40);
+                BigDecimal uresScore = uratio.multiply(scoSubjectScore.getUsualScore()).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+                scoSubjectScore.addScore(uresScore);
+            }
+//            if(BizConstants.SUBJECT_IDS.yuwen.equals(subjectId) || BizConstants.SUBJECT_IDS.shuxue.equals(subjectId) || BizConstants.SUBJECT_IDS.yingyu.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){//期末成绩
+//                    scoSubjectScore.setRemark("高中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else if(BizConstants.SUBJECT_IDS.zhengzhi.equals(subjectId) || BizConstants.SUBJECT_IDS.lishi.equals(subjectId) || BizConstants.SUBJECT_IDS.dili.equals(subjectId)){
+//                if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)) {//期末成绩
+//                    scoSubjectScore.setRemark("高中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(60);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){ //平时成绩
+//                    scoSubjectScore.setRemark("初中期中缓考");
+//                    BigDecimal ratio = new BigDecimal(40);
+//                    BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+//                    scoSubjectScore.addScore(resScore);
+//                }
+//            }else{
+//                calCommonScores(scoSubjectScore,scoExamScores,sysScoresRuleConfig);
+//            }
+        }
+        return scoSubjectScore;
+    }
+
+    //计算常规成绩
+    public ScoSubjectScores calCommonScores(ScoSubjectScores scoSubjectScore,ScoExamScores scoExamScores,SysScoresRuleConfig sysScoresRuleConfig){
+        String scoresType = scoExamScores.getType();
+        BigDecimal score = scoExamScores.getScore() != null ? scoExamScores.getScore() : new BigDecimal(0);
+        if(BizConstants.SCORES_TYPE.MID.equals(scoresType)){ //期中
+            scoSubjectScore.setHasMidScore(true);
+            BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getMiddelRatio());
+            BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
+            scoSubjectScore.addScore(resScore);
+        }else if(BizConstants.SCORES_TYPE.FINAL.equals(scoresType)){//期末
+            scoSubjectScore.setHasEndScore(true);
+            BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getEndRatio());
+            BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
+            scoSubjectScore.addScore(resScore);
+        }else if(BizConstants.SCORES_TYPE.USUAL.equals(scoresType)){//平时
+            scoSubjectScore.setHasUsualScore(true);
+            BigDecimal ratio = new BigDecimal(sysScoresRuleConfig.getUsualRatio());
+            BigDecimal resScore = ratio.multiply(score).divide(new BigDecimal(100),2,BigDecimal.ROUND_HALF_UP);
+            scoSubjectScore.addScore(resScore);
+        }
+        return scoSubjectScore;
     }
 
     public PageBean getTchScoreRulePageData(PageBean pageBean, String userId) {
