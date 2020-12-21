@@ -426,6 +426,21 @@
     </foreach>
   </delete>
 
+  <!--<delete id="deleteBySubjectAndYearTermGrades4ss" >-->
+    <!--delete from sco_subject_scores-->
+    <!--where  SUBJECT_ID = #{subjectId,jdbcType=VARCHAR}-->
+    <!--and  SCHOOL_YEAR = #{schoolYear,jdbcType=VARCHAR}-->
+    <!--and TERM = #{term,jdbcType=VARCHAR}-->
+    <!--and GRADE_ID in-->
+    <!--<foreach collection="gradeArr" index="index" item="item" open="(" separator="," close=")">-->
+      <!--#{item}-->
+    <!--</foreach>-->
+    <!--and GRADE_ID in-->
+    <!--<foreach collection="gradeArr" index="index" item="item" open="(" separator="," close=")">-->
+      <!--#{item}-->
+    <!--</foreach>-->
+  <!--</delete>-->
+
   <update id="batchScoreStatus">
     <foreach close="" collection="scoreList" index="index" item="item" open="" separator=";">
       update sco_subject_scores

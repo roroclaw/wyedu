@@ -54,6 +54,14 @@ public class TchCourseOpenService extends BaseService{
         pageBean.setData(resList);
         return pageBean;
     }
+
+    public PageBean doGetCourseOpensSelPageData(PageBean pageBean){
+        List resList = this.courseOpenMapper.selectCourseOpensSelPageData(pageBean);
+        pageBean.setData(resList);
+        return pageBean;
+    }
+
+
     public List<TchCourseOpen> getCourseOpenList(TchCourseOpen tchCourseOpen) {
         List<TchCourseOpen> resList = this.courseOpenMapper.selectCourseOpenList(tchCourseOpen);
         return resList;
@@ -227,4 +235,11 @@ public class TchCourseOpenService extends BaseService{
         int i = this.tchStuCourseOpenRelMapper.selectStuOpenCourseNum(id);
         return i;
     }
+
+    public List<SysScoresRuleRelKey> getScoresRuleRelInfo(String id) {
+        List<SysScoresRuleRelKey> datas = this.sysScoresRuleRelMapper.selectAllByRuleId(id);
+        return datas;
+    }
+
+
 }

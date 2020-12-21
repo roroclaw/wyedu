@@ -13,6 +13,12 @@ public class ScoSubjectScores {
 
     private BigDecimal score;
 
+    private BigDecimal finalScore = new BigDecimal(0);
+
+    private BigDecimal middleScore = new BigDecimal(0);
+
+    private BigDecimal usualScore = new BigDecimal(0);
+
     private String classId;
 
     private String gradeId;
@@ -62,6 +68,40 @@ public class ScoSubjectScores {
     private String subjectText;
 
     private String subjectTextEn;
+
+    private String gradeScopeId;
+
+    public String getGradeScopeId() {
+        return gradeScopeId;
+    }
+
+    public void setGradeScopeId(String gradeScopeId) {
+        this.gradeScopeId = gradeScopeId;
+    }
+
+    public BigDecimal getFinalScore() {
+        return finalScore;
+    }
+
+    public void setFinalScore(BigDecimal finalScore) {
+        this.finalScore = finalScore;
+    }
+
+    public BigDecimal getMiddleScore() {
+        return middleScore;
+    }
+
+    public void setMiddleScore(BigDecimal middleScore) {
+        this.middleScore = middleScore;
+    }
+
+    public BigDecimal getUsualScore() {
+        return usualScore;
+    }
+
+    public void setUsualScore(BigDecimal usualScore) {
+        this.usualScore = usualScore;
+    }
 
     public String getStatusText() {
         return statusText;

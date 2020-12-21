@@ -33,4 +33,6 @@ public interface TchStuCourseOpenRelMapper {
     int selectTchStuCourseOpenRelForCheck(TchStuCourseOpenRel record);
 
     int selectStuOpenCourseNum(String stuId);
+
+    List<TchStuCourseOpenRel> selectScoresRuleStuInfos(String[] courseIds);
 }

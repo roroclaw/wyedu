@@ -67,7 +67,20 @@
   </div>
 </form>
 
-<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleConfig.js?v=20181006"></script>
+<%--<form id="showOpenCourseForm" style="display:none">--%>
+  <%--<div class="message_title">编辑开课范围</div>--%>
+  <%--<div class="message_text">--%>
+    <%--<div class="data_input schoolYearSel" defValue="1">--%>
+    <%--</div>--%>
+    <%--<div style="clear:both;"></div>--%>
+    <%--<div class="data_input termSel" defValue="1">--%>
+
+    <%--</div>--%>
+    <%--<div style="clear:both;"></div>--%>
+  <%--</div>--%>
+<%--</form>--%>
+
+<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleConfig.js?v=20201217"></script>
 <jsp:include page="../../common/basic.jsp"/>
 </body>
 </html>

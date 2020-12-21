@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -163,6 +164,20 @@ public class SysScoreRuleController extends BaseController {
      @ResponseBody
      public Object calTchSocresByRuleId(VUserInfo vUserInfo,String ruleId, String openCourseId,String scoreType){
          this.sysScoreRuleService.calTchSocresByRuleId(ruleId,vUserInfo.getId(),openCourseId,scoreType);
+         return true;
+     }
+
+     @RequestMapping(value = "/setRuleRel.infc")
+     @ResponseBody
+     public Object setRuleRel(@RequestParam(value = "openCourseIds[]") String[] openCourseIds, @RequestParam(value = "ruleId")String ruleId){
+         this.sysScoreRuleService.setRuleRel(ruleId,openCourseIds);
+         return true;
+     }
+
+     @RequestMapping(value = "/clearRuleRel.infc")
+     @ResponseBody
+     public Object clearRuleRel(@RequestParam(value = "ruleId")String ruleId){
+         this.sysScoreRuleService.clearRuleRel(ruleId);
          return true;
      }
 
