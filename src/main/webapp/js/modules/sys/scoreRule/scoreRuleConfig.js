@@ -110,6 +110,29 @@ $(function(){
         }
     });
 
+    $('#genGraduationBtn').click(function(){
+            var showBox = $.showPopupForm('#showForm',function(){
+                $.loadingBox.show();
+                var params = $('#showForm').getValue();
+                //params['subjectId'] = subjectId;
+                if(params['schoolYear'] == null || params['schoolYear'] == ''){
+                    $.alert_error("请选择学年!");
+                    $.loadingBox.close();
+                    return false;
+                }
+                $.ajaxConnSend(this, 'sysScoreRule/genGraduationScores.infc',params,function (data) {
+                    if (data.status == '1' && data.object) {
+                        $.alert_success('计算成功!');
+                        showBox.close();
+                    } else {
+                        $.alert_error('计算失败');
+                    }
+                }, function() {
+                    $.loadingBox.close();
+                });
+            });
+    });
+
     $('.termSel').mysel({
         url : 'common/doGetTermItems.infc',
         text : '学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期',

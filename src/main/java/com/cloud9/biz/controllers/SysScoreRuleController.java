@@ -160,6 +160,13 @@ public class SysScoreRuleController extends BaseController {
          return true;
      }
 
+     @RequestMapping(value = "/genGraduationScores.infc")
+     @ResponseBody
+     public Object genGraduationScores(VUserInfo vUserInfo,String schoolYear){
+         this.sysScoreRuleService.genGraduationScores(schoolYear);
+         return true;
+     }
+
      @RequestMapping(value = "/calTchSocresByRuleId.infc")
      @ResponseBody
      public Object calTchSocresByRuleId(VUserInfo vUserInfo,String ruleId, String openCourseId,String scoreType){
