@@ -44,8 +44,12 @@ public class SysScoreRuleService extends BaseService {
     @Autowired
     private SysScoresRuleRelMapper sysScoresRuleRelMapper;
 
-    @Autowired
-    private TchStuCourseOpenRelMapper tchStuCourseOpenRelMapper;
+//    @Autowired
+//    private TchStuCourseOpenRelMapper tchStuCourseOpenRelMapper;
+
+     @Autowired
+     private ScoGraduationScoresMapper scoGraduationScoresMapper;
+
 
 //    /**
 //     * 获取规则信息列表
@@ -761,6 +765,14 @@ public class SysScoreRuleService extends BaseService {
 
     public boolean clearRuleRel(String ruleId) {
         sysScoresRuleRelMapper.clearRuleRel(ruleId);
+        return true;
+    }
+
+    public boolean genGraduationScores(String schoolYear) {
+        //删除原有学年毕业成绩
+        scoGraduationScoresMapper.delGraduationScoresByYear(schoolYear);
+        //迁移新的学年毕业成绩
+        scoGraduationScoresMapper.genGraduationScoresByYear(schoolYear);
         return true;
     }
 }

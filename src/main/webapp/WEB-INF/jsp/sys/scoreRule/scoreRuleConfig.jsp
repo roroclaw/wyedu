@@ -48,6 +48,7 @@
   <div class="operBar">
     <div class="oper_btn" id="addBtn" style="cursor:pointer">新增</div>
     <div class="oper_btn" id="calBtn" style="cursor:pointer">计算</div>
+    <div class="oper_btn" id="genGraduationBtn" style="cursor:pointer">生成毕业成绩</div>
   </div>
 </div>
 <!--内容数据end-->
@@ -80,7 +81,7 @@
   <%--</div>--%>
 <%--</form>--%>
 
-<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleConfig.js?v=20201217"></script>
+<script type="text/javascript" src="${contextpath}/js/modules/sys/scoreRule/scoreRuleConfig.js?v=20210101"></script>
 <jsp:include page="../../common/basic.jsp"/>
 </body>
 </html>
