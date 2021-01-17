@@ -44,7 +44,7 @@
     <!--内容数据end-->
 
 
-    <script type="text/javascript" src="${contextpath}/js/modules/dialog/openCourseSel.js?v=20201220"></script>
+    <script type="text/javascript" src="${contextpath}/js/modules/dialog/openCourseSel.js?v=20200117"></script>
 
 </body>
 </html>

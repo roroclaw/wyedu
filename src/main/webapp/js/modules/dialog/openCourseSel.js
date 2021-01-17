@@ -104,7 +104,7 @@ $(function(){
             },function (data) {
                 if (data.status == '1' && data.object) {
                     $.alert_success('清除成功!');
-                    showBox.close();
+                    $('#queryBtn').trigger('click');
                 } else {
                     $.alert_error('清除失败');
                 }
