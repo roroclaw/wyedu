@@ -41,6 +41,9 @@ public class TchCourseOpenService extends BaseService{
     private ScoExamScoresMapper scoExamScoresMapper;
 
     @Autowired
+    private SysScoresRuleRelMapper sysScoresRuleRelMapper;
+
+    @Autowired
     private CommonService commonService;
 
     public PageBean getCourseOpensPageData(PageBean pageBean){
